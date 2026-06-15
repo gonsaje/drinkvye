@@ -1,26 +1,128 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffdf8;
+  --foreground: #1f2933;
+  --vye-pink: #f36f98;
+  --coconut-green: #a8cf5a;
+  --palm-green: #245a35;
+  --coconut-cream: #fff8ed;
+  --soft-water: #dff5f7;
+  --near-black: #1f2933;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-vye-pink: var(--vye-pink);
+  --color-coconut-green: var(--coconut-green);
+  --color-palm-green: var(--palm-green);
+  --color-coconut-cream: var(--coconut-cream);
+  --color-soft-water: var(--soft-water);
+  --color-near-black: var(--near-black);
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+::selection {
+  background: rgba(243, 111, 152, 0.24);
+}
+
+.palm-frond {
+  --x: -50%;
+  --y: -50%;
+  --r: 0deg;
+  --sway-r: 2deg;
+  --sway-x: 0px;
+  --sway-y: 0px;
+  transform: translate(var(--x), var(--y)) rotate(var(--r));
+  transform-origin: 86% 86%;
+  will-change: transform;
+}
+
+.palm-frond-one {
+  --r: -15deg;
+
+  --sway-r: 2.4deg;
+
+  --sway-x: -4px;
+
+  --sway-y: 3px;
+
+  animation: palm-sway 7s ease-in-out infinite;
+}
+
+.palm-frond-two {
+  --r: 22deg;
+
+  --sway-r: -2deg;
+
+  --sway-x: 3px;
+
+  --sway-y: -4px;
+
+  animation: palm-sway 8s ease-in-out -2.5s infinite;
+}
+
+@keyframes palm-sway {
+
+  0%,
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(var(--r));
+  }
+
+  50% {
+    transform: translate(calc(var(--x) + var(--sway-x)),
+        calc(var(--y) + var(--sway-y))) rotate(calc(var(--r) + var(--sway-r)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palm-frond {
+    animation: none;
+
+    will-change: auto;
+  }
+}
+
+.vye-map {
+  height: 100%;
+  min-height: 520px;
+  z-index: 0;
+}
+
+.vye-map .leaflet-control-attribution {
+  border-top-left-radius: 0.75rem;
+  color: rgba(31, 41, 51, 0.65);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.vye-map-marker {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.86);
+  border: 2px solid var(--vye-pink);
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(36, 90, 53, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+.vye-map-marker-dot {
+  background: var(--coconut-green);
+  border-radius: 999px;
+  display: block;
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 1rem;
+  color: var(--near-black);
   font-family: Arial, Helvetica, sans-serif;
 }

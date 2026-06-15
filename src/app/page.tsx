@@ -15,7 +15,7 @@ const benefits = [
   },
   {
     title: "Organic & plant based",
-    copy: "Grown simply, bottled thoughtfully, and always dairy free.",
+    copy: "Grown simply, bottled thoughtfully.",
     icon: "/plantbased.png",
   },
   {

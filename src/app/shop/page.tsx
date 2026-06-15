@@ -54,9 +54,7 @@ export default function DrinkVyePage() {
               Organic Coconut Water
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-near-black/68">
-              Light, clean coconut water for everyday refreshment. This product
-              page is structured for a future checkout, subscriptions, bundles,
-              and retail availability.
+              Light, clean coconut water for everyday refreshment.
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -96,7 +94,7 @@ export default function DrinkVyePage() {
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-near-black/66">
               Serving size: 240 mL. Amounts per serving, from the product
-              nutrition label or trusted public sources when available.
+              nutrition label or trusted public sources.
             </p>
           </div>
 

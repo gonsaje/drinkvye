@@ -66,7 +66,7 @@ export default function OurCoconutsPage() {
               Quality that stays refreshing.
             </h2>
             <p className="mt-5 text-base leading-7 text-near-black/66">
-              The product experience should feel crisp, not crowded. Our
+              Organic coconut water should feel crisp, not crowded. Our
               sourcing story keeps the emphasis on young coconuts, organic
               standards, and a smooth coconut taste.
             </p>

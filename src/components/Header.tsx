@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "./Button";
 import { Logo } from "./Logo";
+import { useCart } from "@/lib/useCart";
 
 const navItems = [
   { href: "/our-coconuts", label: "Our Coconuts" },
@@ -59,6 +60,9 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { totalQuantity } = useCart();
+  const cartLabel =
+    totalQuantity > 0 ? `Cart (${totalQuantity} items)` : "Cart";
 
   return (
     <header className="sticky top-0 z-50 border-b border-palm-green/10 bg-white/90 backdrop-blur-md">
@@ -101,20 +105,30 @@ export function Header() {
             Drink Vye
           </Button>
           <Link
-            href="/shop"
-            aria-label="Cart"
-            className="inline-flex size-11 items-center justify-center rounded-full text-near-black/55 transition hover:bg-coconut-cream hover:text-palm-green"
+            href="/cart"
+            aria-label={cartLabel}
+            className="relative inline-flex size-11 items-center justify-center rounded-full text-near-black/55 transition hover:bg-coconut-cream hover:text-palm-green"
           >
             <CartIcon />
+            {totalQuantity > 0 ? (
+              <span className="absolute -right-1 -top-1 flex min-w-5 items-center justify-center rounded-full bg-vye-pink px-1.5 text-[0.68rem] font-black leading-5 text-white">
+                {totalQuantity}
+              </span>
+            ) : null}
           </Link>
         </div>
 
         <Link
-          href="/shop"
-          aria-label="Cart"
-          className="inline-flex size-11 items-center justify-center rounded-full text-near-black/55 transition hover:bg-coconut-cream hover:text-palm-green lg:hidden"
+          href="/cart"
+          aria-label={cartLabel}
+          className="relative inline-flex size-11 items-center justify-center rounded-full text-near-black/55 transition hover:bg-coconut-cream hover:text-palm-green lg:hidden"
         >
           <CartIcon />
+          {totalQuantity > 0 ? (
+            <span className="absolute -right-1 -top-1 flex min-w-5 items-center justify-center rounded-full bg-vye-pink px-1.5 text-[0.68rem] font-black leading-5 text-white">
+              {totalQuantity}
+            </span>
+          ) : null}
         </Link>
       </nav>
 

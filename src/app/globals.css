@@ -34,6 +34,17 @@ body {
   background: rgba(243, 111, 152, 0.24);
 }
 
+.quantity-input {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .palm-frond {
   --x: -50%;
   --y: -50%;

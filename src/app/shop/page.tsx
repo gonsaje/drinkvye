@@ -1,11 +1,13 @@
 import Image from "next/image";
+import { AddToCart } from "@/components/AddToCart";
 import { Button } from "@/components/Button";
+import { vyeProduct } from "@/lib/products";
 
 const details = [
   { label: "Product", value: "Organic Coconut Water" },
-  { label: "Size", value: "11.2 fl oz" },
-  { label: "Ingredients", value: "organic coconut water" },
-  { label: "Checkout", value: "coming soon" },
+  { label: "Pack", value: vyeProduct.pack },
+  { label: "Bottle size", value: vyeProduct.size },
+  { label: "Ingredients", value: vyeProduct.ingredients },
 ];
 
 const nutritionFacts = [
@@ -29,9 +31,9 @@ const nutritionFacts = [
 export default function DrinkVyePage() {
   return (
     <div className="bg-[linear-gradient(180deg,#ffffff_0%,var(--color-coconut-cream)_34%,rgba(223,245,247,0.55)_72%,#ffffff_100%)]">
-      <section className="relative bg-gradient-to-b from-white via-coconut-cream/80 to-soft-water/45 px-5 pb-28 pt-20 sm:px-8 sm:pb-32 sm:pt-28">
+      <section className="relative bg-gradient-to-b from-white via-coconut-cream/80 to-vye-pink/25 px-5 pb-28 pt-20 sm:px-8 sm:pb-32 sm:pt-28">
         <div className="relative mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.82fr_1fr] lg:items-center">
-          <div className="rounded-[2rem] bg-coconut-cream p-6 shadow-[0_24px_70px_rgba(36,90,53,0.1)]">
+          <div className="rounded-[2rem] bg-vye-pink/10 p-6 shadow-[0_24px_70px_rgba(36,90,53,0.1)]">
             <div className="flex min-h-[460px] items-center justify-center rounded-[1.5rem] bg-white">
               <div className="relative h-[420px] w-full max-w-md">
                 <Image
@@ -54,7 +56,11 @@ export default function DrinkVyePage() {
               Organic Coconut Water
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-near-black/68">
-              Light, clean coconut water for everyday refreshment.
+              Light, clean coconut water for everyday refreshment, sold as a
+              six-pack of 1 liter bottles.
+            </p>
+            <p className="mt-4 text-base font-bold text-palm-green">
+              {vyeProduct.priceLabel}
             </p>
 
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -73,7 +79,9 @@ export default function DrinkVyePage() {
               ))}
             </div>
 
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <AddToCart />
+
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <Button href="/find-us">Find Us</Button>
               <Button href="/contact" variant="secondary">
                 Wholesale Contact
@@ -83,7 +91,7 @@ export default function DrinkVyePage() {
         </div>
       </section>
 
-      <section className="relative bg-gradient-to-b from-soft-water/45 via-soft-water/30 to-white px-5 py-18 sm:px-8 sm:py-24">
+      <section className="relative bg-gradient-to-b from-vye-pink/25 via-vye-pink/30 to-coconut-green/30 px-5 py-18 sm:px-8 sm:py-24">
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1fr] lg:items-start">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">

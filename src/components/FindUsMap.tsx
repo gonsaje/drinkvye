@@ -29,8 +29,16 @@ function escapeHtml(value: string) {
   });
 }
 
+function getDirectionsUrl(location: StoreLocation) {
+  const query = `${location.address}, ${location.city}, ${location.state} ${location.zip}`;
+
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
 export function FindUsMap({ locations }: FindUsMapProps) {
   const [query, setQuery] = useState("");
+  const [stateFilter, setStateFilter] = useState("");
+  const [cityFilter, setCityFilter] = useState("");
   const [selectedId, setSelectedId] = useState(locations[0]?.id ?? "");
   const [mapReady, setMapReady] = useState(false);
   const mapElementRef = useRef<HTMLDivElement | null>(null);
@@ -39,13 +47,27 @@ export function FindUsMap({ locations }: FindUsMapProps) {
   const markersRef = useRef<Record<string, Marker>>({});
   const iconRef = useRef<DivIcon | null>(null);
 
+  const stateOptions = useMemo(
+    () =>
+      Array.from(new Set(locations.map((location) => location.state))).sort(),
+    [locations],
+  );
+
+  const cityOptions = useMemo(() => {
+    const cities = locations
+      .filter((location) => !stateFilter || location.state === stateFilter)
+      .map((location) => location.city);
+
+    return Array.from(new Set(cities)).sort((a, b) => a.localeCompare(b));
+  }, [locations, stateFilter]);
+
   const filteredLocations = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    if (!normalizedQuery) return locations;
-
-    return locations.filter((location) =>
-      [
+    return locations.filter((location) => {
+      const matchesState = !stateFilter || location.state === stateFilter;
+      const matchesCity = !cityFilter || location.city === cityFilter;
+      const searchableText = [
         location.name,
         location.address,
         location.city,
@@ -53,10 +75,20 @@ export function FindUsMap({ locations }: FindUsMapProps) {
         location.zip,
       ]
         .join(" ")
-        .toLowerCase()
-        .includes(normalizedQuery),
-    );
-  }, [locations, query]);
+        .toLowerCase();
+      const matchesQuery =
+        !normalizedQuery || searchableText.includes(normalizedQuery);
+
+      return matchesState && matchesCity && matchesQuery;
+    });
+  }, [cityFilter, locations, query, stateFilter]);
+
+  const hasActiveFilters = Boolean(query || stateFilter || cityFilter);
+  const selectedLocationId = filteredLocations.some(
+    (location) => location.id === selectedId,
+  )
+    ? selectedId
+    : (filteredLocations[0]?.id ?? "");
 
   useEffect(() => {
     let cancelled = false;
@@ -151,6 +183,26 @@ export function FindUsMap({ locations }: FindUsMapProps) {
     markersRef.current[location.id]?.openPopup();
   }
 
+  function updateStateFilter(value: string) {
+    setStateFilter(value);
+    setCityFilter((currentCity) => {
+      if (!currentCity) return currentCity;
+
+      const cityStillAvailable = locations.some(
+        (location) =>
+          (!value || location.state === value) && location.city === currentCity,
+      );
+
+      return cityStillAvailable ? currentCity : "";
+    });
+  }
+
+  function clearFilters() {
+    setQuery("");
+    setStateFilter("");
+    setCityFilter("");
+  }
+
   return (
     <div className="grid gap-6 lg:grid-cols-[0.78fr_1fr] lg:items-stretch">
       <section className="rounded-[2rem] border border-palm-green/10 bg-white p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:p-6">
@@ -158,25 +210,67 @@ export function FindUsMap({ locations }: FindUsMapProps) {
           htmlFor="location-search"
           className="text-sm font-bold uppercase tracking-[0.16em] text-palm-green"
         >
-          Search by city, state, or zip
+          Search by store, city, state, or zip
         </label>
         <input
           id="location-search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Try Miami or 78701"
+          placeholder="Try Brooklyn or 19103"
           className="mt-4 min-h-12 w-full rounded-xl border border-palm-green/15 bg-coconut-cream px-5 text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink"
         />
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <label
+            htmlFor="state-filter"
+            className="text-xs font-bold uppercase tracking-[0.14em] text-palm-green"
+          >
+            State
+            <select
+              id="state-filter"
+              value={stateFilter}
+              onChange={(event) => updateStateFilter(event.target.value)}
+              className="mt-2 min-h-12 w-full rounded-xl border border-palm-green/15 bg-coconut-cream px-4 text-sm font-bold normal-case tracking-normal text-near-black outline-none transition focus:border-vye-pink"
+            >
+              <option value="">All states</option>
+              {stateOptions.map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label
+            htmlFor="city-filter"
+            className="text-xs font-bold uppercase tracking-[0.14em] text-palm-green"
+          >
+            City
+            <select
+              id="city-filter"
+              value={cityFilter}
+              onChange={(event) => setCityFilter(event.target.value)}
+              className="mt-2 min-h-12 w-full rounded-xl border border-palm-green/15 bg-coconut-cream px-4 text-sm font-bold normal-case tracking-normal text-near-black outline-none transition focus:border-vye-pink"
+            >
+              <option value="">All cities</option>
+              {cityOptions.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
         <div className="mt-5 flex items-center justify-between gap-3 text-sm text-near-black/60">
           <span>
             {filteredLocations.length}{" "}
             {filteredLocations.length === 1 ? "location" : "locations"}
           </span>
-          {query ? (
+          {hasActiveFilters ? (
             <button
               type="button"
-              onClick={() => setQuery("")}
+              onClick={clearFilters}
               className="font-bold text-vye-pink transition hover:text-palm-green"
             >
               Clear
@@ -184,32 +278,53 @@ export function FindUsMap({ locations }: FindUsMapProps) {
           ) : null}
         </div>
 
-        <div className="mt-5 grid gap-3">
-          {filteredLocations.map((location) => (
-            <button
-              key={location.id}
-              type="button"
-              onClick={() => selectLocation(location)}
-              className={`rounded-2xl px-5 py-4 text-left transition ${
-                selectedId === location.id
-                  ? "bg-palm-green text-white shadow-[0_14px_30px_rgba(36,90,53,0.18)]"
-                  : "bg-coconut-cream text-near-black hover:bg-soft-water"
-              }`}
-            >
-              <span className="block text-base font-black">
-                {location.name}
-              </span>
-              <span
-                className={`mt-2 block text-sm leading-6 ${
-                  selectedId === location.id ? "text-white/75" : "text-near-black/62"
+        <div className="mt-5 grid max-h-[520px] gap-3 overflow-y-auto pr-1">
+          {filteredLocations.map((location) => {
+            const isSelected = selectedLocationId === location.id;
+
+            return (
+              <article
+                key={location.id}
+                className={`rounded-2xl transition ${
+                  isSelected
+                    ? "bg-palm-green text-white shadow-[0_14px_30px_rgba(36,90,53,0.18)]"
+                    : "bg-coconut-cream text-near-black hover:bg-coconut-green/20"
                 }`}
               >
-                {location.address}
-                <br />
-                {location.city}, {location.state} {location.zip}
-              </span>
-            </button>
-          ))}
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                  <button
+                    type="button"
+                    onClick={() => selectLocation(location)}
+                    className="min-w-0 flex-1 px-5 py-4 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-vye-pink"
+                  >
+                    <span className="block text-base font-black">
+                      {location.name}
+                    </span>
+                    <span
+                      className={`mt-2 block text-sm leading-6 ${
+                        isSelected ? "text-white/75" : "text-near-black/62"
+                      }`}
+                    >
+                      {location.address}
+                      <br />
+                      {location.city}, {location.state} {location.zip}
+                    </span>
+                  </button>
+
+                  {isSelected ? (
+                    <a
+                      href={getDirectionsUrl(location)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mx-5 mb-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-4 text-sm font-black text-palm-green transition hover:bg-coconut-cream hover:text-vye-pink sm:mb-0 sm:ml-0"
+                    >
+                      Get Directions
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
 
           {filteredLocations.length === 0 ? (
             <div className="rounded-2xl bg-coconut-cream px-5 py-5 text-sm leading-6 text-near-black/64">

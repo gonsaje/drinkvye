@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+import { vyeProduct } from "@/lib/products";
 
 const benefits = [
   {
@@ -27,7 +28,7 @@ const benefits = [
 
 export default function Home() {
   return (
-    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,var(--color-coconut-cream)_15%,var(--color-soft-water)_30%,#ffffff_48%,rgba(223,245,247,0.55)_68%,#ffffff_86%)]">
+    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,var(--color-coconut-cream)_15%,var(--color-soft-water)_30%,#ffffff_48%,rgba(242,112,153,0.12)_68%,#ffffff_86%)]">
       <section className="relative overflow-hidden">
         <Image
           src="/palm_beach.jpeg"
@@ -187,7 +188,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative px-5 py-18 sm:px-8 sm:py-24">
+      <section className="relative bg-gradient-to-b from-white px-5 py-18 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-2xl">
             <h2 className="text-3xl font-black tracking-normal text-near-black sm:text-4xl">
@@ -225,9 +226,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative from-white via-soft-water/45 px-5 py-18 sm:px-8 sm:py-24">
+      <section className="relative from-white via-vye-pink/45 px-5 py-18 sm:px-8 sm:py-24">
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1fr] lg:items-center">
-          <div className="rounded-[2rem] bg-white p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)]">
+          <div className="order-2 rounded-[2rem] bg-white p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] lg:order-1">
             <div className="rounded-[1.5rem] border border-palm-green/10 bg-coconut-cream p-8">
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-vye-pink">
                 spotlight
@@ -237,10 +238,13 @@ export default function Home() {
               </h2>
               <div className="mt-8 grid gap-3 text-sm text-near-black/70">
                 <div className="rounded-2xl bg-white px-5 py-4">
-                  Size: 11.2 fl oz single serve
+                  Pack: {vyeProduct.pack} of {vyeProduct.size}
                 </div>
                 <div className="rounded-2xl bg-white px-5 py-4">
-                  Ingredients: organic coconut water
+                  Price: {vyeProduct.priceLabel}
+                </div>
+                <div className="rounded-2xl bg-white px-5 py-4">
+                  Ingredients: {vyeProduct.ingredients}
                 </div>
                 <div className="rounded-2xl bg-white px-5 py-4">
                   Nutrition: naturally occurring electrolytes
@@ -248,7 +252,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="order-1 lg:order-2">
             <h2 className="text-4xl font-black leading-tight tracking-normal text-near-black">
               One crisp coconut water for everyday refreshment.
             </h2>
@@ -257,20 +261,23 @@ export default function Home() {
               shop, and ready for a future checkout integration when the store
               goes live.
             </p>
-            <Button href="/shop" className="mt-8">
-              Drink Vye
-            </Button>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button href="/shop">Drink Vye</Button>
+              <Button href="/contact" variant="secondary">
+                Get In Touch
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="px-5 py-18 sm:px-8 sm:py-24">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
-          <article className="rounded-[2rem] bg-coconut-cream p-8 sm:p-10">
+          <article className="rounded-[2rem] bg-coconut-green text-white p-8 sm:p-10">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
               our coconuts
             </p>
-            <h2 className="mt-4 text-3xl font-black tracking-normal text-near-black">
+            <h2 className="mt-4 text-3xl text-white font-black tracking-normal text-near-black">
               Organic sourcing with a clean, tropical profile.
             </h2>
             <p className="mt-5 text-base leading-7 text-near-black/66">
@@ -282,7 +289,7 @@ export default function Home() {
             </Button>
           </article>
 
-          <article className="rounded-[2rem] bg-palm-green p-8 text-white sm:p-10">
+          <article className="rounded-[2rem] bg-vye-pink p-8 text-white sm:p-10">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-soft-water">
               find us
             </p>

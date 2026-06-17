@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button";
+import { ContactForm } from "@/components/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -23,31 +24,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <form className="rounded-[2rem] border border-palm-green/10 bg-coconut-cream p-6 shadow-[0_18px_55px_rgba(31,41,51,0.08)]">
-            <div className="grid gap-5">
-              <label className="grid gap-2 text-sm font-bold text-palm-green">
-                Name
-                <input className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink" />
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-palm-green">
-                Email
-                <input
-                  type="email"
-                  className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
-                />
-              </label>
-              <label className="grid gap-2 text-sm font-bold text-palm-green">
-                Message
-                <textarea className="min-h-36 resize-y rounded-2xl border border-palm-green/10 bg-white px-4 py-3 font-normal text-near-black outline-none transition focus:border-vye-pink" />
-              </label>
-              <button
-                type="button"
-                className="min-h-12 rounded-xl bg-vye-pink px-6 text-sm font-bold text-white transition hover:bg-[#e85f89] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-vye-pink"
-              >
-                Send Message
-              </button>
-            </div>
-          </form>
+          <ContactForm />
         </div>
       </section>
     </div>

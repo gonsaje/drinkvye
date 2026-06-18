@@ -148,18 +148,18 @@ export default function OurCoconutsPage() {
 
       <section className="relative bg-white px-5 py-18 sm:px-8 sm:py-24">
         <div className="mx-auto flex max-w-7xl flex-col gap-10 lg:grid lg:grid-cols-[1fr_0.7fr] lg:items-start">
-          <div className="order-2 grid gap-3 sm:grid-cols-2 lg:order-1 lg:grid-cols-3">
+          <div className="order-2 grid grid-cols-2 gap-3 lg:order-1 lg:grid-cols-3">
             {productStandards.map((standard) => (
               <div
                 key={standard.label}
-                className="flex min-h-36 flex-col items-center justify-center gap-3 rounded-2xl bg-coconut-cream px-5 py-5 text-center text-base font-black text-palm-green shadow-[0_12px_28px_rgba(31,41,51,0.05)]"
+                className="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl bg-coconut-cream p-2 text-center text-sm font-black text-palm-green shadow-[0_12px_28px_rgba(31,41,51,0.05)] sm:p-3 sm:text-base"
               >
                 <Image
                   src={standard.icon}
                   alt=""
-                  width={64}
-                  height={64}
-                  className="h-14 w-14 object-contain"
+                  width={96}
+                  height={96}
+                  className="h-20 w-20 object-contain sm:h-24 sm:w-24"
                 />
                 <span>{standard.label}</span>
               </div>

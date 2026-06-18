@@ -1,6 +1,9 @@
 "use client";
 
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import {
+  EmbeddedCheckout,
+  EmbeddedCheckoutProvider,
+} from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
@@ -95,11 +98,11 @@ export function CheckoutForm() {
 
   if (!items.length) {
     return (
-      <div className="rounded-[2rem] border border-palm-green/10 bg-white p-8 shadow-[0_18px_55px_rgba(31,41,51,0.08)]">
+      <div className="rounded-3xl border border-palm-green/10 bg-white p-6 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-8">
         <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
           checkout
         </p>
-        <h1 className="mt-4 text-4xl font-black tracking-normal text-near-black">
+        <h1 className="mt-4 text-3xl font-black tracking-normal text-near-black sm:text-4xl">
           Your cart is empty.
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-near-black/66">
@@ -116,15 +119,15 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_0.42fr] lg:items-start">
+    <div className="grid gap-5 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_0.42fr] lg:items-start">
       {clientSecret ? (
-        <section className="order-2 rounded-[2rem] border border-palm-green/10 bg-white p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:p-6 lg:order-1">
+        <section className="order-2 min-w-0 overflow-hidden rounded-3xl border border-palm-green/10 bg-white p-4 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-1">
           <div className="mb-6 flex flex-col gap-4 border-b border-palm-green/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
                 secure payment
               </p>
-              <h1 className="mt-2 text-3xl font-black tracking-normal text-near-black">
+              <h1 className="mt-2 text-2xl font-black tracking-normal text-near-black sm:text-3xl">
                 Complete your order.
               </h1>
             </div>
@@ -134,7 +137,7 @@ export function CheckoutForm() {
                 setClientSecret("");
                 setCheckoutError("");
               }}
-              className="inline-flex min-h-11 items-center justify-center rounded-xl border border-palm-green/15 bg-white px-4 text-sm font-bold text-palm-green transition hover:border-vye-pink/40 hover:text-vye-pink"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-palm-green/15 bg-white px-4 text-sm font-bold text-palm-green transition hover:border-vye-pink/40 hover:text-vye-pink sm:w-auto"
             >
               Edit Details
             </button>
@@ -145,20 +148,20 @@ export function CheckoutForm() {
             stripe={stripePromise}
             options={embeddedCheckoutOptions}
           >
-            <EmbeddedCheckout />
+            <EmbeddedCheckout className="min-w-0" />
           </EmbeddedCheckoutProvider>
         </section>
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="order-2 rounded-[2rem] border border-palm-green/10 bg-white p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:p-6 lg:order-1"
+          className="order-2 min-w-0 rounded-3xl border border-palm-green/10 bg-white p-4 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-1"
         >
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
             checkout
           </p>
 
-          <div className="mt-7 grid gap-7">
-            <fieldset className="grid gap-5 rounded-[1.5rem] border border-palm-green/10 bg-coconut-cream/45 p-5">
+          <div className="mt-6 grid gap-6 sm:mt-7 sm:gap-7">
+            <fieldset className="grid gap-5 rounded-2xl border border-palm-green/10 bg-coconut-cream/45 p-4 sm:rounded-[1.5rem] sm:p-5">
               <legend className="px-2 text-sm font-black uppercase tracking-[0.16em] text-palm-green">
                 Contact
               </legend>
@@ -224,7 +227,7 @@ export function CheckoutForm() {
               </div>
             </fieldset>
 
-            <fieldset className="grid gap-5 rounded-[1.5rem] border border-palm-green/10 bg-coconut-cream/45 p-5">
+            <fieldset className="grid gap-5 rounded-2xl border border-palm-green/10 bg-coconut-cream/45 p-4 sm:rounded-[1.5rem] sm:p-5">
               <legend className="px-2 text-sm font-black uppercase tracking-[0.16em] text-palm-green">
                 Shipping Details
               </legend>
@@ -317,7 +320,7 @@ export function CheckoutForm() {
         </form>
       )}
 
-      <aside className="order-1 rounded-[2rem] border border-palm-green/10 bg-coconut-cream p-6 shadow-[0_18px_55px_rgba(31,41,51,0.08)] lg:order-2">
+      <aside className="order-1 min-w-0 rounded-3xl border border-palm-green/10 bg-coconut-cream p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-2">
         <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
           order summary
         </p>

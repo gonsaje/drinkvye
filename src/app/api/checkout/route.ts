@@ -293,31 +293,6 @@ export async function POST(request: Request) {
   if (phone) formData.append("metadata[phone]", phone);
   if (shippingSummary) {
     formData.append("metadata[shipping_address]", shippingSummary);
-    formData.append("payment_intent_data[shipping][name]", fullName);
-    formData.append("payment_intent_data[shipping][phone]", phone);
-    formData.append(
-      "payment_intent_data[shipping][address][line1]",
-      compactValue(customer.address),
-    );
-    if (compactValue(customer.address2)) {
-      formData.append(
-        "payment_intent_data[shipping][address][line2]",
-        compactValue(customer.address2),
-      );
-    }
-    formData.append(
-      "payment_intent_data[shipping][address][city]",
-      compactValue(customer.city),
-    );
-    formData.append(
-      "payment_intent_data[shipping][address][state]",
-      compactValue(customer.state),
-    );
-    formData.append(
-      "payment_intent_data[shipping][address][postal_code]",
-      compactValue(customer.zip),
-    );
-    formData.append("payment_intent_data[shipping][address][country]", "US");
   }
 
   let lineItemIndex = 0;

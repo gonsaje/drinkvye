@@ -41,21 +41,28 @@ export default function OurCoconutsPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_0.8fr] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-palm-green">
-              our coconuts
+              Our Coconuts
             </p>
-            <h1 className="mt-5 max-w-3xl text-5xl font-black leading-tight tracking-normal text-near-black sm:text-6xl">
-              Clean hydration starts with better coconuts.
+            <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight tracking-normal text-near-black sm:text-5xl">
+              Rooted in the waterways of southern Vietnam.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-near-black/68">
-              Vye is built around organic young coconut water: bright,
-              replenishing, and intentionally simple from sourcing to shelf.
+              Vye begins in the Mekong Delta, where winding rivers, tropical
+              rain, and fertile soil create the perfect home for young coconut
+              palms.
+            </p>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-near-black/68">
+              We source organic young coconuts for water that is naturally
+              light, subtly sweet, and refreshing. No added sugar. No
+              unnecessary ingredients. Just clean coconut water from Vietnam
+              in every pour.
             </p>
           </div>
           <div className="rounded-[2rem] border border-white bg-white p-6 shadow-[0_24px_70px_rgba(36,90,53,0.12)]">
             <div className="relative min-h-[390px] overflow-hidden rounded-[1.5rem] bg-soft-water">
               <Image
                 src="/coconut_farmers.jpeg"
-                alt="Fresh coconut with a straw"
+                alt="Coconut farmers in Vietnam"
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 40vw, 100vw"
@@ -87,12 +94,17 @@ export default function OurCoconutsPage() {
               natural electrolytes
             </p>
             <h2 className="mt-4 text-3xl font-black tracking-normal text-near-black sm:text-4xl">
-              Rich in electrolytes.
+              Hydration with naturally occurring electrolytes.
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-7 text-near-black/66">
-              Young coconut water naturally contains electrolytes like
-              potassium and sodium, helping Vye refresh and replenish while
-              keeping the ingredient list clean and uncomplicated.
+              Coconut water naturally contains electrolytes like potassium,
+              sodium, calcium, and magnesium, minerals that help support fluid
+              balance and normal muscle and nerve function.
+            </p>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-near-black/66">
+              Light, clean, and refreshing, Vye is a simple way to hydrate
+              after activity, time in the heat, or whenever your day calls for
+              something more than water.
             </p>
           </div>
         </div>

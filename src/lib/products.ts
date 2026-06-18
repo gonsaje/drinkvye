@@ -11,13 +11,13 @@ export type Product = {
 
 export const vyeProduct: Product = {
   id: "vye-organic-coconut-water",
-  name: "Organic Coconut Water",
-  size: "1 liter bottles",
+  name: "Vye Coconut Water",
+  size: "1 L / 33.8 fl. oz.",
   pack: "6-pack",
-  ingredients: "organic coconut water",
+  ingredients: "Organic Coconut Water",
   image: "/vyeBottle.png",
   priceCents: 4795,
-  priceLabel: "$47.95 / 6-pack",
+  priceLabel: "$47.95",
 };
 
 export const products = [vyeProduct];

@@ -20,7 +20,12 @@ export default function ContactPage() {
               the Vye team will follow up.
             </p>
             <div className="mt-9">
-              <Button href="mailto:info@drinkvye.com">info@drinkvye.com</Button>
+              <Button
+                href="mailto:info@drinkvye.com"
+                className="w-full lg:w-auto"
+              >
+                info@drinkvye.com
+              </Button>
             </div>
           </div>
 

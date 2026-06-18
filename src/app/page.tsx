@@ -238,16 +238,16 @@ export default function Home() {
               </h2>
               <div className="mt-8 grid gap-3 text-sm text-near-black/70">
                 <div className="rounded-2xl bg-white px-5 py-4">
+                  Ingredients: {vyeProduct.ingredients}
+                </div>
+                <div className="rounded-2xl bg-white px-5 py-4">
+                  Nutrition: Naturally occurring electrolytes
+                </div>
+                <div className="rounded-2xl bg-white px-5 py-4">
                   Pack: {vyeProduct.pack} of {vyeProduct.size}
                 </div>
                 <div className="rounded-2xl bg-white px-5 py-4">
                   Price: {vyeProduct.priceLabel}
-                </div>
-                <div className="rounded-2xl bg-white px-5 py-4">
-                  Ingredients: {vyeProduct.ingredients}
-                </div>
-                <div className="rounded-2xl bg-white px-5 py-4">
-                  Nutrition: naturally occurring electrolytes
                 </div>
               </div>
             </div>
@@ -284,7 +284,11 @@ export default function Home() {
               Vye centers young coconuts, careful quality standards, and a
               light taste that feels fresh without leaning sugary.
             </p>
-            <Button href="/our-coconuts" variant="secondary" className="mt-8">
+            <Button
+              href="/our-coconuts"
+              variant="secondary"
+              className="mt-8 w-full lg:w-auto"
+            >
               Our Coconuts
             </Button>
           </article>
@@ -300,7 +304,11 @@ export default function Home() {
               The store finder is ready for retail partners, zip search, and
               regional availability as Vye expands.
             </p>
-            <Button href="/find-us" variant="secondary" className="mt-8">
+            <Button
+              href="/find-us"
+              variant="secondary"
+              className="mt-8 w-full lg:w-auto"
+            >
               Find Us
             </Button>
           </article>

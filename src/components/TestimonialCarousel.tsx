@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 const testimonials = [
@@ -59,13 +58,18 @@ export function TestimonialCarousel() {
       aria-labelledby="testimonial-heading"
       className="relative overflow-hidden px-5 py-18 sm:px-8 sm:py-24"
     >
-      <Image
-        src="/young_coconuts_bg.jpeg"
-        alt=""
-        fill
-        className="object-cover"
-        sizes="100vw"
-      />
+      <video
+        aria-hidden="true"
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster="/young_coconuts_bg.jpeg"
+        preload="metadata"
+        className="absolute inset-0 size-full object-cover"
+      >
+        <source src="/334302.mp4" type="video/mp4" />
+      </video>
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.48)_0%,rgba(251,215,227,0.38)_50%,rgba(255,255,255,0.52)_100%)]" />
       <div className="absolute inset-0 bg-palm-green/8" />
       <div className="pointer-events-none absolute -left-20 top-12 size-56 rounded-full bg-coconut-green/24 blur-2xl" />

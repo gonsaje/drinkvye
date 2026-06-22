@@ -4,7 +4,7 @@ import { storeLocations } from "./locations";
 
 export default function FindUsPage() {
   return (
-    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_48%,rgba(223,245,247,0.45)_72%,var(--color-coconut-green)_100%)]">
+    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_48%,rgba(251,215,227,0.5)_72%,rgba(243,111,152,0.45)_100%)]">
       <section className="relative bg-gradient-to-b from-coconut-cream via-coconut-cream px-5 pt-20 sm:px-8  sm:pt-28">
         <div className="relative mx-auto max-w-7xl">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-palm-green">
@@ -27,13 +27,13 @@ export default function FindUsPage() {
         </div>
       </section>
 
-      <section className="relative bg-gradient-to-b via-coconut-green/10 to-coconut-green/20 px-5 py-18 text-near-black sm:px-8 sm:py-24">
+      <section className="relative  from-transparent via-vye-pink/5 to-vye-pink/10 px-5 py-18 text-near-black sm:px-8 sm:py-24">
         <div className="relative mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div>
             <h2 className="text-3xl font-black tracking-normal">
               Want to carry Vye?
             </h2>
-            <p className="mt-3 max-w-xl text-base leading-7 text-white/74">
+            <p className="mt-3 max-w-xl text-base leading-7 text-near-black/66">
               Reach out for wholesale, sampling, and launch market details.
             </p>
           </div>

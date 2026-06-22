@@ -181,7 +181,7 @@ export default function OurCoconutsPage() {
         </div>
       </section>
 
-      <section className="relative bg-gradient-to-b from-white via-vye-pink/25 to-vye-pink/45 px-5 py-18 sm:px-8 sm:py-24">
+      <section className="relative bg-gradient-to-b from-white via-vye-pink/26 to-vye-pink/41 px-5 py-18 sm:px-8 sm:py-24">
         <div className="relative mx-auto grid max-w-7xl gap-8 md:grid-cols-[1fr_auto_auto] md:items-center">
           <div>
             <h2 className="text-3xl font-black tracking-normal text-near-black">

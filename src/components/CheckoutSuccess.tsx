@@ -20,8 +20,8 @@ export function CheckoutSuccess() {
         Thanks for ordering Vye.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-near-black/66">
-        Stripe has received your payment. A confirmation email will come from
-        the payment details used at checkout.
+        Stripe has received your payment. Your payment receipt and Vye order
+        confirmation will be sent to the email used at checkout.
       </p>
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
         <Link

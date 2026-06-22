@@ -337,9 +337,7 @@ export function CheckoutForm() {
           </div>
         </div>
         <p className="mt-5 text-sm leading-6 text-near-black/64">
-          Shipping and estimated tax appear in the Stripe payment step.
-          Automatic tax requires Stripe Tax to be enabled in your Stripe
-          account.
+          Standard shipping is added in the Stripe payment step.
         </p>
         <Link
           href="/cart"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type {
   DivIcon,
   LayerGroup,
@@ -45,6 +45,8 @@ export function FindUsMap({ locations }: FindUsMapProps) {
   const mapRef = useRef<LeafletMap | null>(null);
   const markerLayerRef = useRef<LayerGroup | null>(null);
   const markersRef = useRef<Record<string, Marker>>({});
+  const locationListRef = useRef<HTMLDivElement | null>(null);
+  const locationCardsRef = useRef<Record<string, HTMLElement | null>>({});
   const iconRef = useRef<DivIcon | null>(null);
 
   const stateOptions = useMemo(
@@ -89,6 +91,35 @@ export function FindUsMap({ locations }: FindUsMapProps) {
   )
     ? selectedId
     : (filteredLocations[0]?.id ?? "");
+
+  const scrollLocationToTop = useCallback((locationId: string) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const list = locationListRef.current;
+        const card = locationCardsRef.current[locationId];
+
+        if (!list || !card) return;
+
+        const listTop = list.getBoundingClientRect().top;
+        const cardTop = card.getBoundingClientRect().top;
+
+        list.scrollTo({
+          top: list.scrollTop + cardTop - listTop,
+          behavior: "smooth",
+        });
+      });
+    });
+  }, []);
+
+  const selectLocation = useCallback(
+    (location: StoreLocation) => {
+      setSelectedId(location.id);
+      mapRef.current?.setView(location.coordinates, 13);
+      markersRef.current[location.id]?.openPopup();
+      scrollLocationToTop(location.id);
+    },
+    [scrollLocationToTop],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -154,6 +185,7 @@ export function FindUsMap({ locations }: FindUsMapProps) {
           `<strong>${escapeHtml(location.name)}</strong><br />${escapeHtml(location.address)}<br />${escapeHtml(location.city)}, ${escapeHtml(location.state)} ${escapeHtml(location.zip)}`,
         );
 
+        marker.on("click", () => selectLocation(location));
         marker.addTo(markerLayer);
         markersRef.current[location.id] = marker;
       });
@@ -175,13 +207,7 @@ export function FindUsMap({ locations }: FindUsMapProps) {
     }
 
     renderMarkers();
-  }, [filteredLocations, mapReady]);
-
-  function selectLocation(location: StoreLocation) {
-    setSelectedId(location.id);
-    mapRef.current?.setView(location.coordinates, 13);
-    markersRef.current[location.id]?.openPopup();
-  }
+  }, [filteredLocations, mapReady, selectLocation]);
 
   function updateStateFilter(value: string) {
     setStateFilter(value);
@@ -278,13 +304,19 @@ export function FindUsMap({ locations }: FindUsMapProps) {
           ) : null}
         </div>
 
-        <div className="mt-5 grid max-h-[520px] gap-3 overflow-y-auto pr-1">
+        <div
+          ref={locationListRef}
+          className="mt-5 grid max-h-[520px] gap-3 overflow-y-auto pr-1"
+        >
           {filteredLocations.map((location) => {
             const isSelected = selectedLocationId === location.id;
 
             return (
               <article
                 key={location.id}
+                ref={(element) => {
+                  locationCardsRef.current[location.id] = element;
+                }}
                 className={`rounded-2xl transition ${
                   isSelected
                     ? "bg-palm-green text-white shadow-[0_14px_30px_rgba(36,90,53,0.18)]"

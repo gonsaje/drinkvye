@@ -84,7 +84,13 @@ function getFooterBackground(pathname: string) {
   if (pathname === "/find-us") return "#fabed1";
   if (pathname === "/shop") return "#e5f0ce";
   if (pathname === "/our-coconuts") return "#fabed1";
-  if (pathname === "/privacy" || pathname === "/terms") return "#fdedf2";
+  if (
+    pathname === "/privacy" ||
+    pathname === "/terms" ||
+    pathname === "/refund-policy"
+  ) {
+    return "#fdedf2";
+  }
 
   if (
     pathname === "/cart" ||
@@ -232,6 +238,12 @@ export function Footer({
               className="font-bold transition hover:text-white"
             >
               Terms & Conditions
+            </Link>
+            <Link
+              href="/refund-policy"
+              className="font-bold transition hover:text-white"
+            >
+              Refund Policy
             </Link>
           </nav>
         </div>

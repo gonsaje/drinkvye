@@ -1,38 +1,69 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | Vye",
+  title: "Terms of Service | Vye",
   description: "Terms governing use of the Vye website and online store.",
 };
 
 const sections = [
   {
-    title: "Website use",
-    copy: "You may use this website for lawful personal or business purposes. You may not interfere with its operation, misuse its content, attempt unauthorized access, or use it in a way that violates applicable law.",
+    title: "1. Website Use",
+    copy: "You agree to use this Website only for lawful purposes and in compliance with all applicable laws and regulations.",
   },
   {
-    title: "Products and orders",
-    copy: "Product descriptions, availability, packaging, and pricing may change. An order is accepted only after payment is successfully completed. We may cancel or limit an order when necessary because of inventory, payment, shipping, fraud, or listing errors.",
+    title: "2. Products & Orders",
+    copy: "All product descriptions, pricing, and availability are subject to change without notice. We reserve the right to refuse or cancel any order for any reason, including pricing errors, suspected fraud, or product availability.",
   },
   {
-    title: "Shipping",
-    copy: "Shipping charges and available delivery options are presented during checkout. Delivery estimates are not guarantees and may be affected by carriers, weather, holidays, address issues, and events outside our control.",
+    title: "3. Payments",
+    copy: "By placing an order, you confirm that you are authorized to use the selected payment method and that all information provided is accurate.",
   },
   {
-    title: "Wholesale inquiries",
-    copy: "Submitting a wholesale application does not create a supply agreement, guarantee approval, establish pricing, or reserve inventory. Wholesale terms must be confirmed separately in writing.",
+    title: "4. Shipping",
+    copy: "Shipping times are estimates only. VYE is not responsible for delays caused by carriers or incorrect shipping information provided by the customer. Ownership and risk of loss transfer upon delivery confirmation by the carrier.",
   },
   {
-    title: "Product information",
-    copy: "Follow all packaging, storage, and use instructions. Website information is provided for general informational purposes and is not medical or nutritional advice.",
+    title: "5. Returns & Refunds",
+    copy: "Returns and refunds are governed by our separate Refund & Return Policy, available on this Website.",
+    link: { href: "/refund-policy", label: "View the Refund & Return Policy" },
   },
   {
-    title: "Intellectual property",
-    copy: "Vye names, branding, designs, photographs, text, and other website content are owned by or licensed to Vye and may not be reproduced or commercially used without permission.",
+    title: "6. Product Information",
+    copy: "Our organic coconut water is made from natural ingredients. Variations in color, taste, or natural sediment may occur and do not affect product quality. Product images are for illustration purposes only.",
   },
   {
-    title: "Limitations",
-    copy: "To the maximum extent permitted by law, the website is provided without guarantees of uninterrupted or error-free operation. Nothing in these terms excludes rights or liabilities that cannot legally be excluded.",
+    title: "7. Intellectual Property",
+    copy: "All trademarks, logos, images, graphics, product names, and content on this Website are the property of VYE or its licensors and may not be copied, reproduced, or distributed without prior written permission.",
+  },
+  {
+    title: "8. Disclaimer",
+    copy: "The information on this Website is provided for general informational purposes only. We make no warranties regarding the accuracy, completeness, or availability of the Website or its content.",
+  },
+  {
+    title: "9. Limitation of Liability",
+    copy: "To the fullest extent permitted by law, VYE shall not be liable for any indirect, incidental, consequential, or special damages arising from the use of this Website or our products.",
+  },
+  {
+    title: "10. Third-Party Links",
+    copy: "Our Website may contain links to third-party websites. We are not responsible for their content, policies, or practices.",
+  },
+  {
+    title: "11. Privacy",
+    copy: "Your use of this Website is also governed by our Privacy Policy.",
+    link: { href: "/privacy", label: "View the Privacy Policy" },
+  },
+  {
+    title: "12. Governing Law",
+    copy: "These Terms shall be governed by and interpreted in accordance with the laws of the State of New York, without regard to its conflict of law principles.",
+  },
+  {
+    title: "13. Changes to These Terms",
+    copy: "We may update these Terms at any time. Continued use of the Website after changes are posted constitutes acceptance of the revised Terms.",
+  },
+  {
+    title: "14. Contact Us",
+    copy: "If you have any questions regarding these Terms, please contact VYE Organic Coconut Water at info@drinkvye.com.",
   },
 ];
 
@@ -44,10 +75,16 @@ export default function TermsPage() {
           legal
         </p>
         <h1 className="mt-5 text-5xl font-black tracking-normal text-near-black sm:text-6xl">
-          Terms & Conditions
+          Terms of Service
         </h1>
         <p className="mt-5 text-sm font-semibold text-near-black/52">
-          Last updated June 2026
+          Effective June 22, 2026
+        </p>
+        <p className="mt-8 max-w-3xl text-base leading-8 text-near-black/68">
+          Welcome to the VYE Organic Coconut Water website
+          (“drinkvye.com”). By accessing or using this Website, you agree to
+          these Terms of Service. If you do not agree, please discontinue use
+          of the Website.
         </p>
 
         <div className="mt-10 overflow-hidden rounded-[2rem] border border-palm-green/10 bg-white px-6 py-4 shadow-[0_20px_60px_rgba(31,41,51,0.08)] sm:px-10 sm:py-6">
@@ -62,20 +99,39 @@ export default function TermsPage() {
               <p className="mt-4 text-base leading-8 text-near-black/68">
                 {section.copy}
               </p>
+              {section.link ? (
+                <Link
+                  href={section.link.href}
+                  className="mt-4 inline-flex font-bold text-vye-pink underline decoration-palm-green/25 underline-offset-4 transition hover:text-palm-green"
+                >
+                  {section.link.label}
+                </Link>
+              ) : null}
             </section>
           ))}
         </div>
 
-        <p className="mt-8 text-base leading-8 text-near-black/68">
-          Questions about these terms may be sent to{" "}
-          <a
-            href="mailto:info@drinkvye.com"
-            className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
-          >
-            info@drinkvye.com
-          </a>
-          .
-        </p>
+        <div className="mt-8 text-base leading-8 text-near-black/68">
+          <p>VYE Organic Coconut Water</p>
+          <p>
+            Email:{" "}
+            <a
+              href="mailto:info@drinkvye.com"
+              className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
+            >
+              info@drinkvye.com
+            </a>
+          </p>
+          <p>
+            Website:{" "}
+            <a
+              href="https://www.drinkvye.com"
+              className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
+            >
+              www.drinkvye.com
+            </a>
+          </p>
+        </div>
       </article>
     </div>
   );

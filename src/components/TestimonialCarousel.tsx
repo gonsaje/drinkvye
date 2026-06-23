@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { PointerEvent, useEffect, useRef, useState } from "react";
 
 const testimonials = [
   {
@@ -38,8 +38,34 @@ function ArrowIcon({ direction }: { direction: "left" | "right" }) {
   );
 }
 
+function PlaybackIcon({ isPlaying }: { isPlaying: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-5"
+      fill="currentColor"
+    >
+      {isPlaying ? (
+        <>
+          <rect x="6" y="5" width="4" height="14" rx="1" />
+          <rect x="14" y="5" width="4" height="14" rx="1" />
+        </>
+      ) : (
+        <path d="M8 5.5v13a1 1 0 0 0 1.53.85l10-6.5a1 1 0 0 0 0-1.7l-10-6.5A1 1 0 0 0 8 5.5Z" />
+      )}
+    </svg>
+  );
+}
+
 export function TestimonialCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const dragStartRef = useRef<{ x: number; y: number } | null>(null);
+  const dragOffsetRef = useRef(0);
+  const isHorizontalDragRef = useRef(false);
 
   function showPrevious() {
     setActiveIndex((currentIndex) =>
@@ -53,6 +79,57 @@ export function TestimonialCarousel() {
     );
   }
 
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const intervalId = window.setInterval(showNext, 5_000);
+
+    return () => window.clearInterval(intervalId);
+  }, [activeIndex, isPlaying]);
+
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (event.pointerType === "mouse") return;
+
+    dragStartRef.current = { x: event.clientX, y: event.clientY };
+    dragOffsetRef.current = 0;
+    isHorizontalDragRef.current = false;
+    setIsDragging(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    const dragStart = dragStartRef.current;
+
+    if (!dragStart) return;
+
+    const distanceX = event.clientX - dragStart.x;
+    const distanceY = event.clientY - dragStart.y;
+
+    if (
+      !isHorizontalDragRef.current &&
+      Math.abs(distanceY) > Math.abs(distanceX)
+    ) {
+      return;
+    }
+
+    isHorizontalDragRef.current = true;
+    dragOffsetRef.current = distanceX;
+    setDragOffset(distanceX);
+  }
+
+  function finishSwipe() {
+    if (!dragStartRef.current) return;
+
+    if (dragOffsetRef.current <= -50) showNext();
+    if (dragOffsetRef.current >= 50) showPrevious();
+
+    dragStartRef.current = null;
+    dragOffsetRef.current = 0;
+    isHorizontalDragRef.current = false;
+    setIsDragging(false);
+    setDragOffset(0);
+  }
+
   return (
     <section
       aria-labelledby="testimonial-heading"
@@ -64,6 +141,9 @@ export function TestimonialCarousel() {
         loop
         muted
         playsInline
+        onLoadedMetadata={(event) => {
+          event.currentTarget.playbackRate = 0.75;
+        }}
         poster="/young_coconuts_bg.jpeg"
         preload="metadata"
         className="absolute inset-0 size-full object-cover"
@@ -110,12 +190,20 @@ export function TestimonialCarousel() {
         </div>
 
         <div
-          className="mt-10 overflow-hidden rounded-[2rem] border border-palm-green/10 bg-white shadow-[0_22px_65px_rgba(31,41,51,0.09)]"
-          aria-live="polite"
+          className="mt-10 touch-pan-y overflow-hidden rounded-[2rem] border border-palm-green/10 bg-white shadow-[0_22px_65px_rgba(31,41,51,0.09)]"
+          aria-live={isPlaying ? "off" : "polite"}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={finishSwipe}
+          onPointerCancel={finishSwipe}
         >
           <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+            className={`flex ${
+              isDragging ? "" : "transition-transform duration-500 ease-in-out"
+            }`}
+            style={{
+              transform: `translateX(calc(-${activeIndex * 100}% + ${dragOffset}px))`,
+            }}
           >
             {testimonials.map((testimonial, index) => (
               <article
@@ -143,23 +231,40 @@ export function TestimonialCarousel() {
           </div>
         </div>
 
-        <div
-          className="mt-6 flex justify-center gap-2"
-          aria-label="Choose a review"
-        >
-          {testimonials.map((testimonial, index) => (
-            <button
-              key={`${testimonial.name}-dot-${index}`}
-              type="button"
-              onClick={() => setActiveIndex(index)}
-              aria-label={`Show review ${index + 1}`}
-              aria-current={activeIndex === index ? "true" : undefined}
-              className={`h-2.5 rounded-full transition-[width,background-color] duration-300 ${activeIndex === index
-                ? "w-9 bg-vye-pink"
-                : "w-2.5 bg-palm-green/22 hover:bg-palm-green/45"
+        <div className="mt-6 grid grid-cols-[1fr_auto_1fr] items-center">
+          <div
+            className="col-start-2 flex justify-center gap-2"
+            aria-label="Choose a review"
+          >
+            {testimonials.map((testimonial, index) => (
+              <button
+                key={`${testimonial.name}-dot-${index}`}
+                type="button"
+                onClick={() => setActiveIndex(index)}
+                aria-label={`Show review ${index + 1}`}
+                aria-current={activeIndex === index ? "true" : undefined}
+                className={`h-2.5 rounded-full transition-[width,background-color] duration-300 ${
+                  activeIndex === index
+                    ? "w-9 bg-vye-pink"
+                    : "w-2.5 bg-palm-green/22 hover:bg-palm-green/45"
                 }`}
-            />
-          ))}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsPlaying((currentValue) => !currentValue)}
+            aria-label={
+              isPlaying
+                ? "Pause automatic review rotation"
+                : "Play automatic review rotation"
+            }
+            aria-pressed={!isPlaying}
+            className="col-start-3 inline-flex size-11 justify-self-end items-center justify-center rounded-full border border-palm-green/15 bg-white/90 text-palm-green shadow-[0_10px_24px_rgba(31,41,51,0.1)] backdrop-blur-sm transition hover:border-vye-pink hover:text-vye-pink focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-vye-pink"
+          >
+            <PlaybackIcon isPlaying={isPlaying} />
+          </button>
         </div>
       </div>
     </section>

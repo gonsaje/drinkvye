@@ -219,6 +219,7 @@ export function WholesaleForm() {
               name="businessName"
               required
               autoComplete="organization"
+              placeholder="Palm Market"
               aria-invalid={Boolean(fieldErrors.businessName)}
               aria-describedby="businessName-error"
               className={inputClassName}
@@ -233,6 +234,7 @@ export function WholesaleForm() {
               name="contactName"
               required
               autoComplete="name"
+              placeholder="Jordan Lee"
               aria-invalid={Boolean(fieldErrors.contactName)}
               aria-describedby="contactName-error"
               className={inputClassName}
@@ -248,6 +250,7 @@ export function WholesaleForm() {
               type="email"
               required
               autoComplete="email"
+              placeholder="jordan@palmmarket.com"
               aria-invalid={Boolean(fieldErrors.email)}
               aria-describedby="email-error"
               className={inputClassName}
@@ -287,6 +290,7 @@ export function WholesaleForm() {
               name="businessAddress"
               required
               autoComplete="street-address"
+              placeholder="456 Market St, Miami, FL 33131"
               aria-invalid={Boolean(fieldErrors.businessAddress)}
               aria-describedby="businessAddress-error"
               className={inputClassName}
@@ -302,7 +306,7 @@ export function WholesaleForm() {
               name="website"
               type="url"
               inputMode="url"
-              placeholder="https://"
+              placeholder="https://palmmarket.com"
               aria-invalid={Boolean(fieldErrors.website)}
               aria-describedby="website-error"
               className={inputClassName}
@@ -315,6 +319,7 @@ export function WholesaleForm() {
               name="locations"
               type="number"
               min="1"
+              placeholder="3"
               className={inputClassName}
             />
           </label>
@@ -322,7 +327,7 @@ export function WholesaleForm() {
             Estimated Monthly Order Volume
             <input
               name="estimatedVolume"
-              placeholder="For example: 20 cases per month"
+              placeholder="20 cases per month"
               className={inputClassName}
             />
           </label>

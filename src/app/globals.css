@@ -40,6 +40,15 @@ body {
   background: rgba(243, 111, 152, 0.24);
 }
 
+@media (max-width: 767px) {
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
 .quantity-input {
   appearance: textfield;
   -moz-appearance: textfield;

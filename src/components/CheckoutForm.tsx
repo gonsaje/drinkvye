@@ -21,6 +21,24 @@ function getFormValue(formData: FormData, name: string) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function formatUsPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, "");
+  const nationalNumber =
+    digits.length > 10 && digits.startsWith("1")
+      ? digits.slice(1, 11)
+      : digits.slice(0, 10);
+
+  if (nationalNumber.length <= 3) return nationalNumber;
+  if (nationalNumber.length <= 6) {
+    return `(${nationalNumber.slice(0, 3)}) ${nationalNumber.slice(3)}`;
+  }
+
+  return `(${nationalNumber.slice(0, 3)}) ${nationalNumber.slice(
+    3,
+    6,
+  )}-${nationalNumber.slice(6)}`;
+}
+
 export function CheckoutForm() {
   const [clientSecret, setClientSecret] = useState("");
   const [checkoutError, setCheckoutError] = useState("");
@@ -171,7 +189,9 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-first-name"
                 >
-                  First name
+                  <span>
+                    First name <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-first-name"
                     name="firstName"
@@ -184,7 +204,9 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-last-name"
                 >
-                  Last name
+                  <span>
+                    Last name <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-last-name"
                     name="lastName"
@@ -200,7 +222,9 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-email"
                 >
-                  Email
+                  <span>
+                    Email <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-email"
                     name="email"
@@ -214,13 +238,25 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-phone"
                 >
-                  Phone
+                  <span>
+                    Phone <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-phone"
                     name="phone"
                     type="tel"
+                    inputMode="tel"
                     required
-                    autoComplete="tel"
+                    autoComplete="tel-national"
+                    placeholder="(555) 123-4567"
+                    pattern="\(\d{3}\) \d{3}-\d{4}"
+                    maxLength={14}
+                    title="Enter a 10-digit U.S. phone number."
+                    onInput={(event) => {
+                      event.currentTarget.value = formatUsPhoneNumber(
+                        event.currentTarget.value,
+                      );
+                    }}
                     className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                   />
                 </label>
@@ -236,7 +272,9 @@ export function CheckoutForm() {
                 className="grid gap-2 text-sm font-bold text-palm-green"
                 htmlFor="checkout-address"
               >
-                Street address
+                <span>
+                  Street address <span className="text-vye-pink">*</span>
+                </span>
                 <input
                   id="checkout-address"
                   name="address"
@@ -264,7 +302,9 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-city"
                 >
-                  City
+                  <span>
+                    City <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-city"
                     name="city"
@@ -277,7 +317,9 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-state"
                 >
-                  State
+                  <span>
+                    State <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-state"
                     name="state"
@@ -291,7 +333,9 @@ export function CheckoutForm() {
                   className="grid gap-2 text-sm font-bold text-palm-green"
                   htmlFor="checkout-zip"
                 >
-                  ZIP
+                  <span>
+                    ZIP <span className="text-vye-pink">*</span>
+                  </span>
                   <input
                     id="checkout-zip"
                     name="zip"

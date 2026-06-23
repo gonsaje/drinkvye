@@ -46,6 +46,18 @@ function compactValue(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function normalizeUsPhoneNumber(value: unknown) {
+  const digits = compactValue(value).replace(/\D/g, "");
+  const nationalNumber =
+    digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+
+  if (nationalNumber.length !== 10) {
+    throw new Error("Enter a valid 10-digit U.S. phone number.");
+  }
+
+  return `+1${nationalNumber}`;
+}
+
 function buildShippingSummary(customer: CheckoutCustomerInput) {
   return [
     compactValue(customer.address),
@@ -134,7 +146,9 @@ async function createStripeCustomer(
   const lastName = getRequiredShippingValue(customer, "lastName", "Last name");
   const fullName = [firstName, lastName].filter(Boolean).join(" ");
   const email = getRequiredShippingValue(customer, "email", "Email");
-  const phone = getRequiredShippingValue(customer, "phone", "Phone");
+  const phone = normalizeUsPhoneNumber(
+    getRequiredShippingValue(customer, "phone", "Phone"),
+  );
   const address = getRequiredShippingValue(
     customer,
     "address",
@@ -200,23 +214,16 @@ function appendLineItem(
 
   if (!product) return false;
 
+  const stripePriceId = compactValue(process.env[product.stripePriceEnv]);
+
+  if (!stripePriceId) {
+    throw new Error(
+      `Stripe is missing ${product.stripePriceEnv} for ${product.name}.`,
+    );
+  }
+
   formData.append(`line_items[${index}][quantity]`, `${item.quantity}`);
-  formData.append(
-    `line_items[${index}][price_data][currency]`,
-    "usd",
-  );
-  formData.append(
-    `line_items[${index}][price_data][unit_amount]`,
-    `${product.priceCents}`,
-  );
-  formData.append(
-    `line_items[${index}][price_data][product_data][name]`,
-    product.name,
-  );
-  formData.append(
-    `line_items[${index}][price_data][product_data][description]`,
-    `${product.pack} of ${product.size}`,
-  );
+  formData.append(`line_items[${index}][price]`, stripePriceId);
 
   return true;
 }
@@ -253,6 +260,22 @@ export async function POST(request: Request) {
     return Response.json({ error: "Cart is empty." }, { status: 400 });
   }
 
+  const missingPriceProduct = items
+    .map((item) => products.find((product) => product.id === item.productId))
+    .find(
+      (product) =>
+        product && !compactValue(process.env[product.stripePriceEnv]),
+    );
+
+  if (missingPriceProduct) {
+    return Response.json(
+      {
+        error: `Stripe is missing ${missingPriceProduct.stripePriceEnv} for ${missingPriceProduct.name}.`,
+      },
+      { status: 500 },
+    );
+  }
+
   const customer = payload.customer ?? {};
   const origin = getOrigin(request);
   const fullName = [
@@ -284,7 +307,7 @@ export async function POST(request: Request) {
     return_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     billing_address_collection: "auto",
     customer: stripeCustomerId,
-    "automatic_tax[enabled]": "true",
+    "payment_intent_data[receipt_email]": compactValue(customer.email),
   });
 
   const phone = compactValue(customer.phone);
@@ -297,10 +320,22 @@ export async function POST(request: Request) {
 
   let lineItemIndex = 0;
 
-  for (const item of items) {
-    if (appendLineItem(formData, lineItemIndex, item)) {
-      lineItemIndex += 1;
+  try {
+    for (const item of items) {
+      if (appendLineItem(formData, lineItemIndex, item)) {
+        lineItemIndex += 1;
+      }
     }
+  } catch (error) {
+    return Response.json(
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Stripe product pricing is not configured.",
+      },
+      { status: 500 },
+    );
   }
 
   appendShippingOption(formData);

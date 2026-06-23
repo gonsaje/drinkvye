@@ -5,6 +5,7 @@ export type Product = {
   pack: string;
   ingredients: string;
   image: string;
+  stripePriceEnv: string;
   priceCents: number;
   priceLabel: string;
 };
@@ -16,6 +17,7 @@ export const vyeProduct: Product = {
   pack: "6-pack",
   ingredients: "Organic Coconut Water",
   image: "/vyeBottle.png",
+  stripePriceEnv: "STRIPE_VYE_PRICE_ID",
   priceCents: 4795,
   priceLabel: "$47.95",
 };

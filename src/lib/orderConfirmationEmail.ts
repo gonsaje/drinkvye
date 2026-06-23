@@ -22,6 +22,7 @@ export type OrderConfirmation = {
   lineItems: OrderLineItem[];
   orderId: string;
   shippingAddress?: ShippingAddress | null;
+  stripeSessionId?: string;
 };
 
 function escapeHtml(value: string) {
@@ -182,13 +183,13 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
 }
 
 export async function sendOrderConfirmation(order: OrderConfirmation) {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.RESEND_ORDERS_API_KEY;
   const from = process.env.VYE_ORDER_FROM_EMAIL;
   const businessEmail = process.env.VYE_BUSINESS_EMAIL;
 
   if (!apiKey || !from) {
     throw new Error(
-      "Order email is missing RESEND_API_KEY or VYE_ORDER_FROM_EMAIL.",
+      "Order email is missing RESEND_ORDERS_API_KEY or VYE_ORDER_FROM_EMAIL.",
     );
   }
 
@@ -197,7 +198,9 @@ export async function sendOrderConfirmation(order: OrderConfirmation) {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "Idempotency-Key": `order-confirmation/${order.orderId}`,
+      "Idempotency-Key": `order-confirmation/${
+        order.stripeSessionId ?? order.orderId
+      }`,
     },
     body: JSON.stringify({
       from,
@@ -207,7 +210,12 @@ export async function sendOrderConfirmation(order: OrderConfirmation) {
       subject: `Vye order confirmation — ${order.orderId}`,
       html: buildHtml(order, businessEmail),
       text: buildText(order, businessEmail),
-      tags: [{ name: "stripe_session", value: order.orderId }],
+      tags: [
+        {
+          name: "stripe_session",
+          value: order.stripeSessionId ?? order.orderId,
+        },
+      ],
     }),
   });
 

@@ -1,29 +1,149 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 type SubmissionStatus = "idle" | "submitting" | "success" | "error";
+type FieldErrors = Record<string, string>;
+
+const maxFileSizeBytes = 10 * 1024 * 1024;
+const allowedFileTypes = ["application/pdf", "image/jpeg", "image/png"];
 
 const inputClassName =
   "min-h-12 rounded-2xl border border-palm-green/12 bg-white px-4 font-normal text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink";
+const fileInputClassName =
+  "rounded-2xl border border-dashed border-palm-green/20 bg-white px-4 py-4 text-sm font-semibold text-near-black file:mr-4 file:rounded-xl file:border-0 file:bg-palm-green file:px-4 file:py-2 file:text-sm file:font-black file:text-white hover:file:bg-palm-green/90 focus:border-vye-pink focus:outline-none";
+const requiredFieldNames = [
+  "businessName",
+  "contactName",
+  "email",
+  "phone",
+  "businessAddress",
+  "resaleCertificate",
+];
+
+function RequiredMark() {
+  return (
+    <span aria-hidden="true" className="text-vye-pink">
+      *
+    </span>
+  );
+}
+
+function ErrorText({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+
+  return (
+    <p id={id} className="text-sm font-bold text-vye-pink">
+      {message}
+    </p>
+  );
+}
+
+function getFileError(file: File | null, required: boolean) {
+  if (!file || file.size === 0) {
+    return required ? "Please upload this document." : "";
+  }
+
+  if (!allowedFileTypes.includes(file.type)) {
+    return "Please upload a PDF, JPG, or PNG file.";
+  }
+
+  if (file.size > maxFileSizeBytes) {
+    return "File must be 10MB or smaller.";
+  }
+
+  return "";
+}
 
 export function WholesaleForm() {
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+
+  function validateForm(form: HTMLFormElement) {
+    const formData = new FormData(form);
+    const errors: FieldErrors = {};
+
+    requiredFieldNames.forEach((field) => {
+      if (field === "resaleCertificate") return;
+
+      const value = formData.get(field);
+
+      if (typeof value !== "string" || !value.trim()) {
+        errors[field] = "This field is required.";
+      }
+    });
+
+    const email = String(formData.get("email") ?? "").trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+
+    const website = String(formData.get("website") ?? "").trim();
+    if (website) {
+      try {
+        new URL(website);
+      } catch {
+        errors.website = "Please enter a full URL, including https://.";
+      }
+    }
+
+    const resaleCertificate = formData.get("resaleCertificate");
+    const businessLicense = formData.get("businessLicense");
+    const resaleCertificateError = getFileError(
+      resaleCertificate instanceof File ? resaleCertificate : null,
+      true,
+    );
+    const businessLicenseError = getFileError(
+      businessLicense instanceof File ? businessLicense : null,
+      false,
+    );
+
+    if (resaleCertificateError) {
+      errors.resaleCertificate = resaleCertificateError;
+    }
+
+    if (businessLicenseError) {
+      errors.businessLicense = businessLicenseError;
+    }
+
+    return errors;
+  }
+
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.currentTarget.files?.[0] ?? null;
+    const error = getFileError(
+      file,
+      event.currentTarget.name === "resaleCertificate",
+    );
+
+    setFieldErrors((currentErrors) => ({
+      ...currentErrors,
+      [event.currentTarget.name]: error,
+    }));
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const errors = validateForm(form);
+
+    if (Object.values(errors).some(Boolean)) {
+      setFieldErrors(errors);
+      setStatus("error");
+      setErrorMessage("Please fix the highlighted fields before submitting.");
+      return;
+    }
 
     setStatus("submitting");
     setErrorMessage("");
+    setFieldErrors({});
 
     try {
       const response = await fetch("/api/wholesale", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(formData)),
+        body: formData,
       });
       const data = (await response.json()) as { error?: string };
 
@@ -60,76 +180,83 @@ export function WholesaleForm() {
 
       <fieldset>
         <legend className="text-sm font-black uppercase tracking-[0.18em] text-vye-pink">
-          Contact information
+          Business information
         </legend>
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <label className="grid gap-2 text-sm font-bold text-palm-green">
-            First name
+            <span>
+              Business Name <RequiredMark />
+            </span>
             <input
-              name="firstName"
+              name="businessName"
               required
-              autoComplete="given-name"
+              autoComplete="organization"
+              aria-invalid={Boolean(fieldErrors.businessName)}
+              aria-describedby="businessName-error"
               className={inputClassName}
             />
+            <ErrorText id="businessName-error" message={fieldErrors.businessName} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green">
-            Last name
+            <span>
+              Contact Name <RequiredMark />
+            </span>
             <input
-              name="lastName"
+              name="contactName"
               required
-              autoComplete="family-name"
+              autoComplete="name"
+              aria-invalid={Boolean(fieldErrors.contactName)}
+              aria-describedby="contactName-error"
               className={inputClassName}
             />
+            <ErrorText id="contactName-error" message={fieldErrors.contactName} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green">
-            Business email
+            <span>
+              Email Address <RequiredMark />
+            </span>
             <input
               name="email"
               type="email"
               required
               autoComplete="email"
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby="email-error"
               className={inputClassName}
             />
+            <ErrorText id="email-error" message={fieldErrors.email} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green">
-            Phone
+            <span>
+              Phone Number <RequiredMark />
+            </span>
             <input
               name="phone"
               type="tel"
               required
               autoComplete="tel"
+              aria-invalid={Boolean(fieldErrors.phone)}
+              aria-describedby="phone-error"
               className={inputClassName}
             />
+            <ErrorText id="phone-error" message={fieldErrors.phone} />
           </label>
-        </div>
-      </fieldset>
-
-      <fieldset className="mt-9 border-t border-palm-green/10 pt-8">
-        <legend className="text-sm font-black uppercase tracking-[0.18em] text-vye-pink">
-          Business details
-        </legend>
-        <div className="mt-5 grid gap-5 sm:grid-cols-2">
-          <label className="grid gap-2 text-sm font-bold text-palm-green">
-            Business name
+          <label className="grid gap-2 text-sm font-bold text-palm-green sm:col-span-2">
+            <span>
+              Business Address <RequiredMark />
+            </span>
             <input
-              name="businessName"
+              name="businessAddress"
               required
-              autoComplete="organization"
+              autoComplete="street-address"
+              aria-invalid={Boolean(fieldErrors.businessAddress)}
+              aria-describedby="businessAddress-error"
               className={inputClassName}
             />
-          </label>
-          <label className="grid gap-2 text-sm font-bold text-palm-green">
-            Business type
-            <select name="businessType" required className={inputClassName}>
-              <option value="">Select one</option>
-              <option>Grocery or market</option>
-              <option>Café or restaurant</option>
-              <option>Gym or wellness studio</option>
-              <option>Distributor</option>
-              <option>Online retailer</option>
-              <option>Hotel or hospitality</option>
-              <option>Other</option>
-            </select>
+            <ErrorText
+              id="businessAddress-error"
+              message={fieldErrors.businessAddress}
+            />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green">
             Website
@@ -138,21 +265,23 @@ export function WholesaleForm() {
               type="url"
               inputMode="url"
               placeholder="https://"
+              aria-invalid={Boolean(fieldErrors.website)}
+              aria-describedby="website-error"
               className={inputClassName}
             />
+            <ErrorText id="website-error" message={fieldErrors.website} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green">
-            Number of locations
+            Number of Locations
             <input
               name="locations"
               type="number"
               min="1"
-              required
               className={inputClassName}
             />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green sm:col-span-2">
-            Estimated opening order or monthly volume
+            Estimated Monthly Order Volume
             <input
               name="estimatedVolume"
               placeholder="For example: 20 cases per month"
@@ -164,65 +293,63 @@ export function WholesaleForm() {
 
       <fieldset className="mt-9 border-t border-palm-green/10 pt-8">
         <legend className="text-sm font-black uppercase tracking-[0.18em] text-vye-pink">
-          Business address
+          Document uploads
         </legend>
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
-          <label className="grid gap-2 text-sm font-bold text-palm-green sm:col-span-2">
-            Street address
+          <label className="grid gap-2 text-sm font-bold text-palm-green">
+            <span>
+              Resale Certificate <RequiredMark />
+            </span>
             <input
-              name="address"
+              name="resaleCertificate"
+              type="file"
+              accept="application/pdf,image/jpeg,image/png"
               required
-              autoComplete="street-address"
-              className={inputClassName}
+              aria-invalid={Boolean(fieldErrors.resaleCertificate)}
+              aria-describedby="resaleCertificate-help resaleCertificate-error"
+              className={fileInputClassName}
+              onChange={handleFileChange}
+            />
+            <span
+              id="resaleCertificate-help"
+              className="text-xs font-semibold text-near-black/55"
+            >
+              PDF, JPG, or PNG only. 10MB max.
+            </span>
+            <ErrorText
+              id="resaleCertificate-error"
+              message={fieldErrors.resaleCertificate}
             />
           </label>
           <label className="grid gap-2 text-sm font-bold text-palm-green">
-            City
+            Business License
             <input
-              name="city"
-              required
-              autoComplete="address-level2"
-              className={inputClassName}
+              name="businessLicense"
+              type="file"
+              accept="application/pdf,image/jpeg,image/png"
+              aria-invalid={Boolean(fieldErrors.businessLicense)}
+              aria-describedby="businessLicense-help businessLicense-error"
+              className={fileInputClassName}
+              onChange={handleFileChange}
             />
-          </label>
-          <div className="grid grid-cols-2 gap-5">
-            <label className="grid gap-2 text-sm font-bold text-palm-green">
-              State
-              <input
-                name="state"
-                required
-                maxLength={2}
-                autoComplete="address-level1"
-                className={inputClassName}
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-bold text-palm-green">
-              ZIP
-              <input
-                name="zip"
-                required
-                autoComplete="postal-code"
-                className={inputClassName}
-              />
-            </label>
-          </div>
-          <label className="grid gap-2 text-sm font-bold text-palm-green sm:col-span-2">
-            Do you have a current resale certificate?
-            <select name="resaleStatus" required className={inputClassName}>
-              <option value="">Select one</option>
-              <option>Yes</option>
-              <option>Not yet</option>
-              <option>Not sure</option>
-            </select>
+            <span
+              id="businessLicense-help"
+              className="text-xs font-semibold text-near-black/55"
+            >
+              Optional. PDF, JPG, or PNG only. 10MB max.
+            </span>
+            <ErrorText
+              id="businessLicense-error"
+              message={fieldErrors.businessLicense}
+            />
           </label>
         </div>
       </fieldset>
 
       <label className="mt-9 grid gap-2 border-t border-palm-green/10 pt-8 text-sm font-bold text-palm-green">
-        Tell us about your business
+        Message / Additional Information
         <textarea
           name="message"
-          required
           placeholder="Where would you like to carry Vye, and what makes it a fit for your customers?"
           className="min-h-36 resize-y rounded-2xl border border-palm-green/12 bg-white px-4 py-3 font-normal text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink"
         />

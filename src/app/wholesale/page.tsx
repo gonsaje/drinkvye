@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
 import { WholesaleForm } from "@/components/WholesaleForm";
-import {
-  vyeProductSpecifications,
-  vyeProductStorage,
-} from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Wholesale | Vye Organic Coconut Water",
@@ -67,45 +63,6 @@ export default function WholesalePage() {
           </div>
 
           <WholesaleForm />
-        </div>
-      </section>
-
-      <section className="px-5 pb-20 sm:px-8 sm:pb-28">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-vye-pink/15 bg-white shadow-[0_22px_65px_rgba(31,41,51,0.08)]">
-          <div className="bg-vye-pink px-6 py-6 text-center sm:px-10">
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-white/78">
-              wholesale reference
-            </p>
-            <h2 className="mt-2 text-3xl font-black tracking-normal text-white sm:text-4xl">
-              Product Specifications
-            </h2>
-          </div>
-
-          <dl>
-            {[
-              ...vyeProductSpecifications,
-              {
-                label: "Storage",
-                value: `${vyeProductStorage.unopened} ${vyeProductStorage.opened}`,
-              },
-            ].map(({ label, value }, index, specifications) => (
-              <div
-                key={label}
-                className={`grid gap-2 px-6 py-5 sm:grid-cols-[0.42fr_0.58fr] sm:gap-8 sm:px-10 ${
-                  index < specifications.length - 1
-                    ? "border-b border-palm-green/10"
-                    : ""
-                }`}
-              >
-                <dt className="text-sm font-black uppercase tracking-[0.12em] text-palm-green/70 sm:text-base sm:normal-case sm:tracking-normal">
-                  {label}
-                </dt>
-                <dd className="text-base font-semibold leading-7 text-near-black sm:text-lg">
-                  {value}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </section>
     </div>

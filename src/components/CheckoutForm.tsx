@@ -195,7 +195,7 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
                     name="firstName"
                     required
                     autoComplete="given-name"
-                    placeholder="Maya"
+                    placeholder="First name"
                     className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                   />
                 </label>
@@ -211,7 +211,7 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
                     name="lastName"
                     required
                     autoComplete="family-name"
-                    placeholder="Patel"
+                    placeholder="Last name"
                     className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                   />
                 </label>
@@ -231,7 +231,7 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
                     type="email"
                     required
                     autoComplete="email"
-                    placeholder="maya@example.com"
+                    placeholder="you@example.com"
                     className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                   />
                 </label>
@@ -281,7 +281,7 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
                   name="address"
                   required
                   autoComplete="shipping street-address"
-                  placeholder="123 Coconut Ave"
+                  placeholder="Street address"
                   className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                 />
               </label>
@@ -295,7 +295,7 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
                   id="checkout-address-2"
                   name="address2"
                   autoComplete="shipping address-line2"
-                  placeholder="Apt 4B"
+                  placeholder="Apt, suite, unit"
                   className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                 />
               </label>
@@ -313,7 +313,7 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
                     name="city"
                     required
                     autoComplete="shipping address-level2"
-                    placeholder="Brooklyn"
+                    placeholder="City"
                     className="min-h-12 rounded-2xl border border-palm-green/10 bg-white px-4 font-normal text-near-black outline-none transition focus:border-vye-pink"
                   />
                 </label>

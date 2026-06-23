@@ -9,9 +9,9 @@ const maxFileSizeBytes = 10 * 1024 * 1024;
 const allowedFileTypes = ["application/pdf", "image/jpeg", "image/png"];
 
 const inputClassName =
-  "min-h-12 rounded-2xl border border-palm-green/12 bg-white px-4 font-normal text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink";
+  "min-h-12 w-full min-w-0 rounded-2xl border border-palm-green/12 bg-white px-4 font-normal text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink";
 const fileInputClassName =
-  "rounded-2xl border border-dashed border-palm-green/20 bg-white px-4 py-4 text-sm font-semibold text-near-black file:mr-4 file:rounded-xl file:border-0 file:bg-palm-green file:px-4 file:py-2 file:text-sm file:font-black file:text-white hover:file:bg-palm-green/90 focus:border-vye-pink focus:outline-none";
+  "w-full min-w-0 rounded-2xl border border-dashed border-palm-green/20 bg-white px-4 py-4 text-sm font-semibold text-near-black file:mr-4 file:rounded-xl file:border-0 file:bg-palm-green file:px-4 file:py-2 file:text-sm file:font-black file:text-white hover:file:bg-palm-green/90 focus:border-vye-pink focus:outline-none";
 const requiredFieldNames = [
   "businessName",
   "contactName",
@@ -194,7 +194,7 @@ export function WholesaleForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[2rem] border border-palm-green/10 bg-coconut-cream p-5 shadow-[0_20px_60px_rgba(31,41,51,0.09)] sm:p-8"
+      className="w-full min-w-0 rounded-[2rem] border border-palm-green/10 bg-coconut-cream p-5 shadow-[0_20px_60px_rgba(31,41,51,0.09)] sm:p-8"
     >
       <label className="hidden" aria-hidden="true" htmlFor="wholesale-company">
         Company
@@ -219,7 +219,7 @@ export function WholesaleForm() {
               name="businessName"
               required
               autoComplete="organization"
-              placeholder="Palm Market"
+              placeholder="Company name"
               aria-invalid={Boolean(fieldErrors.businessName)}
               aria-describedby="businessName-error"
               className={inputClassName}
@@ -234,7 +234,7 @@ export function WholesaleForm() {
               name="contactName"
               required
               autoComplete="name"
-              placeholder="Jordan Lee"
+              placeholder="Full name"
               aria-invalid={Boolean(fieldErrors.contactName)}
               aria-describedby="contactName-error"
               className={inputClassName}
@@ -250,7 +250,7 @@ export function WholesaleForm() {
               type="email"
               required
               autoComplete="email"
-              placeholder="jordan@palmmarket.com"
+              placeholder="email@company.com"
               aria-invalid={Boolean(fieldErrors.email)}
               aria-describedby="email-error"
               className={inputClassName}
@@ -290,7 +290,7 @@ export function WholesaleForm() {
               name="businessAddress"
               required
               autoComplete="street-address"
-              placeholder="456 Market St, Miami, FL 33131"
+              placeholder="Street address"
               aria-invalid={Boolean(fieldErrors.businessAddress)}
               aria-describedby="businessAddress-error"
               className={inputClassName}
@@ -306,7 +306,7 @@ export function WholesaleForm() {
               name="website"
               type="url"
               inputMode="url"
-              placeholder="https://palmmarket.com"
+              placeholder="https://example.com"
               aria-invalid={Boolean(fieldErrors.website)}
               aria-describedby="website-error"
               className={inputClassName}
@@ -393,8 +393,8 @@ export function WholesaleForm() {
         Message / Additional Information
         <textarea
           name="message"
-          placeholder="Where would you like to carry Vye, and what makes it a fit for your customers?"
-          className="min-h-36 resize-y rounded-2xl border border-palm-green/12 bg-white px-4 py-3 font-normal text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink"
+          placeholder="Tell us about your store"
+          className="min-h-36 w-full min-w-0 resize-y rounded-2xl border border-palm-green/12 bg-white px-4 py-3 font-normal text-near-black outline-none transition placeholder:text-near-black/35 focus:border-vye-pink"
         />
       </label>
 

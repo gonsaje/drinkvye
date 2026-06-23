@@ -35,7 +35,7 @@ const certifications = [
     height: 488,
   },
   {
-    name: "Star-K Kosher",
+    name: "Kosher",
     image: "/star-kosher.png",
     width: 320,
     height: 320,

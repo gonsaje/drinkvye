@@ -29,19 +29,19 @@ const certifications = [
     height: 488,
   },
   {
-    name: "Star-K Kosher",
+    name: "Kosher",
     image: "/star-kosher.png",
     width: 320,
     height: 320,
   },
   {
-    name: "Halal certified",
+    name: "Halal",
     image: "/halal-ribbon.png",
     width: 800,
     height: 800,
   },
   {
-    name: "Non-GMO Project Verified",
+    name: "Non-GMO Verified",
     image: "/non-gmo-logo.jpg",
     width: 400,
     height: 293,

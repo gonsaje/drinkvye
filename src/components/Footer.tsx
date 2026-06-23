@@ -82,7 +82,7 @@ type FooterProps = {
 
 function getFooterBackground(pathname: string) {
   if (pathname === "/find-us") return "#fabed1";
-  if (pathname === "/shop") return "#e5f0ce";
+  if (pathname === "/shop") return "#b6dd6843";
   if (pathname === "/our-coconuts") return "#fabed1";
   if (
     pathname === "/privacy" ||

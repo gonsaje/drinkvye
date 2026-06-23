@@ -145,6 +145,37 @@ function appendShippingOption(formData: URLSearchParams) {
   );
 }
 
+function appendPaymentIntentShipping(
+  formData: URLSearchParams,
+  customer: CheckoutCustomerInput,
+  fullName: string,
+) {
+  const address = getRequiredShippingValue(
+    customer,
+    "address",
+    "Street address",
+  );
+  const city = getRequiredShippingValue(customer, "city", "City");
+  const state = getRequiredShippingValue(customer, "state", "State");
+  const zip = getRequiredShippingValue(customer, "zip", "ZIP");
+  const phone = normalizeUsPhoneNumber(
+    getRequiredShippingValue(customer, "phone", "Phone"),
+  );
+  const address2 = compactValue(customer.address2);
+
+  formData.append("payment_intent_data[shipping][name]", fullName);
+  formData.append("payment_intent_data[shipping][phone]", phone);
+  formData.append("payment_intent_data[shipping][address][line1]", address);
+  formData.append("payment_intent_data[shipping][address][city]", city);
+  formData.append("payment_intent_data[shipping][address][state]", state);
+  formData.append("payment_intent_data[shipping][address][postal_code]", zip);
+  formData.append("payment_intent_data[shipping][address][country]", "US");
+
+  if (address2) {
+    formData.append("payment_intent_data[shipping][address][line2]", address2);
+  }
+}
+
 async function createStripeCustomer(
   stripeSecretKey: string,
   customer: CheckoutCustomerInput,
@@ -320,6 +351,7 @@ export async function POST(request: Request) {
     "payment_intent_data[metadata][order_reference]": orderReference,
   });
 
+  appendPaymentIntentShipping(formData, customer, fullName);
   formData.append("metadata[order_reference]", orderReference);
   const phone = compactValue(customer.phone);
 
@@ -327,6 +359,10 @@ export async function POST(request: Request) {
   if (phone) formData.append("metadata[phone]", phone);
   if (shippingSummary) {
     formData.append("metadata[shipping_address]", shippingSummary);
+    formData.append(
+      "payment_intent_data[metadata][shipping_address]",
+      shippingSummary,
+    );
   }
 
   let lineItemIndex = 0;

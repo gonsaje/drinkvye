@@ -60,6 +60,14 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#039;");
 }
 
+function isValidUsPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, "");
+  const nationalNumber =
+    digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+
+  return nationalNumber.length === 10;
+}
+
 function getFileExtension(fileName: string) {
   return fileName.split(".").pop()?.toLowerCase() ?? "";
 }
@@ -171,6 +179,13 @@ export async function POST(request: Request) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return Response.json(
       { error: "Please enter a valid email address." },
+      { status: 400 },
+    );
+  }
+
+  if (!isValidUsPhoneNumber(compactValue(formData.get("phone")))) {
+    return Response.json(
+      { error: "Please enter a valid 10-digit U.S. phone number." },
       { status: 400 },
     );
   }

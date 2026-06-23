@@ -55,6 +55,24 @@ function getFileError(file: File | null, required: boolean) {
   return "";
 }
 
+function formatUsPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, "");
+  const nationalNumber =
+    digits.length > 10 && digits.startsWith("1")
+      ? digits.slice(1, 11)
+      : digits.slice(0, 10);
+
+  if (nationalNumber.length <= 3) return nationalNumber;
+  if (nationalNumber.length <= 6) {
+    return `(${nationalNumber.slice(0, 3)}) ${nationalNumber.slice(3)}`;
+  }
+
+  return `(${nationalNumber.slice(0, 3)}) ${nationalNumber.slice(
+    3,
+    6,
+  )}-${nationalNumber.slice(6)}`;
+}
+
 export function WholesaleForm() {
   const [status, setStatus] = useState<SubmissionStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -77,6 +95,16 @@ export function WholesaleForm() {
     const email = String(formData.get("email") ?? "").trim();
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errors.email = "Please enter a valid email address.";
+    }
+
+    const phoneDigits = String(formData.get("phone") ?? "").replace(/\D/g, "");
+    const nationalPhoneNumber =
+      phoneDigits.length === 11 && phoneDigits.startsWith("1")
+        ? phoneDigits.slice(1)
+        : phoneDigits;
+
+    if (nationalPhoneNumber && nationalPhoneNumber.length !== 10) {
+      errors.phone = "Please enter a valid 10-digit U.S. phone number.";
     }
 
     const website = String(formData.get("website") ?? "").trim();
@@ -234,7 +262,17 @@ export function WholesaleForm() {
               name="phone"
               type="tel"
               required
-              autoComplete="tel"
+              inputMode="tel"
+              autoComplete="tel-national"
+              placeholder="(555) 123-4567"
+              pattern="\(\d{3}\) \d{3}-\d{4}"
+              maxLength={14}
+              title="Enter a 10-digit U.S. phone number."
+              onInput={(event) => {
+                event.currentTarget.value = formatUsPhoneNumber(
+                  event.currentTarget.value,
+                );
+              }}
               aria-invalid={Boolean(fieldErrors.phone)}
               aria-describedby="phone-error"
               className={inputClassName}

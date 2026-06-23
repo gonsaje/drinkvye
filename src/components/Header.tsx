@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "./Button";
 import { Logo } from "./Logo";
 import { useCart } from "@/lib/useCart";
@@ -60,12 +60,43 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const { totalQuantity } = useCart();
   const cartLabel =
     totalQuantity > 0 ? `Cart (${totalQuantity} items)` : "Cart";
 
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (
+        event.target instanceof Node &&
+        !headerRef.current?.contains(event.target)
+      ) {
+        setMenuOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-palm-green/10 bg-white/90 backdrop-blur-md">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 border-b border-palm-green/10 bg-white/90 backdrop-blur-md"
+    >
       <nav
         aria-label="Primary navigation"
         className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8"
@@ -134,8 +165,10 @@ export function Header() {
 
       <div
         id="mobile-menu"
-        className={`overflow-hidden border-t border-palm-green/10 bg-white transition-[max-height,opacity] duration-300 lg:hidden ${
-          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`absolute inset-x-0 top-full border-t border-palm-green/10 bg-white shadow-[0_18px_45px_rgba(31,41,51,0.1)] transition duration-200 lg:hidden ${
+          menuOpen
+            ? "pointer-events-auto translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5">

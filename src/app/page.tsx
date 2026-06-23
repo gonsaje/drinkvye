@@ -57,7 +57,7 @@ const certifications = [
 export default function Home() {
   return (
     <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,var(--color-coconut-cream)_15%,var(--color-soft-water)_30%,#ffffff_48%,rgba(242,112,153,0.12)_68%,#ffffff_86%)]">
-      <section className="relative overflow-x-clip bg-[#f9c8d8]">
+      <section className="relative overflow-hidden bg-[#f9c8d8]">
         <Image
           src="/palm_beach.jpeg"
           alt=""
@@ -71,35 +71,35 @@ export default function Home() {
         <div className="absolute -left-16 bottom-10 z-10 size-40 rounded-full bg-[radial-gradient(circle_at_58%_38%,rgba(168,207,90,0.5),rgba(168,207,90,0.2)_74%)] blur-[1px] sm:-left-12 sm:size-60" />
         <div className="absolute left-[46%] top-10 size-28 rounded-full bg-[radial-gradient(circle_at_38%_35%,rgba(255,255,255,0.48),rgba(255,255,255,0.14)_72%)] blur-[2px] sm:size-44" />
         <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-b from-transparent via-[#f9c8d8]/75 to-[#f9c8d8] sm:h-[28rem]" />
-        <div className="relative mx-auto grid max-w-7xl gap-9 px-5 pb-18 pt-14 sm:gap-14 sm:px-8 sm:pb-28 sm:pt-20 md:pb-32 md:pt-28 lg:grid-cols-[1fr_0.82fr] lg:items-center">
-          <div className="relative z-10 max-w-3xl">
+        <div className="relative mx-auto grid w-full max-w-7xl gap-9 px-4 pb-18 pt-14 max-[390px]:gap-7 max-[390px]:px-3 sm:gap-14 sm:px-8 sm:pb-28 sm:pt-20 md:pb-32 md:pt-28 lg:grid-cols-[1fr_0.82fr] lg:items-center">
+          <div className="relative z-10 min-w-0 max-w-3xl">
             <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-palm-green sm:mb-5 sm:text-sm sm:tracking-[0.2em]">
               organic coconut water
             </p>
-            <h1 className="text-4xl font-black leading-[1.04] tracking-normal text-near-black sm:text-6xl sm:leading-[1.02] lg:text-6xl">
+            <h1 className="max-w-full text-4xl font-black leading-[1.04] tracking-normal text-near-black max-[390px]:text-[2rem] sm:text-6xl sm:leading-[1.02] lg:text-6xl">
               The hydration your body is vying for.
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-near-black/68 sm:mt-7 sm:text-xl sm:leading-8">
+            <p className="mt-5 max-w-full text-base leading-7 text-near-black/68 sm:mt-7 sm:max-w-xl sm:text-xl sm:leading-8">
               Organic coconut water made to refresh, replenish, and keep things
               naturally simple.
             </p>
-            <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
-              <Button href="/shop" className="w-full sm:w-auto">
+            <div className="mt-7 flex w-full max-w-full flex-col gap-3 sm:mt-9 sm:flex-row">
+              <Button href="/shop" className="w-full max-w-full sm:w-auto">
                 Drink Vye
               </Button>
               <Button
                 href="/find-us"
                 variant="secondary"
-                className="w-full sm:w-auto"
+                className="w-full max-w-full sm:w-auto"
               >
                 Find Us
               </Button>
             </div>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-5 opacity-80 sm:justify-start">
+            <div className="mt-10 flex max-w-full flex-wrap items-center justify-center gap-5 opacity-80 max-[390px]:gap-3 sm:justify-start">
               {certifications.map((certification) => (
                 <div
                   key={certification.name}
-                  className="flex h-10 w-14 items-center justify-center sm:h-12 sm:w-16"
+                  className="flex h-10 w-14 items-center justify-center max-[390px]:h-9 max-[390px]:w-12 sm:h-12 sm:w-16"
                   title={certification.name}
                 >
                   <Image
@@ -115,8 +115,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative z-30">
-            <div className="relative mx-auto h-[350px] w-full max-w-[380px] overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/82 p-4 shadow-[0_18px_46px_rgba(31,41,51,0.16)] sm:h-[500px] sm:max-w-[500px] sm:rounded-[2rem] sm:p-7 sm:shadow-[0_24px_70px_rgba(31,41,51,0.18)]">
+          <div className="relative z-30 min-w-0">
+            <div className="relative mx-auto h-[330px] w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_46px_rgba(31,41,51,0.16)] max-[390px]:h-[300px] max-[390px]:max-w-[calc(100vw-1.5rem)] max-[390px]:p-2 sm:h-[500px] sm:max-w-[500px] sm:rounded-[2rem] sm:p-7 sm:shadow-[0_24px_70px_rgba(31,41,51,0.18)]">
               <div className="relative h-full overflow-hidden rounded-[1.15rem] bg-gradient-to-br from-white via-coconut-cream/75 to-white sm:rounded-[1.5rem]">
                 <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_78%,rgba(168,207,90,0.24),transparent_46%)]" />
 
@@ -136,7 +136,7 @@ export default function Home() {
 
                     priority
 
-                    className="palm-frond palm-frond-one absolute left-[68%] top-[76%] w-[390px] max-w-none grayscale opacity-20 mix-blend-multiply sm:left-[66%] sm:top-[73%] sm:w-[590px] sm:opacity-[0.18]"
+                    className="palm-frond palm-frond-one absolute left-[68%] top-[76%] w-[340px] max-w-none grayscale opacity-20 mix-blend-multiply max-[390px]:w-[300px] sm:left-[66%] sm:top-[73%] sm:w-[590px] sm:opacity-[0.18]"
 
                     sizes="(min-width: 1024px) 560px, 520px"
 
@@ -154,7 +154,7 @@ export default function Home() {
 
                     priority
 
-                    className="palm-frond palm-frond-two absolute left-[82%] top-[64%] w-[410px] max-w-none grayscale opacity-[0.16] mix-blend-multiply sm:left-[76%] sm:top-[59%] sm:w-[620px] sm:opacity-[0.14]"
+                    className="palm-frond palm-frond-two absolute left-[82%] top-[64%] w-[350px] max-w-none grayscale opacity-[0.16] mix-blend-multiply max-[390px]:w-[310px] sm:left-[76%] sm:top-[59%] sm:w-[620px] sm:opacity-[0.14]"
 
                     sizes="(min-width: 1024px) 590px, 540px"
 
@@ -170,7 +170,7 @@ export default function Home() {
 
                 {/* Bottle */}
 
-                <div className="relative z-30 flex h-full translate-y-3 items-center justify-center sm:translate-y-4">
+                <div className="relative z-30 flex h-full translate-y-2 items-center justify-center sm:translate-y-4">
 
                   <Image
 
@@ -182,7 +182,7 @@ export default function Home() {
 
                     height={810}
 
-                    className="pointer-events-none h-[325px] w-auto max-w-none object-contain drop-shadow-[0_20px_32px_rgba(36,90,53,0.24)] sm:h-[460px] sm:drop-shadow-[0_28px_42px_rgba(36,90,53,0.26)]"
+                    className="pointer-events-none h-[300px] w-auto max-w-full object-contain drop-shadow-[0_20px_32px_rgba(36,90,53,0.24)] max-[390px]:h-[270px] sm:h-[460px] sm:max-w-none sm:drop-shadow-[0_28px_42px_rgba(36,90,53,0.26)]"
 
                     sizes="(min-width: 1024px) 430px, 86vw"
 

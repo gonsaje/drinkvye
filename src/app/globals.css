@@ -30,6 +30,12 @@ body {
   color: var(--foreground);
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 ::selection {
   background: rgba(243, 111, 152, 0.24);
 }

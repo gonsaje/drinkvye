@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "@/lib/useCart";
 
-export function CheckoutSuccess() {
+type CheckoutSuccessProps = {
+  orderReference?: string;
+};
+
+export function CheckoutSuccess({ orderReference }: CheckoutSuccessProps) {
   const { clearCart } = useCart();
 
   useEffect(() => {
@@ -20,9 +24,19 @@ export function CheckoutSuccess() {
         Thanks for ordering Vye.
       </h1>
       <p className="mt-4 max-w-2xl text-base leading-7 text-near-black/66">
-        Stripe has received your payment. Your payment receipt and Vye order
+        We have received your payment. Your payment receipt and Vye order
         confirmation will be sent to the email used at checkout.
       </p>
+      {orderReference ? (
+        <div className="mt-6 rounded-2xl border border-palm-green/10 bg-coconut-cream px-5 py-4">
+          <p className="text-xs font-black uppercase tracking-[0.16em] text-palm-green/65">
+            Order number
+          </p>
+          <p className="mt-1 text-xl font-black tracking-normal text-near-black">
+            {orderReference}
+          </p>
+        </div>
+      ) : null}
       <div className="mt-7 flex flex-col gap-3 sm:flex-row">
         <Link
           href="/shop"

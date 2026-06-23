@@ -6,7 +6,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
 import { useCart } from "@/lib/useCart";
 
@@ -14,6 +14,10 @@ const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = stripePublishableKey
   ? loadStripe(stripePublishableKey)
   : null;
+
+type CheckoutFormProps = {
+  shippingCents?: number;
+};
 
 function getFormValue(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -39,23 +43,49 @@ function formatUsPhoneNumber(value: string) {
   )}-${nationalNumber.slice(6)}`;
 }
 
-export function CheckoutForm() {
+export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
   const [clientSecret, setClientSecret] = useState("");
   const [checkoutError, setCheckoutError] = useState("");
   const [checkoutSessionKey, setCheckoutSessionKey] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { clearCart, items, totalQuantity } = useCart();
+  const { items, totalQuantity } = useCart();
   const subtotalCents = items.reduce(
     (total, item) => total + item.product.priceCents * item.quantity,
     0,
   );
+  const totalCents = subtotalCents + shippingCents;
   const embeddedCheckoutOptions = useMemo(
     () => ({
       clientSecret,
-      onComplete: clearCart,
     }),
-    [clearCart, clientSecret],
+    [clientSecret],
   );
+
+  function closePaymentOverlay() {
+    setClientSecret("");
+    setCheckoutError("");
+  }
+
+  useEffect(() => {
+    if (!clientSecret) return;
+
+    const originalOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        closePaymentOverlay();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [clientSecret]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -137,43 +167,11 @@ export function CheckoutForm() {
   }
 
   return (
-    <div className="grid gap-5 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_0.42fr] lg:items-start">
-      {clientSecret ? (
-        <section className="order-2 min-w-0 overflow-hidden rounded-3xl border border-palm-green/10 bg-white p-4 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-1">
-          <div className="mb-6 flex flex-col gap-4 border-b border-palm-green/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
-                secure payment
-              </p>
-              <h1 className="mt-2 text-2xl font-black tracking-normal text-near-black sm:text-3xl">
-                Complete your order.
-              </h1>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setClientSecret("");
-                setCheckoutError("");
-              }}
-              className="inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-palm-green/15 bg-white px-4 text-sm font-bold text-palm-green transition hover:border-vye-pink/40 hover:text-vye-pink sm:w-auto"
-            >
-              Edit Details
-            </button>
-          </div>
-
-          <EmbeddedCheckoutProvider
-            key={checkoutSessionKey}
-            stripe={stripePromise}
-            options={embeddedCheckoutOptions}
-          >
-            <EmbeddedCheckout className="min-w-0" />
-          </EmbeddedCheckoutProvider>
-        </section>
-      ) : (
-        <form
-          onSubmit={handleSubmit}
-          className="order-2 min-w-0 rounded-3xl border border-palm-green/10 bg-white p-4 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-1"
-        >
+    <div className="mx-auto grid max-w-6xl gap-5 sm:gap-8 lg:grid-cols-[minmax(0,820px)_370px] lg:items-start lg:justify-center">
+      <form
+        onSubmit={handleSubmit}
+        className="order-2 min-w-0 rounded-3xl border border-palm-green/10 bg-white p-4 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-1 lg:p-7"
+      >
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
             checkout
           </p>
@@ -361,8 +359,7 @@ export function CheckoutForm() {
           >
             {isSubmitting ? "Preparing Payment..." : "Continue To Payment"}
           </button>
-        </form>
-      )}
+      </form>
 
       <aside className="order-1 min-w-0 rounded-3xl border border-palm-green/10 bg-coconut-cream p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] sm:rounded-[2rem] sm:p-6 lg:order-2">
         <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
@@ -379,9 +376,19 @@ export function CheckoutForm() {
               {formatPrice(subtotalCents)}
             </span>
           </div>
+          <div className="flex items-center justify-between gap-4">
+            <span>Shipping</span>
+            <span className="font-black text-near-black">
+              {formatPrice(shippingCents)}
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-4 border-t border-palm-green/10 pt-4 text-base text-near-black">
+            <span className="font-black">Total</span>
+            <span className="font-black">{formatPrice(totalCents)}</span>
+          </div>
         </div>
         <p className="mt-5 text-sm leading-6 text-near-black/64">
-          Standard shipping is added in the Stripe payment step.
+          Secure checkout powered by Stripe.
         </p>
         <Link
           href="/cart"
@@ -390,6 +397,61 @@ export function CheckoutForm() {
           Back To Cart
         </Link>
       </aside>
+
+      {clientSecret ? (
+        <div
+          className="fixed inset-0 z-50 flex items-end bg-near-black/45 p-0 backdrop-blur-sm sm:items-stretch sm:justify-end"
+          role="presentation"
+        >
+          <button
+            type="button"
+            aria-label="Close payment overlay"
+            className="absolute inset-0 cursor-default"
+            onClick={closePaymentOverlay}
+          />
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="stripe-payment-title"
+            className="relative z-10 flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-palm-green/10 bg-white shadow-[0_24px_80px_rgba(31,41,51,0.25)] sm:h-full sm:max-h-none sm:max-w-[520px] sm:rounded-l-[2rem] sm:rounded-tr-none"
+          >
+            <div className="flex flex-col gap-4 border-b border-palm-green/10 bg-coconut-cream px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-palm-green">
+                  secure payment
+                </p>
+                <h2
+                  id="stripe-payment-title"
+                  className="mt-2 text-2xl font-black tracking-normal text-near-black"
+                >
+                  Complete your order.
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-near-black/62">
+                  Need to change shipping details? Close this panel and edit the
+                  form.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={closePaymentOverlay}
+                className="inline-flex min-h-11 w-full shrink-0 items-center justify-center rounded-xl border border-palm-green/15 bg-white px-4 text-sm font-bold text-palm-green transition hover:border-vye-pink/40 hover:text-vye-pink sm:w-auto"
+              >
+                Edit Details
+              </button>
+            </div>
+
+            <div className="min-h-0 flex-1 overflow-y-auto px-1 py-5 sm:px-2">
+              <EmbeddedCheckoutProvider
+                key={checkoutSessionKey}
+                stripe={stripePromise}
+                options={embeddedCheckoutOptions}
+              >
+                <EmbeddedCheckout className="mx-auto min-w-0 max-w-[560px]" />
+              </EmbeddedCheckoutProvider>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </div>
   );
 }

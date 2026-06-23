@@ -103,6 +103,14 @@ async function getStripeObject<T>(path: string, secretKey: string) {
   return body;
 }
 
+function getOrderReference(session: StripeCheckoutSession) {
+  const configuredReference = session.metadata?.order_reference?.trim();
+
+  if (configuredReference) return configuredReference;
+
+  return `VYE-${session.id.slice(-10).toUpperCase()}`;
+}
+
 function getCustomerId(customer: StripeCheckoutSession["customer"]) {
   if (typeof customer === "string") return customer;
   return customer?.id ?? "";
@@ -129,7 +137,8 @@ async function sendConfirmationForSession(
   }
 
   await sendOrderConfirmation({
-    orderId: session.id,
+    orderId: getOrderReference(session),
+    stripeSessionId: session.id,
     customerEmail,
     customerName:
       customer.name ??

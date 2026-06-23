@@ -97,6 +97,13 @@ function getShippingCents() {
   return Math.max(0, Math.round(parsedShipping));
 }
 
+function createOrderReference() {
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const randomSegment = Math.random().toString(36).slice(2, 6).toUpperCase();
+
+  return `VYE-${timestamp}-${randomSegment}`;
+}
+
 function appendShippingOption(formData: URLSearchParams) {
   const shippingRateId = compactValue(
     process.env.STRIPE_STANDARD_SHIPPING_RATE_ID,
@@ -285,6 +292,7 @@ export async function POST(request: Request) {
     .filter(Boolean)
     .join(" ");
   const shippingSummary = buildShippingSummary(customer);
+  const orderReference = createOrderReference();
   let stripeCustomerId = "";
 
   try {
@@ -307,9 +315,12 @@ export async function POST(request: Request) {
     return_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     billing_address_collection: "auto",
     customer: stripeCustomerId,
+    client_reference_id: orderReference,
     "payment_intent_data[receipt_email]": compactValue(customer.email),
+    "payment_intent_data[metadata][order_reference]": orderReference,
   });
 
+  formData.append("metadata[order_reference]", orderReference);
   const phone = compactValue(customer.phone);
 
   if (fullName) formData.append("metadata[customer_name]", fullName);

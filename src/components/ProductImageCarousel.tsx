@@ -104,11 +104,10 @@ export function ProductImageCarousel() {
             onClick={() => setActiveIndex(index)}
             aria-label={`Show ${image.alt}`}
             aria-current={activeIndex === index ? "true" : undefined}
-            className={`relative size-16 overflow-hidden rounded-xl bg-white p-1.5 transition sm:size-20 ${
-              activeIndex === index
+            className={`relative size-16 overflow-hidden rounded-xl bg-white p-1.5 transition sm:size-20 ${activeIndex === index
                 ? "ring-2 ring-vye-pink ring-offset-2 ring-offset-vye-pink/10"
                 : "opacity-65 hover:opacity-100"
-            }`}
+              }`}
           >
             <Image
               src={image.src}

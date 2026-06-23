@@ -121,7 +121,7 @@ export default function DrinkVyePage() {
                 Find Us
               </Button>
               <Button
-                href="/contact"
+                href="/wholesale"
                 variant="secondary"
                 className="w-full sm:w-auto"
               >

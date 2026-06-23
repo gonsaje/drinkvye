@@ -179,7 +179,14 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid Stripe signature." }, { status: 400 });
   }
 
-  const event = JSON.parse(payload) as StripeEvent;
+  let event: StripeEvent;
+
+  try {
+    event = JSON.parse(payload) as StripeEvent;
+  } catch {
+    return Response.json({ error: "Invalid Stripe payload." }, { status: 400 });
+  }
+
   const session = event.data?.object;
   const isCompletedEvent =
     event.type === "checkout.session.completed" ||

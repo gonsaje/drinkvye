@@ -103,14 +103,15 @@ function buildText(order: OrderConfirmation, businessEmail?: string) {
 }
 
 function buildHtml(order: OrderConfirmation, businessEmail?: string) {
+  const productImageUrl = getPublicAssetUrl("/vyeBottle.png");
   const itemRows = order.lineItems
     .map(
       (item) => `
         <tr>
-          <td style="padding:12px 0;border-bottom:1px solid #dcefb8;">
+          <td style="padding:12px 0;border-bottom:1px solid #b6dd68;">
             ${item.quantity} × ${escapeHtml(item.description)}
           </td>
-          <td style="padding:12px 0;border-bottom:1px solid #dcefb8;text-align:right;">
+          <td style="padding:12px 0;border-bottom:1px solid #b6dd68;text-align:right;">
             ${formatMoney(item.amountTotal, order.currency)}
           </td>
         </tr>`,
@@ -124,7 +125,7 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
     <html>
       <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
         <div style="max-width:620px;margin:0 auto;padding:32px 20px;">
-          <div style="background:#ffffff;border:1px solid #dcefb8;border-radius:24px;padding:32px;">
+          <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
             ${
               logoUrl
                 ? `<div style="margin:0 0 24px;text-align:center;">
@@ -132,7 +133,7 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
                   </div>`
                 : ""
             }
-            <p style="margin:0 0 8px;color:#b6dd68;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">
+            <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">
               Order confirmed
             </p>
             <h1 style="margin:0 0 16px;font-size:30px;">
@@ -144,6 +145,13 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
             <p style="margin:0 0 20px;color:#5d666d;">
               Order <strong style="color:#245a35;">${escapeHtml(order.orderId)}</strong>
             </p>
+            ${
+              productImageUrl
+                ? `<div style="margin:0 0 24px;text-align:center;background:#fff8ed;border:1px solid #d7e4dc;border-radius:18px;padding:18px;">
+                    <img src="${escapeHtml(productImageUrl)}" alt="Vye Coconut Water" width="180" style="display:inline-block;width:180px;max-width:70%;height:auto;border:0;outline:none;text-decoration:none;" />
+                  </div>`
+                : ""
+            }
             <table style="width:100%;border-collapse:collapse;font-size:15px;">
               ${itemRows}
               <tr>
@@ -159,8 +167,8 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
             </table>
             ${
               shippingAddress
-                ? `<div style="margin-top:28px;padding:18px;background:#fff8ed;border:1px solid #dcefb8;border-radius:16px;">
-                    <strong style="color:#b6dd68;">Shipping to</strong>
+                ? `<div style="margin-top:28px;padding:18px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;">
+                    <strong style="color:#245a35;">Shipping to</strong>
                     <p style="margin:8px 0 0;white-space:pre-line;line-height:1.5;">${escapeHtml(shippingAddress)}</p>
                   </div>`
                 : ""
@@ -172,7 +180,7 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
               businessEmail
                 ? `<p style="margin:14px 0 0;color:#5d666d;line-height:1.6;">
                     For any additional questions, please contact
-                    <a href="mailto:${escapeHtml(businessEmail)}" style="color:#b6dd68;font-weight:700;text-decoration:none;">${escapeHtml(businessEmail)}</a>.
+                    <a href="mailto:${escapeHtml(businessEmail)}" style="color:#245a35;font-weight:700;text-decoration:none;">${escapeHtml(businessEmail)}</a>.
                   </p>`
                 : ""
             }

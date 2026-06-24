@@ -79,7 +79,7 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#f9c8d8]/18 to-[#f9c8d8] sm:h-32 sm:via-[#f9c8d8]/38" />
         <div className="relative mx-auto flex min-h-[760px] w-full max-w-7xl flex-col justify-between px-5 pb-6 pt-20 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:justify-center sm:px-8 sm:pb-28 sm:pt-24 md:pb-32 md:pt-28">
           <div className="relative z-10 mx-auto min-w-0 max-w-[22rem] text-center sm:mx-0 sm:max-w-2xl sm:text-left">
-            <h1 className="max-w-full text-[2.7rem] font-black uppercase leading-[1.03] tracking-normal text-palm-green max-[390px]:text-[2.5rem] sm:text-6xl sm:leading-[1.02] lg:text-6xl">
+            <h1 className="max-w-full text-[2.7rem] font-black leading-[1.03] tracking-normal text-palm-green max-[390px]:text-[2.5rem] sm:text-6xl sm:leading-[1.02] lg:text-6xl">
               <span className="block sm:inline">
                 The{" "}
                 <span className="text-vye-pink drop-shadow-[0_0_16px_rgba(243,111,152,0.36)]">

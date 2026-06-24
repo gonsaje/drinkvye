@@ -234,8 +234,8 @@ export async function POST(request: Request) {
       if (!value) return "";
 
       return `<tr>
-        <td style="padding:10px;border-bottom:1px solid #e7ece8;font-weight:700;vertical-align:top;">${escapeHtml(fieldLabels[field])}</td>
-        <td style="padding:10px;border-bottom:1px solid #e7ece8;white-space:pre-line;">${escapeHtml(value)}</td>
+        <td style="padding:10px;border-bottom:1px solid #b6dd68;color:#245a35;font-weight:700;vertical-align:top;">${escapeHtml(fieldLabels[field])}</td>
+        <td style="padding:10px;border-bottom:1px solid #b6dd68;white-space:pre-line;">${escapeHtml(value)}</td>
       </tr>`;
     })
     .filter(Boolean)
@@ -265,14 +265,16 @@ export async function POST(request: Request) {
     html: `
       <!doctype html>
       <html>
-        <body style="margin:0;background:#fff8ed;color:#1f2933;font-family:Arial,sans-serif;">
+        <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
           <div style="max-width:720px;margin:0 auto;padding:32px 20px;">
-            <div style="background:#ffffff;border-radius:24px;padding:32px;">
-              <p style="margin:0 0 8px;color:#f36f98;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Wholesale application</p>
+            <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
+              <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Wholesale application</p>
               <h1 style="margin:0 0 8px;font-size:28px;">${escapeHtml(businessName)}</h1>
               <p style="margin:0 0 24px;color:#5d666d;">Submitted by ${escapeHtml(contactName)}</p>
               <table style="width:100%;border-collapse:collapse;font-size:15px;">${rows}</table>
-              <p style="margin:24px 0 0;color:#5d666d;font-size:14px;"><strong>Attached files:</strong> ${uploadedFiles}</p>
+              <div style="margin-top:24px;padding:16px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;color:#5d666d;font-size:14px;">
+                <strong style="color:#245a35;">Attached files:</strong> ${uploadedFiles}
+              </div>
             </div>
           </div>
         </body>
@@ -287,12 +289,14 @@ export async function POST(request: Request) {
     html: `
       <!doctype html>
       <html>
-        <body style="margin:0;background:#fff8ed;color:#1f2933;font-family:Arial,sans-serif;">
+        <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
           <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
-            <div style="background:#ffffff;border-radius:24px;padding:32px;">
-              <p style="margin:0 0 8px;color:#f36f98;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye wholesale</p>
+            <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
+              <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye wholesale</p>
               <h1 style="margin:0 0 16px;font-size:28px;">Thanks for applying, ${escapeHtml(contactName)}.</h1>
-              <p style="margin:0 0 16px;color:#5d666d;font-size:16px;line-height:1.7;">We received your wholesale application for ${escapeHtml(businessName)}. Our team will review your information and follow up by email.</p>
+              <div style="margin:0 0 18px;padding:18px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;">
+                <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">We received your wholesale application for <strong style="color:#245a35;">${escapeHtml(businessName)}</strong>. Our team will review your information and follow up by email.</p>
+              </div>
               <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">If you need to add anything, reply to this email and we will connect it with your application.</p>
             </div>
           </div>

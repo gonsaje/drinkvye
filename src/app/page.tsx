@@ -277,12 +277,11 @@ export default function Home() {
           </div>
           <div className="order-1 lg:order-2">
             <h2 className="text-4xl font-black leading-tight tracking-normal text-near-black">
-              One crisp coconut water for everyday refreshment.
+              Organic coconut water that actually tastes refreshing.
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-near-black/66">
-              Built around a single hero product, Vye is easy to stock, easy to
-              shop, and ready for a future checkout integration when the store
-              goes live.
+              Vye is made with organic coconut water for a clean, crisp sip that
+              feels light, naturally hydrating, and easy to crave anytime.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button href="/shop">Drink Vye</Button>
@@ -321,19 +320,24 @@ export default function Home() {
               find us
             </p>
             <h2 className="mt-4 text-3xl font-black tracking-normal">
-              Stockists, markets, and chilled shelves coming soon.
+              Find Vye near you.
             </h2>
             <p className="mt-5 text-base leading-7 text-white/74">
-              The store finder is ready for retail partners, zip search, and
-              regional availability as Vye expands.
+              Search our current store list to see where Vye is stocked, then
+              grab a bottle from a shelf near you.
             </p>
-            <Button
-              href="/find-us"
-              variant="secondary"
-              className="mt-8 w-full lg:w-auto"
-            >
-              Find Us
-            </Button>
+            <p className="mt-4 text-base font-semibold leading-7 text-white">
+              Want to carry Vye?
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button
+                href="/find-us"
+                variant="secondary"
+                className="w-full lg:w-auto"
+              >
+                Find Stores
+              </Button>
+            </div>
           </article>
         </div>
       </section >

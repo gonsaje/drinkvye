@@ -188,8 +188,8 @@ export default function OurCoconutsPage() {
               Ready for the bottle?
             </h2>
             <p className="mt-3 max-w-xl text-base leading-7 text-near-black/66">
-              Meet the first Vye coconut water and the product details prepared
-              for future ecommerce.
+              Meet Vye organic coconut water, see the product details, and order
+              online whenever you are ready to refresh.
             </p>
           </div>
           <div className="relative h-52 w-52 justify-self-center md:h-60 md:w-60">

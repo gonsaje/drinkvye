@@ -139,15 +139,13 @@ export function WholesaleForm() {
   }
 
   function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const fieldName = event.currentTarget.name;
     const file = event.currentTarget.files?.[0] ?? null;
-    const error = getFileError(
-      file,
-      event.currentTarget.name === "resaleCertificate",
-    );
+    const error = getFileError(file, fieldName === "resaleCertificate");
 
     setFieldErrors((currentErrors) => ({
       ...currentErrors,
-      [event.currentTarget.name]: error,
+      [fieldName]: error,
     }));
   }
 

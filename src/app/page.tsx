@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+import { MobileHeroScrollCue } from "@/components/MobileHeroScrollCue";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { vyeProduct } from "@/lib/products";
 
@@ -57,45 +58,56 @@ const certifications = [
 export default function Home() {
   return (
     <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,var(--color-coconut-cream)_15%,var(--color-soft-water)_30%,#ffffff_48%,rgba(242,112,153,0.12)_68%,#ffffff_86%)]">
-      <section className="relative overflow-hidden bg-[#f9c8d8]">
+      <section className="relative min-h-[760px] overflow-hidden bg-[#f9c8d8] min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)]">
         <Image
-          src="/palm_beach.jpeg"
-          alt=""
+          src="/vye_main_mobile.png"
+          alt="Vye coconut water with coconut and glass on a pink tropical background"
           fill
           priority
-          className="object-cover"
+          className="object-cover object-center sm:hidden"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(251,215,227,0.88)_0%,rgba(249,200,216,0.82)_48%,rgba(246,220,229,0.9)_100%)]" />
-        <div className="absolute -right-16 top-12 size-52 rounded-full bg-[radial-gradient(circle_at_38%_35%,rgba(255,255,255,0.62),rgba(255,255,255,0.22)_72%)] blur-[1px] sm:-right-8 sm:size-72" />
-        <div className="absolute -left-16 bottom-10 z-10 size-40 rounded-full bg-[radial-gradient(circle_at_58%_38%,rgba(168,207,90,0.5),rgba(168,207,90,0.2)_74%)] blur-[1px] sm:-left-12 sm:size-60" />
-        <div className="absolute left-[46%] top-10 size-28 rounded-full bg-[radial-gradient(circle_at_38%_35%,rgba(255,255,255,0.48),rgba(255,255,255,0.14)_72%)] blur-[2px] sm:size-44" />
-        <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-b from-transparent via-[#f9c8d8]/75 to-[#f9c8d8] sm:h-[28rem]" />
-        <div className="relative mx-auto grid w-full max-w-7xl gap-9 px-4 pb-18 pt-14 max-[390px]:gap-7 max-[390px]:px-3 sm:gap-14 sm:px-8 sm:pb-28 sm:pt-20 md:pb-32 md:pt-28 lg:grid-cols-[1fr_0.82fr] lg:items-center">
-          <div className="relative z-10 min-w-0 max-w-3xl">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-palm-green sm:mb-5 sm:text-sm sm:tracking-[0.2em]">
-              organic coconut water
-            </p>
-            <h1 className="max-w-full text-4xl font-black leading-[1.04] tracking-normal text-near-black max-[390px]:text-[2rem] sm:text-6xl sm:leading-[1.02] lg:text-6xl">
-              The hydration your body is vying for.
+        <Image
+          src="/vye_main.png"
+          alt="Vye coconut water with coconut and glass on a pink tropical background"
+          fill
+          priority
+          className="hidden object-cover object-[62%_center] sm:block"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,246,249,0.92)_0%,rgba(255,246,249,0.64)_25%,rgba(255,246,249,0.18)_44%,rgba(255,246,249,0)_64%)] sm:bg-[linear-gradient(90deg,rgba(255,248,237,0.9)_0%,rgba(255,241,246,0.78)_34%,rgba(255,241,246,0.32)_56%,rgba(255,241,246,0.02)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#f9c8d8]/18 to-[#f9c8d8] sm:h-32 sm:via-[#f9c8d8]/38" />
+        <div className="relative mx-auto flex min-h-[760px] w-full max-w-7xl flex-col justify-between px-5 pb-6 pt-20 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:justify-center sm:px-8 sm:pb-28 sm:pt-24 md:pb-32 md:pt-28">
+          <div className="relative z-10 mx-auto min-w-0 max-w-[22rem] text-center sm:mx-0 sm:max-w-2xl sm:text-left">
+            <h1 className="max-w-full text-[2.7rem] font-black uppercase leading-[1.03] tracking-normal text-palm-green max-[390px]:text-[2.5rem] sm:text-6xl sm:leading-[1.02] lg:text-6xl">
+              <span className="block sm:inline">
+                The{" "}
+                <span className="text-vye-pink drop-shadow-[0_0_16px_rgba(243,111,152,0.36)]">
+                  Pink
+                </span>{" "}
+                Of
+              </span>{" "}
+              <span className="block sm:inline">Hydration</span>
             </h1>
-            <p className="mt-5 max-w-full text-base leading-7 text-near-black/68 sm:mt-7 sm:max-w-xl sm:text-xl sm:leading-8">
-              Organic coconut water made to refresh, replenish, and keep things
-              naturally simple.
+            <p className="mx-auto mt-5 max-w-[17rem] text-[1.45rem] font-medium leading-[1.28] text-near-black/72 max-[390px]:text-[1.32rem] sm:mx-0 sm:mt-7 sm:max-w-xl sm:text-xl sm:font-semibold sm:leading-8">
+              Finally, coconut water you&apos;ll actually crave.
             </p>
-            <div className="mt-7 flex w-full max-w-full flex-col gap-3 sm:mt-9 sm:flex-row">
-              <Button href="/shop" className="w-full max-w-full sm:w-auto">
-                Drink Vye
+            <div className="mt-10 hidden max-w-full gap-3 sm:flex sm:flex-row">
+              <Button
+                href="/shop"
+                className="w-full max-w-full rounded-full border-2 border-vye-pink bg-vye-pink px-4 text-white shadow-[0_16px_32px_rgba(243,111,152,0.22)] hover:bg-transparent hover:text-vye-pink hover:shadow-none sm:w-auto sm:px-8"
+              >
+                Discover Vye
               </Button>
               <Button
                 href="/find-us"
                 variant="secondary"
-                className="w-full max-w-full sm:w-auto"
+                className="w-full max-w-full rounded-full border-2 border-palm-green bg-palm-green px-4 text-vye-pink shadow-[0_16px_32px_rgba(36,90,53,0.18)] hover:bg-transparent hover:text-palm-green hover:shadow-none sm:w-auto sm:px-8"
               >
                 Find Us
               </Button>
             </div>
-            <div className="mt-10 flex max-w-full flex-wrap items-center justify-center gap-5 opacity-80 max-[390px]:gap-3 sm:justify-start">
+            <div className="mt-10 hidden max-w-full flex-wrap items-center justify-center gap-5 opacity-80 max-[390px]:gap-3 sm:flex sm:justify-start">
               {certifications.map((certification) => (
                 <div
                   key={certification.name}
@@ -114,94 +126,53 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          <div className="relative z-30 min-w-0">
-            <div className="relative mx-auto h-[330px] w-full max-w-[calc(100vw-2rem)] overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/82 p-3 shadow-[0_18px_46px_rgba(31,41,51,0.16)] max-[390px]:h-[300px] max-[390px]:max-w-[calc(100vw-1.5rem)] max-[390px]:p-2 sm:h-[500px] sm:max-w-[500px] sm:rounded-[2rem] sm:p-7 sm:shadow-[0_24px_70px_rgba(31,41,51,0.18)]">
-              <div className="relative h-full overflow-hidden rounded-[1.15rem] bg-gradient-to-br from-white via-coconut-cream/75 to-white sm:rounded-[1.5rem]">
-                <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_78%,rgba(168,207,90,0.24),transparent_46%)]" />
-
-                {/* Decorative frond layer */}
-
-                <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-[1.15rem] sm:rounded-[1.5rem]">
-
-                  <Image
-
-                    src="/palm.png"
-
-                    alt=""
-
-                    width={2550}
-
-                    height={1700}
-
-                    priority
-
-                    className="palm-frond palm-frond-one absolute left-[68%] top-[76%] w-[340px] max-w-none grayscale opacity-20 mix-blend-multiply max-[390px]:w-[300px] sm:left-[66%] sm:top-[73%] sm:w-[590px] sm:opacity-[0.18]"
-
-                    sizes="(min-width: 1024px) 560px, 520px"
-
-                  />
-
-                  <Image
-
-                    src="/palm.png"
-
-                    alt=""
-
-                    width={2550}
-
-                    height={1700}
-
-                    priority
-
-                    className="palm-frond palm-frond-two absolute left-[82%] top-[64%] w-[350px] max-w-none grayscale opacity-[0.16] mix-blend-multiply max-[390px]:w-[310px] sm:left-[76%] sm:top-[59%] sm:w-[620px] sm:opacity-[0.14]"
-
-                    sizes="(min-width: 1024px) 590px, 540px"
-
-                  />
-
-                </div>
-
-                {/* Bottle separation glow */}
-
-                <div className="absolute left-1/2 top-1/2 z-20 h-52 w-36 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/75 blur-3xl sm:h-80 sm:w-60" />
-
-                <div className="absolute left-1/2 top-[58%] z-20 h-24 w-36 -translate-x-1/2 rounded-full bg-coconut-green/30 blur-2xl sm:top-[58%] sm:h-36 sm:w-52" />
-
-                {/* Bottle */}
-
-                <div className="relative z-30 flex h-full translate-y-2 items-center justify-center sm:translate-y-4">
-
-                  <Image
-
-                    src="/vyeBottle.png"
-
-                    alt="Vye organic coconut water bottle"
-
-                    width={1080}
-
-                    height={810}
-
-                    className="pointer-events-none h-[300px] w-auto max-w-full object-contain drop-shadow-[0_20px_32px_rgba(36,90,53,0.24)] max-[390px]:h-[270px] sm:h-[460px] sm:max-w-none sm:drop-shadow-[0_28px_42px_rgba(36,90,53,0.26)]"
-
-                    sizes="(min-width: 1024px) 430px, 86vw"
-
-                    priority
-
-                  />
-
-                </div>
-              </div>
+          <div className="relative z-10 sm:hidden">
+            <div className="grid max-w-full grid-cols-2 gap-4">
+              <Button
+                href="/shop"
+                className="min-h-[52px] w-full max-w-full rounded-full border border-white/70 bg-vye-pink px-3 text-base text-white shadow-[0_12px_24px_rgba(243,111,152,0.18)] hover:border-vye-pink hover:bg-transparent hover:text-vye-pink hover:shadow-none"
+              >
+                Discover Vye
+              </Button>
+              <Button
+                href="/find-us"
+                variant="secondary"
+                className="min-h-[52px] w-full max-w-full rounded-full border border-vye-pink/70 bg-white/94 px-3 text-base text-vye-pink shadow-[0_12px_24px_rgba(243,111,152,0.1)] hover:border-vye-pink hover:bg-transparent hover:text-vye-pink hover:shadow-none"
+              >
+                Find Us
+              </Button>
             </div>
+            <div className="mt-3 flex max-w-full items-center justify-center gap-6 opacity-90 max-[390px]:gap-5">
+              {certifications.map((certification) => (
+                <div
+                  key={certification.name}
+                  className="flex h-12 w-12 items-center justify-center max-[390px]:h-10 max-[390px]:w-10"
+                  title={certification.name}
+                >
+                  <Image
+                    src={certification.image}
+                    alt={certification.name}
+                    width={certification.width}
+                    height={certification.height}
+                    className="max-h-full max-w-full object-contain drop-shadow-[0_6px_12px_rgba(31,41,51,0.1)]"
+                    sizes="48px"
+                  />
+                </div>
+              ))}
+            </div>
+            <MobileHeroScrollCue targetId="mekong-section" />
           </div>
         </div>
       </section>
 
-      <section className="relative bg-[linear-gradient(180deg,#f9c8d8_0%,rgba(249,200,216,0.68)_22%,rgba(251,215,227,0.3)_58%,#ffffff_100%)] px-5 py-20 sm:px-8 sm:py-28">
+      <section
+        id="mekong-section"
+        className="relative -mt-px scroll-mt-4 bg-[linear-gradient(180deg,#f9c8d8_0%,rgba(249,200,216,0.68)_22%,rgba(251,215,227,0.3)_58%,#ffffff_100%)] px-5 pb-20 pt-24 sm:scroll-mt-0 sm:px-8 sm:py-28"
+      >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20">
-          <div className="absolute -top-24 right-[18%] size-44 rounded-full bg-[radial-gradient(circle_at_38%_34%,rgba(168,207,90,0.48),rgba(168,207,90,0.2)_74%)] blur-[1px] sm:-top-55 sm:size-64 top-36" />
-          <div className="absolute -top-10 left-[43%] size-24 rounded-full bg-[radial-gradient(circle_at_34%_30%,rgba(255,184,205,0.5)_0%,rgba(243,111,152,0.42)_50%,rgba(233,95,139,0.28)_100%)] shadow-[0_18px_42px_rgba(243,111,152,0.12)] blur-[0.8px] sm:size-36" />
-          <div className="absolute left-[8%] top-20 size-20 rounded-full bg-[radial-gradient(circle_at_36%_32%,rgba(255,255,255,0.68),rgba(255,255,255,0.28)_76%)] blur-[1px] sm:left-[12%] sm:top-28 sm:size-28" />
+          <div className="absolute hidden rounded-full bg-[radial-gradient(circle_at_38%_34%,rgba(168,207,90,0.42),rgba(168,207,90,0.18)_74%)] blur-[1px] sm:-right-14 sm:-top-19 sm:block sm:size-52" />
+          <div className="absolute hidden rounded-full bg-[radial-gradient(circle_at_34%_30%,rgba(255,184,205,0.48)_0%,rgba(243,111,152,0.38)_50%,rgba(233,95,139,0.22)_100%)] shadow-[0_18px_42px_rgba(243,111,152,0.12)] blur-[0.8px] sm:left-[10%] sm:top-0 sm:block sm:size-32" />
+          <div className="absolute hidden rounded-full bg-[radial-gradient(circle_at_36%_32%,rgba(255,255,255,0.62),rgba(255,255,255,0.24)_76%)] blur-[1px] sm:left-[48%] sm:top-24 sm:block sm:size-24" />
         </div>
         <div className="relative z-30 mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="order-2 lg:order-1">

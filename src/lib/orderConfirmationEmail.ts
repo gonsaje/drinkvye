@@ -107,10 +107,10 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
     .map(
       (item) => `
         <tr>
-          <td style="padding:12px 0;border-bottom:1px solid #e8ece8;">
+          <td style="padding:12px 0;border-bottom:1px solid #f8d6e2;">
             ${item.quantity} × ${escapeHtml(item.description)}
           </td>
-          <td style="padding:12px 0;border-bottom:1px solid #e8ece8;text-align:right;">
+          <td style="padding:12px 0;border-bottom:1px solid #f8d6e2;text-align:right;">
             ${formatMoney(item.amountTotal, order.currency)}
           </td>
         </tr>`,
@@ -122,9 +122,9 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
   return `
     <!doctype html>
     <html>
-      <body style="margin:0;background:#f8f5ed;color:#1f2933;font-family:Arial,sans-serif;">
+      <body style="margin:0;background:#fff1f6;color:#1f2933;font-family:Arial,sans-serif;">
         <div style="max-width:620px;margin:0 auto;padding:32px 20px;">
-          <div style="background:#ffffff;border-radius:24px;padding:32px;">
+          <div style="background:#ffffff;border:1px solid #f8d6e2;border-radius:24px;padding:32px;">
             ${
               logoUrl
                 ? `<div style="margin:0 0 24px;text-align:center;">
@@ -132,7 +132,7 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
                   </div>`
                 : ""
             }
-            <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">
+            <p style="margin:0 0 8px;color:#f36f98;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">
               Order confirmed
             </p>
             <h1 style="margin:0 0 16px;font-size:30px;">
@@ -142,7 +142,7 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
               We received your payment and are preparing your Vye order.
             </p>
             <p style="margin:0 0 20px;color:#5d666d;">
-              Order <strong style="color:#1f2933;">${escapeHtml(order.orderId)}</strong>
+              Order <strong style="color:#f36f98;">${escapeHtml(order.orderId)}</strong>
             </p>
             <table style="width:100%;border-collapse:collapse;font-size:15px;">
               ${itemRows}
@@ -151,16 +151,16 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
                 <td style="padding:12px 0 4px;text-align:right;">${formatMoney(order.amountShipping, order.currency)}</td>
               </tr>
               <tr>
-                <td style="padding:12px 0 0;font-size:18px;font-weight:700;">Total</td>
-                <td style="padding:12px 0 0;text-align:right;font-size:18px;font-weight:700;">
+                <td style="padding:12px 0 0;font-size:18px;font-weight:700;color:#f36f98;">Total</td>
+                <td style="padding:12px 0 0;text-align:right;font-size:18px;font-weight:700;color:#f36f98;">
                   ${formatMoney(order.amountTotal, order.currency)}
                 </td>
               </tr>
             </table>
             ${
               shippingAddress
-                ? `<div style="margin-top:28px;padding:18px;background:#f8f5ed;border-radius:16px;">
-                    <strong>Shipping to</strong>
+                ? `<div style="margin-top:28px;padding:18px;background:#fff8ed;border:1px solid #f8d6e2;border-radius:16px;">
+                    <strong style="color:#f36f98;">Shipping to</strong>
                     <p style="margin:8px 0 0;white-space:pre-line;line-height:1.5;">${escapeHtml(shippingAddress)}</p>
                   </div>`
                 : ""
@@ -172,7 +172,7 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
               businessEmail
                 ? `<p style="margin:14px 0 0;color:#5d666d;line-height:1.6;">
                     For any additional questions, please contact
-                    <a href="mailto:${escapeHtml(businessEmail)}" style="color:#245a35;font-weight:700;text-decoration:none;">${escapeHtml(businessEmail)}</a>.
+                    <a href="mailto:${escapeHtml(businessEmail)}" style="color:#f36f98;font-weight:700;text-decoration:none;">${escapeHtml(businessEmail)}</a>.
                   </p>`
                 : ""
             }

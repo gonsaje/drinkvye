@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/Button";
-import { MobileHeroScrollCue } from "@/components/MobileHeroScrollCue";
+import { HomeHeroCarousel } from "@/components/HomeHeroCarousel";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 
 const benefits = [
@@ -23,33 +23,6 @@ const benefits = [
     title: "Ethically sourced",
     copy: "Sourced with care from growers who help bring Vye's coconut water from grove to bottle.",
     icon: "/ethical.png",
-  },
-];
-
-const certifications = [
-  {
-    name: "USDA Organic",
-    image: "/usdaorganic.png",
-    width: 840,
-    height: 488,
-  },
-  {
-    name: "Kosher",
-    image: "/star-kosher.png",
-    width: 320,
-    height: 320,
-  },
-  {
-    name: "Halal certified",
-    image: "/halal-ribbon.png",
-    width: 800,
-    height: 800,
-  },
-  {
-    name: "Non-GMO Project Verified",
-    image: "/non-gmo-logo.jpg",
-    width: 400,
-    height: 293,
   },
 ];
 
@@ -93,93 +66,12 @@ const retailLogos = [
 export default function Home() {
   return (
     <div className="bg-[linear-gradient(180deg,#f9c8d8_0%,#f9c8d8_28%,#fff7fa_42%,#ffffff_58%,#ffffff_70%,#fff4f8_84%,#fde8ef_100%)]">
-      <section className="relative min-h-[760px] overflow-hidden bg-[#f9c8d8] min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)]">
-        <Image
-          src="/vye_main_mobile.png"
-          alt="Vye coconut water with coconut and glass on a pink tropical background"
-          fill
-          priority
-          className="object-cover object-center sm:hidden"
-          sizes="100vw"
-        />
-        <Image
-          src="/vye_main.png"
-          alt="Vye coconut water with coconut and glass on a pink tropical background"
-          fill
-          priority
-          className="hidden object-cover object-[62%_center] sm:block"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,246,249,0.92)_0%,rgba(255,246,249,0.64)_25%,rgba(255,246,249,0.18)_44%,rgba(255,246,249,0)_64%)] sm:bg-[linear-gradient(90deg,rgba(255,248,237,0.9)_0%,rgba(255,241,246,0.78)_34%,rgba(255,241,246,0.32)_56%,rgba(255,241,246,0.02)_100%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#f9c8d8]/18 to-[#f9c8d8] sm:h-32 sm:via-[#f9c8d8]/38" />
-        <div className="relative mx-auto flex min-h-[760px] w-full max-w-7xl flex-col justify-between px-5 pb-6 pt-20 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:justify-center sm:px-8 sm:pb-28 sm:pt-24 md:pb-32 md:pt-28">
-          <div className="relative z-10 mx-auto min-w-0 max-w-[22rem] text-center sm:mx-0 sm:max-w-2xl sm:text-left">
-            <h1 className="font-vye-display max-w-full text-[3.2rem] leading-[0.98] tracking-normal text-palm-green max-[390px]:text-[3rem] sm:text-7xl sm:leading-[0.95] lg:text-8xl">
-              Nature&apos;s Hydration Perfected
-            </h1>
-            <p className="mx-auto mt-5 max-w-[17rem] text-[1.35rem] font-medium leading-[1.28] text-near-black max-[390px]:text-[1.32rem] sm:mx-0 sm:mt-4 sm:max-w-xl sm:text-xl sm:font-semibold sm:leading-8">
-              Hydrate Better, Live Better
-            </p>
-            <div className="mt-10 hidden max-w-full gap-3 sm:flex sm:flex-row">
-              <Button
-                href="/shop"
-                className="w-full max-w-full rounded-full border-2 border-vye-pink bg-vye-pink px-4 text-white shadow-[0_16px_32px_rgba(243,111,152,0.22)] hover:bg-transparent hover:text-vye-pink hover:shadow-none sm:w-auto sm:px-8"
-              >
-                Discover Vye
-              </Button>
-            </div>
-            <div className="mt-10 hidden max-w-full flex-wrap items-center justify-center gap-5 opacity-80 max-[390px]:gap-3 sm:flex sm:justify-start">
-              {certifications.map((certification) => (
-                <div
-                  key={certification.name}
-                  className="flex h-10 w-14 items-center justify-center max-[390px]:h-9 max-[390px]:w-12 sm:h-12 sm:w-16"
-                  title={certification.name}
-                >
-                  <Image
-                    src={certification.image}
-                    alt={certification.name}
-                    width={certification.width}
-                    height={certification.height}
-                    className="max-h-full max-w-full object-contain drop-shadow-[0_6px_12px_rgba(31,41,51,0.1)]"
-                    sizes="64px"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative z-10 sm:hidden">
-            <div className="grid max-w-full grid-cols-1 gap-4">
-              <Button
-                href="/shop"
-                className="min-h-[52px] w-full max-w-full rounded-full border border-white/70 bg-vye-pink px-3 text-base text-white shadow-[0_12px_24px_rgba(243,111,152,0.18)] hover:border-vye-pink hover:bg-transparent hover:text-vye-pink hover:shadow-none"
-              >
-                Discover Vye
-              </Button>
-            </div>
-            <div className="mt-3 flex max-w-full items-center justify-center gap-6 opacity-90 max-[390px]:gap-5">
-              {certifications.map((certification) => (
-                <div
-                  key={certification.name}
-                  className="flex h-12 w-12 items-center justify-center max-[390px]:h-10 max-[390px]:w-10"
-                  title={certification.name}
-                >
-                  <Image
-                    src={certification.image}
-                    alt={certification.name}
-                    width={certification.width}
-                    height={certification.height}
-                    className="max-h-full max-w-full object-contain drop-shadow-[0_6px_12px_rgba(31,41,51,0.1)]"
-                    sizes="48px"
-                  />
-                </div>
-              ))}
-            </div>
-            <MobileHeroScrollCue targetId="mekong-section" />
-          </div>
-        </div>
-      </section>
+      <HomeHeroCarousel />
 
-      <section className="relative overflow-hidden bg-[#f9c8d8] py-12 lg:px-8 lg:py-16">
+      <section
+        id="mekong-section"
+        className="relative overflow-hidden bg-[#f9c8d8] py-12 lg:px-8 lg:py-16"
+      >
         <div className="retail-logo-marquee lg:hidden">
           <div className="retail-logo-track">
             {[...retailLogos, ...retailLogos].map((logo, index) => (

@@ -65,6 +65,12 @@ body {
   font-family: "neue-haas-grotesk-display", Arial, Helvetica, sans-serif;
 }
 
+.font-duper {
+  font-family: "duper", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
 h1,
 h2,
 h3,

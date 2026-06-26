@@ -6,17 +6,17 @@ const testimonials = [
   {
     quote:
       "Finally found a drink that’s healthy and delicious. Great after workouts or hot summer days.",
-    name: "James Walker",
+    name: "James W.",
   },
   {
     quote:
       "Absolutely love the taste! Feels super fresh and keeps me hydrated throughout my busy day.",
-    name: "Emily Johnson",
+    name: "Emily J.",
   },
   {
     quote:
       "I drink this daily. Pure, natural, and no sugar—just what I needed for clean hydration.",
-    name: "Michael Carter",
+    name: "Michael C.",
   },
 ];
 
@@ -133,7 +133,7 @@ export function TestimonialCarousel() {
   return (
     <section
       aria-labelledby="testimonial-heading"
-      className="relative overflow-hidden px-5 py-18 sm:px-8 sm:py-24"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#fff7fa_48%,#fde8ef_100%)] px-5 py-18 sm:px-8 sm:py-24"
     >
       <video
         aria-hidden="true"
@@ -150,24 +150,13 @@ export function TestimonialCarousel() {
       >
         <source src="/334302.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.48)_0%,rgba(251,215,227,0.38)_50%,rgba(255,255,255,0.52)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.6)_0%,rgba(255,247,250,0.44)_48%,rgba(253,232,239,0.68)_100%)]" />
       <div className="absolute inset-0 bg-palm-green/8" />
       <div className="pointer-events-none absolute -left-20 top-12 size-56 rounded-full bg-coconut-green/24 blur-2xl" />
       <div className="pointer-events-none absolute -right-20 bottom-8 size-64 rounded-full bg-vye-pink/14 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-vye-pink">
-              reviews
-            </p>
-            <h2
-              id="testimonial-heading"
-              className="mt-4 text-3xl font-black tracking-normal text-near-black sm:text-5xl"
-            >
-              Refreshment worth sharing.
-            </h2>
-          </div>
 
           <div className="flex gap-3">
             <button
@@ -190,7 +179,7 @@ export function TestimonialCarousel() {
         </div>
 
         <div
-          className="mt-10 touch-pan-y overflow-hidden rounded-[2rem] border border-palm-green/10 bg-white shadow-[0_22px_65px_rgba(31,41,51,0.09)]"
+          className="mt-10 touch-pan-y overflow-hidden"
           aria-live={isPlaying ? "off" : "polite"}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -198,9 +187,8 @@ export function TestimonialCarousel() {
           onPointerCancel={finishSwipe}
         >
           <div
-            className={`flex ${
-              isDragging ? "" : "transition-transform duration-500 ease-in-out"
-            }`}
+            className={`flex ${isDragging ? "" : "transition-transform duration-500 ease-in-out"
+              }`}
             style={{
               transform: `translateX(calc(-${activeIndex * 100}% + ${dragOffset}px))`,
             }}
@@ -209,20 +197,23 @@ export function TestimonialCarousel() {
               <article
                 key={`${testimonial.name}-${index}`}
                 aria-hidden={activeIndex !== index}
-                className="w-full shrink-0 px-6 py-10 sm:px-12 sm:py-14 lg:px-16 lg:py-16"
+                className="flex w-full shrink-0 flex-col items-center px-6 py-10 text-center sm:px-12 sm:py-14 lg:px-16 lg:py-16"
               >
-                <div className="flex gap-1 text-xl text-vye-pink" aria-label="5 out of 5 stars">
+                <div
+                  className="flex justify-center gap-2 rounded-full bg-white/72 px-5 py-2 text-3xl text-vye-pink shadow-[0_10px_26px_rgba(243,111,152,0.18)] backdrop-blur-sm drop-shadow-[0_2px_0_rgba(255,255,255,0.85)] sm:text-4xl"
+                  aria-label="5 out of 5 stars"
+                >
                   {Array.from({ length: 5 }, (_, starIndex) => (
                     <span key={starIndex} aria-hidden="true">
                       ★
                     </span>
                   ))}
                 </div>
-                <blockquote className="mt-7 max-w-5xl text-2xl font-black leading-[1.35] tracking-normal text-near-black sm:text-3xl lg:text-4xl">
+                <blockquote className="mx-auto mt-7 max-w-5xl text-2xl font-black leading-[1.35] tracking-normal text-white sm:text-3xl lg:text-4xl">
                   “{testimonial.quote}”
                 </blockquote>
                 <div className="mt-8">
-                  <cite className="not-italic text-base font-black text-palm-green">
+                  <cite className="not-italic text-base font-black text-white">
                     {testimonial.name}
                   </cite>
                 </div>
@@ -243,11 +234,10 @@ export function TestimonialCarousel() {
                 onClick={() => setActiveIndex(index)}
                 aria-label={`Show review ${index + 1}`}
                 aria-current={activeIndex === index ? "true" : undefined}
-                className={`h-2.5 rounded-full transition-[width,background-color] duration-300 ${
-                  activeIndex === index
-                    ? "w-9 bg-vye-pink"
-                    : "w-2.5 bg-palm-green/22 hover:bg-palm-green/45"
-                }`}
+                className={`h-2.5 rounded-full transition-[width,background-color] duration-300 ${activeIndex === index
+                  ? "w-9 bg-vye-pink"
+                  : "w-2.5 bg-palm-green/22 hover:bg-palm-green/45"
+                  }`}
               />
             ))}
           </div>

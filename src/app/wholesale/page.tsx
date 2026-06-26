@@ -16,7 +16,7 @@ const wholesaleBenefits = [
 
 export default function WholesalePage() {
   return (
-    <div className="bg-[linear-gradient(180deg,#f9d8e3_0%,var(--color-coconut-cream)_36%,#ffffff_100%)]">
+    <div className="bg-[linear-gradient(180deg,#f9d8e3_0%,var(--color-coconut-cream)_30%,#ffffff_58%,#fff4f8_82%,#fde8ef_100%)]">
       <section className="relative overflow-hidden px-5 py-20 sm:px-8 sm:py-28">
         <div className="pointer-events-none absolute -right-24 top-14 size-80 rounded-full bg-coconut-green/30 blur-2xl" />
         <div className="pointer-events-none absolute -left-24 bottom-24 size-72 rounded-full bg-vye-pink/14 blur-3xl" />

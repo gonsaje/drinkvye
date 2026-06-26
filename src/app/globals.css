@@ -1,3 +1,4 @@
+@import url("https://use.typekit.net/gak3vgv.css");
 @import "tailwindcss";
 @import "leaflet/dist/leaflet.css";
 
@@ -21,23 +22,78 @@
   --color-coconut-cream: var(--coconut-cream);
   --color-soft-water: var(--soft-water);
   --color-near-black: var(--near-black);
-  --font-sans: Arial, Helvetica, sans-serif;
+  --font-sans: "neue-haas-grotesk-text", Arial, Helvetica, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: "neue-haas-grotesk-text", Arial, Helvetica, sans-serif;
 }
 
 html,
 body {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {
   background: rgba(243, 111, 152, 0.24);
+}
+
+.font-vye-display {
+  font-family: "ivypresto-display", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.font-baker-signet {
+  font-family: "baker-signet-web", Georgia, serif;
+  font-weight: 400;
+}
+
+.font-ivy-presto {
+  font-family: "ivypresto-display", Georgia, serif;
+}
+
+.font-neue-haas {
+  font-family: "neue-haas-grotesk-text", Arial, Helvetica, sans-serif;
+}
+
+.font-neue-haas-display {
+  font-family: "neue-haas-grotesk-display", Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "ivypresto-display", Georgia, serif;
+}
+
+.retail-logo-marquee {
+  width: 100%;
+  overflow: hidden;
+}
+
+.retail-logo-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: retail-logo-marquee 24s linear infinite;
+}
+
+@keyframes retail-logo-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (max-width: 767px) {
@@ -110,6 +166,8 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
+  .retail-logo-track,
   .palm-frond {
     animation: none;
 

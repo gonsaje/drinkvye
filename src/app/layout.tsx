@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Drink Vye | Organic Coconut Water",
+  title: "Discover Vye | Organic Coconut Water",
   description:
     "Organic coconut water made to refresh, replenish, and keep things naturally simple.",
   manifest: "/site.webmanifest",
@@ -56,7 +56,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <Header />
         <main className="flex-1">{children}</main>
-        <Footer variant="rounded" />
+        <Footer />
       </body>
     </html>
   );

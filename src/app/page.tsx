@@ -1,9 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/Button";
 import { MobileHeroScrollCue } from "@/components/MobileHeroScrollCue";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
-import { vyeProduct } from "@/lib/products";
 
 const benefits = [
   {
@@ -55,9 +53,46 @@ const certifications = [
   },
 ];
 
+const retailLogos = [
+  {
+    name: "Lincoln Market",
+    image: "/lincoln_market.png",
+    width: 456,
+    height: 456,
+    containerClassName: "h-20 sm:h-24",
+    marqueeContainerClassName: "h-20 px-2",
+    marqueeClassName: "max-w-[7rem]",
+    className: "max-w-[12rem] sm:max-w-[14rem] lg:max-w-[15rem]",
+  },
+  {
+    name: "Foodtown",
+    image: "/foodtown.png",
+    width: 1280,
+    height: 375,
+  },
+  {
+    name: "Key Food",
+    image: "/keyfood.png",
+    width: 1272,
+    height: 513,
+  },
+  {
+    name: "Dumbo Market",
+    image: "/dumbo_market.png",
+    width: 604,
+    height: 280,
+  },
+  {
+    name: "Old Nelson",
+    image: "/oldnelson.png",
+    width: 1200,
+    height: 627,
+  },
+];
+
 export default function Home() {
   return (
-    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,var(--color-coconut-cream)_15%,var(--color-soft-water)_30%,#ffffff_48%,rgba(242,112,153,0.12)_68%,#ffffff_86%)]">
+    <div className="bg-[linear-gradient(180deg,#f9c8d8_0%,#f9c8d8_28%,#fff7fa_42%,#ffffff_58%,#ffffff_70%,#fff4f8_84%,#fde8ef_100%)]">
       <section className="relative min-h-[760px] overflow-hidden bg-[#f9c8d8] min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)]">
         <Image
           src="/vye_main_mobile.png"
@@ -79,18 +114,11 @@ export default function Home() {
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#f9c8d8]/18 to-[#f9c8d8] sm:h-32 sm:via-[#f9c8d8]/38" />
         <div className="relative mx-auto flex min-h-[760px] w-full max-w-7xl flex-col justify-between px-5 pb-6 pt-20 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:justify-center sm:px-8 sm:pb-28 sm:pt-24 md:pb-32 md:pt-28">
           <div className="relative z-10 mx-auto min-w-0 max-w-[22rem] text-center sm:mx-0 sm:max-w-2xl sm:text-left">
-            <h1 className="max-w-full text-[2.7rem] font-black leading-[1.03] tracking-normal text-palm-green max-[390px]:text-[2.5rem] sm:text-6xl sm:leading-[1.02] lg:text-6xl">
-              <span className="block sm:inline">
-                The{" "}
-                <span className="text-vye-pink drop-shadow-[0_0_16px_rgba(243,111,152,0.36)]">
-                  Pink
-                </span>{" "}
-                Of
-              </span>{" "}
-              <span className="block sm:inline">Hydration</span>
+            <h1 className="font-vye-display max-w-full text-[3.2rem] leading-[0.98] tracking-normal text-palm-green max-[390px]:text-[3rem] sm:text-7xl sm:leading-[0.95] lg:text-8xl">
+              Nature&apos;s Hydration Perfected
             </h1>
-            <p className="mx-auto mt-5 max-w-[17rem] text-[1.45rem] font-medium leading-[1.28] text-near-black/72 max-[390px]:text-[1.32rem] sm:mx-0 sm:mt-7 sm:max-w-xl sm:text-xl sm:font-semibold sm:leading-8">
-              Finally, coconut water you&apos;ll actually crave.
+            <p className="mx-auto mt-5 max-w-[17rem] text-[1.35rem] font-medium leading-[1.28] text-near-black max-[390px]:text-[1.32rem] sm:mx-0 sm:mt-4 sm:max-w-xl sm:text-xl sm:font-semibold sm:leading-8">
+              Hydrate Better, Live Better
             </p>
             <div className="mt-10 hidden max-w-full gap-3 sm:flex sm:flex-row">
               <Button
@@ -98,13 +126,6 @@ export default function Home() {
                 className="w-full max-w-full rounded-full border-2 border-vye-pink bg-vye-pink px-4 text-white shadow-[0_16px_32px_rgba(243,111,152,0.22)] hover:bg-transparent hover:text-vye-pink hover:shadow-none sm:w-auto sm:px-8"
               >
                 Discover Vye
-              </Button>
-              <Button
-                href="/find-us"
-                variant="secondary"
-                className="w-full max-w-full rounded-full border-2 border-palm-green bg-palm-green px-4 text-vye-pink shadow-[0_16px_32px_rgba(36,90,53,0.18)] hover:bg-transparent hover:text-palm-green hover:shadow-none sm:w-auto sm:px-8"
-              >
-                Find Us
               </Button>
             </div>
             <div className="mt-10 hidden max-w-full flex-wrap items-center justify-center gap-5 opacity-80 max-[390px]:gap-3 sm:flex sm:justify-start">
@@ -127,19 +148,12 @@ export default function Home() {
             </div>
           </div>
           <div className="relative z-10 sm:hidden">
-            <div className="grid max-w-full grid-cols-2 gap-4">
+            <div className="grid max-w-full grid-cols-1 gap-4">
               <Button
                 href="/shop"
                 className="min-h-[52px] w-full max-w-full rounded-full border border-white/70 bg-vye-pink px-3 text-base text-white shadow-[0_12px_24px_rgba(243,111,152,0.18)] hover:border-vye-pink hover:bg-transparent hover:text-vye-pink hover:shadow-none"
               >
                 Discover Vye
-              </Button>
-              <Button
-                href="/find-us"
-                variant="secondary"
-                className="min-h-[52px] w-full max-w-full rounded-full border border-vye-pink/70 bg-white/94 px-3 text-base text-vye-pink shadow-[0_12px_24px_rgba(243,111,152,0.1)] hover:border-vye-pink hover:bg-transparent hover:text-vye-pink hover:shadow-none"
-              >
-                Find Us
               </Button>
             </div>
             <div className="mt-3 flex max-w-full items-center justify-center gap-6 opacity-90 max-[390px]:gap-5">
@@ -165,51 +179,81 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="mekong-section"
-        className="relative -mt-px scroll-mt-4 bg-[linear-gradient(180deg,#f9c8d8_0%,rgba(249,200,216,0.68)_22%,rgba(251,215,227,0.3)_58%,#ffffff_100%)] px-5 pb-20 pt-24 sm:scroll-mt-0 sm:px-8 sm:py-28"
-      >
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-20">
-          <div className="absolute hidden rounded-full bg-[radial-gradient(circle_at_38%_34%,rgba(168,207,90,0.42),rgba(168,207,90,0.18)_74%)] blur-[1px] sm:-right-14 sm:-top-19 sm:block sm:size-52" />
-          <div className="absolute hidden rounded-full bg-[radial-gradient(circle_at_34%_30%,rgba(255,184,205,0.48)_0%,rgba(243,111,152,0.38)_50%,rgba(233,95,139,0.22)_100%)] shadow-[0_18px_42px_rgba(243,111,152,0.12)] blur-[0.8px] sm:left-[10%] sm:top-0 sm:block sm:size-32" />
-          <div className="absolute hidden rounded-full bg-[radial-gradient(circle_at_36%_32%,rgba(255,255,255,0.62),rgba(255,255,255,0.24)_76%)] blur-[1px] sm:left-[48%] sm:top-24 sm:block sm:size-24" />
+      <section className="relative overflow-hidden bg-[#f9c8d8] py-12 lg:px-8 lg:py-16">
+        <div className="retail-logo-marquee lg:hidden">
+          <div className="retail-logo-track">
+            {[...retailLogos, ...retailLogos].map((logo, index) => (
+              <div
+                key={`${logo.name}-${index}`}
+                className={`flex shrink-0 items-center justify-center ${logo.marqueeContainerClassName ?? `px-6 ${logo.containerClassName ?? "h-14"}`}`}
+                title={logo.name}
+              >
+                <Image
+                  src={logo.image}
+                  alt={logo.name}
+                  width={logo.width}
+                  height={logo.height}
+                  className={`max-h-full object-contain opacity-80 mix-blend-multiply grayscale ${logo.marqueeClassName ?? "max-w-[8.5rem]"}`}
+                  sizes="140px"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="relative z-30 mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="order-2 lg:order-1">
-            <div className="relative min-h-[360px] overflow-hidden rounded-[2.5rem] bg-coconut-cream shadow-[0_24px_70px_rgba(36,90,53,0.12)] sm:min-h-[500px]">
+
+        <div className="mx-auto hidden max-w-7xl grid-cols-5 items-center justify-items-center gap-x-14 lg:grid">
+          {retailLogos.map((logo) => (
+            <div
+              key={logo.name}
+              className={`flex w-full items-center justify-center ${logo.containerClassName ?? "sm:h-16"}`}
+              title={logo.name}
+            >
               <Image
-                src="/mekong_market.jpeg"
-                alt="Floating market in Vietnam's Mekong Delta"
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 50vw, 100vw"
+                src={logo.image}
+                alt={logo.name}
+                width={logo.width}
+                height={logo.height}
+                className={`max-h-full object-contain opacity-80 mix-blend-multiply grayscale ${logo.className ?? "max-w-[11rem]"}`}
+                sizes="(min-width: 640px) 20vw, 45vw"
               />
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative bg-[linear-gradient(180deg,#f9c8d8_0%,#fbd5e3_58%,#fff7fa_100%)] px-5 pb-18 pt-4 sm:px-8 sm:pb-24 sm:pt-2">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-black leading-tight tracking-normal text-palm-green sm:text-5xl">
+              Organic refreshment with real coconut character.
+            </h2>
           </div>
 
-          <div className="order-1 lg:order-2">
-            <h2 className="max-w-3xl text-4xl font-black leading-tight tracking-normal text-near-black sm:text-5xl">
-              From the Mekong Delta to your daily refresh.
-            </h2>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-near-black/68">
-              Our organic coconuts are sourced from Vietnam&apos;s lush Mekong Delta,
-              where tropical waterways, fertile soil, and warm sun help create
-              coconut water that tastes naturally clean, crisp, and refreshing.
-            </p>
-            <Link
-              href="/our-coconuts"
-              className="mt-9 inline-flex items-center gap-3 text-sm font-black uppercase tracking-[0.16em] text-palm-green transition hover:text-vye-pink"
-            >
-              Explore Our Coconuts
-              <span aria-hidden="true" className="text-vye-pink">
-                &rarr;
-              </span>
-            </Link>
+          <div className="mx-auto mt-8 max-w-[34rem] md:hidden">
+            <Image
+              src="/generated/vye-product-feature-infographic-mobile.png"
+              alt="Vye organic coconut water feature infographic"
+              width={1200}
+              height={1700}
+              className="h-auto w-full"
+              sizes="100vw"
+            />
+          </div>
+
+          <div className="mx-auto mt-10 hidden max-w-7xl md:block">
+            <Image
+              src="/generated/vye-product-feature-infographic.png"
+              alt="Vye organic coconut water feature infographic"
+              width={2400}
+              height={1600}
+              className="h-auto w-full"
+              sizes="(min-width: 1280px) 1280px, 100vw"
+            />
           </div>
         </div>
       </section>
 
-      <section className="relative bg-gradient-to-b from-white to-vye-pink/15 px-5 py-18 sm:px-8 sm:py-24">
+      <section className="relative bg-[linear-gradient(180deg,#fff7fa_0%,#ffffff_48%,#ffffff_100%)] px-5 py-18 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-2xl">
             <h2 className="text-3xl font-black tracking-normal text-near-black sm:text-4xl">
@@ -249,51 +293,7 @@ export default function Home() {
 
       <TestimonialCarousel />
 
-      <section className="relative from-white via-vye-pink/45 px-5 py-18 sm:px-8 sm:py-24">
-        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1fr] lg:items-center">
-          <div className="order-2 rounded-[2rem] bg-white p-5 shadow-[0_18px_55px_rgba(31,41,51,0.08)] lg:order-1">
-            <div className="rounded-[1.5rem] border border-palm-green/10 bg-coconut-cream p-8">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-vye-pink">
-                spotlight
-              </p>
-              <h2 className="mt-4 text-3xl font-black tracking-normal text-near-black sm:text-4xl">
-                Organic Coconut Water
-              </h2>
-              <div className="mt-8 grid gap-3 text-sm text-near-black/70">
-                <div className="rounded-2xl bg-white px-5 py-4">
-                  Ingredients: {vyeProduct.ingredients}
-                </div>
-                <div className="rounded-2xl bg-white px-5 py-4">
-                  Nutrition: Naturally occurring electrolytes
-                </div>
-                <div className="rounded-2xl bg-white px-5 py-4">
-                  Pack: {vyeProduct.pack} of {vyeProduct.size}
-                </div>
-                <div className="rounded-2xl bg-white px-5 py-4">
-                  Price: {vyeProduct.priceLabel}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <h2 className="text-4xl font-black leading-tight tracking-normal text-near-black">
-              Organic coconut water that actually tastes refreshing.
-            </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-near-black/66">
-              Vye is made with organic coconut water for a clean, crisp sip that
-              feels light, naturally hydrating, and easy to crave anytime.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href="/shop">Drink Vye</Button>
-              <Button href="/contact" variant="secondary">
-                Get In Touch
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-5 py-18 sm:px-8 sm:py-24">
+      <section className="bg-[linear-gradient(180deg,#fff7fa_0%,#fde8ef_100%)] px-5 py-18 sm:px-8 sm:py-24">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
           <article className="rounded-[2rem] bg-coconut-green text-white p-8 sm:p-10">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-palm-green">
@@ -307,11 +307,11 @@ export default function Home() {
               light taste that feels fresh without leaning sugary.
             </p>
             <Button
-              href="/our-coconuts"
+              href="/our-source"
               variant="secondary"
               className="mt-8 w-full lg:w-auto"
             >
-              Our Coconuts
+              Our Source
             </Button>
           </article>
 

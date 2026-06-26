@@ -6,9 +6,9 @@ const contentSecurityPolicy = [
   `script-src 'self' 'unsafe-inline' https://js.stripe.com${
     isProduction ? "" : " 'unsafe-eval'"
   }`,
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.stripe.com",
-  "font-src 'self' data:",
+  "style-src 'self' 'unsafe-inline' https://use.typekit.net",
+  "img-src 'self' data: blob: https://*.tile.openstreetmap.org https://*.stripe.com https://p.typekit.net",
+  "font-src 'self' data: https://use.typekit.net",
   "connect-src 'self' https://*.stripe.com",
   "frame-src https://js.stripe.com https://checkout.stripe.com https://hooks.stripe.com",
   "frame-ancestors 'self'",

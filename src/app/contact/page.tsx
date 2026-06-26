@@ -1,9 +1,8 @@
-import { Button } from "@/components/Button";
 import { ContactForm } from "@/components/ContactForm";
 
 export default function ContactPage() {
   return (
-    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_46%,rgba(223,245,247,0.38)_100%)]">
+    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_50%,#fff4f8_78%,#fde8ef_100%)]">
       <section className="relative overflow-hidden px-5 py-20 sm:px-8 sm:py-28">
         <div className="pointer-events-none absolute -right-24 top-24 h-80 w-80 rounded-full bg-soft-water/65 blur-3xl" />
         <div className="pointer-events-none absolute -left-24 bottom-10 h-72 w-72 rounded-full bg-vye-pink/10 blur-3xl" />
@@ -19,14 +18,6 @@ export default function ContactPage() {
               For retail, wholesale, press, or launch questions, send a note and
               the Vye team will follow up.
             </p>
-            <div className="mt-9">
-              <Button
-                href="mailto:info@drinkvye.com"
-                className="w-full lg:w-auto"
-              >
-                info@drinkvye.com
-              </Button>
-            </div>
           </div>
 
           <ContactForm />

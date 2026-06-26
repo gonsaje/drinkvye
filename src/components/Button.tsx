@@ -19,6 +19,24 @@ const variants: Record<ButtonVariant, string> = {
     "text-palm-green hover:bg-coconut-cream focus-visible:outline-vye-pink",
 };
 
+function ButtonArrowIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="size-4 shrink-0 transition group-hover:translate-x-0.5"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2.2"
+    >
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  );
+}
+
 export function Button({
   href,
   children,
@@ -26,13 +44,16 @@ export function Button({
   className = "",
   ...props
 }: ButtonProps) {
+  const showArrow = children === "Discover Vye";
+
   return (
     <Link
       href={href}
-      className={`inline-flex min-h-12 items-center justify-center rounded-xl px-6 text-sm font-bold transition focus-visible:outline-2 focus-visible:outline-offset-4 ${variants[variant]} ${className}`}
+      className={`group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-6 text-base font-bold transition focus-visible:outline-2 focus-visible:outline-offset-4 ${variants[variant]} ${className}`}
       {...props}
     >
       {children}
+      {showArrow ? <ButtonArrowIcon /> : null}
     </Link>
   );
 }

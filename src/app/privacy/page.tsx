@@ -66,7 +66,7 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_55%,rgba(251,215,227,0.45)_100%)] px-5 py-20 sm:px-8 sm:py-28">
+    <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_55%,#fff4f8_78%,#fde8ef_100%)] px-5 py-20 sm:px-8 sm:py-28">
       <article className="mx-auto max-w-4xl">
         <p className="text-sm font-black uppercase tracking-[0.2em] text-vye-pink">
           legal

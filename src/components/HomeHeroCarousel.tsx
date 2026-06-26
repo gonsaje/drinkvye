@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { PointerEvent } from "react";
 import { Button } from "@/components/Button";
-import { MobileHeroScrollCue } from "@/components/MobileHeroScrollCue";
 
 const certifications = [
   {
@@ -94,7 +93,7 @@ function ProductHeroSlide() {
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,246,249,0.92)_0%,rgba(255,246,249,0.64)_25%,rgba(255,246,249,0.18)_44%,rgba(255,246,249,0)_64%)] sm:bg-[linear-gradient(90deg,rgba(255,248,237,0.9)_0%,rgba(255,241,246,0.78)_34%,rgba(255,241,246,0.32)_56%,rgba(255,241,246,0.02)_100%)]" />
       <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-[#f9c8d8]/18 to-[#f9c8d8] sm:h-32 sm:via-[#f9c8d8]/38" />
 
-      <div className="relative mx-auto flex min-h-[760px] w-full max-w-7xl flex-col justify-between px-5 pb-6 pt-20 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:justify-center sm:px-8 sm:pb-28 sm:pt-24 md:pb-32 md:pt-28">
+      <div className="relative mx-auto flex min-h-[760px] w-full max-w-7xl flex-col justify-between px-5 pb-16 pt-20 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:justify-center sm:px-8 sm:pb-28 sm:pt-24 md:pb-32 md:pt-28">
         <div className="relative z-10 mx-auto min-w-0 max-w-[22rem] text-center sm:mx-0 sm:max-w-2xl sm:text-left">
           <h1 className="font-vye-display max-w-full text-[3.2rem] leading-[0.98] tracking-normal text-palm-green max-[390px]:text-[3rem] sm:text-7xl sm:leading-[0.95] lg:text-8xl">
             Nature&apos;s Hydration Perfected
@@ -113,7 +112,7 @@ function ProductHeroSlide() {
           <CertificationStrip desktop />
         </div>
 
-        <div className="relative z-10 sm:hidden">
+        <div className="relative z-10 -translate-y-4 sm:hidden">
           <div className="grid max-w-full grid-cols-1 gap-4">
             <Button
               href="/shop"
@@ -123,7 +122,6 @@ function ProductHeroSlide() {
             </Button>
           </div>
           <CertificationStrip />
-          <MobileHeroScrollCue targetId="mekong-section" />
         </div>
       </div>
     </div>
@@ -132,8 +130,8 @@ function ProductHeroSlide() {
 
 function RetailCollage() {
   return (
-    <div className="relative mx-auto min-h-[390px] w-full max-w-[36rem] sm:min-h-[430px] md:min-h-[460px] lg:max-w-none lg:min-h-[520px] xl:min-h-[560px]">
-      <div className="absolute left-0 top-18 z-10 h-[67%] w-[69%] overflow-hidden rounded-[2rem] bg-white shadow-[0_28px_70px_rgba(31,41,51,0.22)] ring-1 ring-white/80 sm:top-16 sm:h-[70%] sm:rounded-[2.25rem] md:left-4 md:w-[66%] lg:left-0 lg:top-16 lg:h-[72%] lg:w-[68%] xl:left-4">
+    <div className="relative mx-auto min-h-[285px] w-full max-w-[28rem] min-[430px]:min-h-[315px] sm:min-h-[330px] md:min-h-[380px] lg:max-w-none lg:min-h-[470px] xl:min-h-[500px]">
+      <div className="absolute left-0 top-12 z-10 h-[68%] w-[66%] overflow-hidden rounded-[1.65rem] bg-white shadow-[0_22px_52px_rgba(31,41,51,0.18)] ring-1 ring-white/80 sm:top-12 sm:h-[70%] sm:rounded-[2rem] md:left-3 md:w-[65%] lg:left-0 lg:top-14 lg:h-[72%] lg:w-[68%] xl:left-4">
         <Image
           src="/vye-display-1.png"
           alt="Vye coconut water retail shelf display"
@@ -143,7 +141,7 @@ function RetailCollage() {
         />
       </div>
 
-      <div className="absolute bottom-4 right-0 z-20 h-[42%] w-[48%] overflow-hidden rounded-[1.75rem] bg-white shadow-[0_22px_52px_rgba(36,90,53,0.2)] ring-[6px] ring-[#fff7fa]/85 sm:bottom-8 sm:right-5 sm:h-[43%] sm:w-[44%] sm:rounded-[2rem] md:right-8 lg:right-0 lg:w-[45%] xl:right-3">
+      <div className="absolute bottom-3 right-0 z-20 h-[40%] w-[44%] overflow-hidden rounded-[1.35rem] bg-white shadow-[0_18px_40px_rgba(36,90,53,0.18)] ring-[5px] ring-[#fff7fa]/85 sm:bottom-5 sm:right-4 sm:h-[42%] sm:w-[42%] sm:rounded-[1.7rem] md:right-7 lg:right-0 lg:w-[43%] xl:right-3">
         <Image
           src="/vye-store-display-2.png"
           alt="Coconut water retail endcap with Vye products"
@@ -153,7 +151,7 @@ function RetailCollage() {
         />
       </div>
 
-      <div className="absolute right-3 top-8 z-30 aspect-square w-[38%] overflow-hidden rounded-[1.45rem] bg-white shadow-[0_18px_42px_rgba(31,41,51,0.16)] ring-[5px] ring-white/85 sm:right-7 sm:top-7 sm:w-[32%] sm:rounded-[1.75rem] md:right-10 lg:right-4 lg:top-8 lg:w-[30%] xl:right-8">
+      <div className="absolute right-3 top-4 z-[15] aspect-square w-[33%] overflow-hidden rounded-[1.2rem] bg-white shadow-[0_16px_34px_rgba(31,41,51,0.14)] ring-[4px] ring-white/85 sm:right-5 sm:top-5 sm:z-30 sm:w-[29%] sm:rounded-[1.45rem] md:right-8 lg:right-4 lg:top-6 lg:w-[28%] xl:right-8">
         <Image
           src="/vye-display-4.png"
           alt="Vye coconut water shelf placement"
@@ -184,18 +182,18 @@ function RetailHeroSlide() {
       <div className="absolute -left-28 top-20 h-72 w-72 rounded-full bg-white/32 blur-3xl" />
       <div className="absolute -right-24 bottom-16 h-80 w-80 rounded-full bg-coconut-green/16 blur-3xl" />
 
-      <div className="relative mx-auto grid min-h-[930px] w-full max-w-7xl items-center gap-6 px-5 pb-20 pt-24 min-[430px]:min-h-[950px] sm:min-h-[980px] sm:px-8 sm:pb-24 sm:pt-28 md:min-h-[990px] md:gap-8 lg:min-h-[740px] lg:grid-cols-[0.88fr_1.12fr] lg:gap-12 xl:min-h-[760px]">
-        <div className="relative z-30 mx-auto max-w-xl rounded-[2rem] bg-white/88 p-6 text-center shadow-[0_24px_70px_rgba(31,41,51,0.1)] ring-1 ring-white/80 backdrop-blur-sm sm:p-8 lg:mx-0 lg:text-left">
-          <h2 className=" text-[2.35rem] font-black leading-[1] tracking-normal text-palm-green max-[390px]:text-[2.12rem] sm:text-5xl lg:text-[3.55rem] xl:text-6xl">
+      <div className="relative mx-auto grid min-h-[760px] w-full max-w-7xl items-center gap-4 px-5 pb-14 pt-18 min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)] sm:grid-cols-[0.9fr_1.1fr] sm:gap-6 sm:px-8 sm:pb-16 sm:pt-20 md:gap-8 lg:grid-cols-[0.88fr_1.12fr] lg:gap-12 lg:pb-18 lg:pt-22">
+        <div className="relative z-30 mx-auto max-w-xl rounded-[1.65rem] bg-white/88 p-5 text-center shadow-[0_20px_54px_rgba(31,41,51,0.1)] ring-1 ring-white/80 backdrop-blur-sm sm:p-6 lg:mx-0 lg:rounded-[2rem] lg:p-8 lg:text-left">
+          <h2 className="text-[2rem] font-black leading-[1] tracking-normal text-palm-green max-[390px]:text-[1.82rem] sm:text-[2.3rem] md:text-[2.65rem] lg:text-[3.35rem] xl:text-[3.75rem]">
             Now available in 300+ retail locations across New York.
           </h2>
-          <p className="mt-5 text-base font-medium leading-7 text-near-black/72 sm:text-lg">
+          <p className="mt-4 text-sm font-medium leading-6 text-near-black/72 sm:text-base md:text-lg">
             Growing every month through leading independent markets and grocery
             stores.
           </p>
           <Button
             href="/wholesale"
-            className="mt-7 w-full rounded-full border-2 border-vye-pink bg-vye-pink px-6 text-white shadow-[0_16px_32px_rgba(243,111,152,0.22)] hover:bg-transparent hover:text-vye-pink hover:shadow-none sm:w-auto"
+            className="mt-5 w-full rounded-full border-2 border-vye-pink bg-vye-pink px-6 text-white shadow-[0_16px_32px_rgba(243,111,152,0.22)] hover:bg-transparent hover:text-vye-pink hover:shadow-none sm:w-auto lg:mt-7"
           >
             Get in Touch
           </Button>
@@ -203,7 +201,7 @@ function RetailHeroSlide() {
 
         <RetailCollage />
       </div>
-      <div className="absolute right-6 top-24 z-30 rounded-full border border-vye-pink/18 bg-white/92 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-palm-green shadow-[0_14px_32px_rgba(36,90,53,0.12)] sm:right-10 sm:top-28 sm:px-5 sm:py-2.5 lg:right-[max(2.5rem,calc((100vw-80rem)/2))]">
+      <div className="absolute right-6 top-24 z-30 hidden rounded-full border border-vye-pink/18 bg-white/92 px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-palm-green shadow-[0_14px_32px_rgba(36,90,53,0.12)] sm:block sm:right-10 sm:top-28 sm:px-5 sm:py-2.5 lg:right-[max(2.5rem,calc((100vw-80rem)/2))]">
         300+ Locations
       </div>
     </div>
@@ -287,10 +285,7 @@ export function HomeHeroCarousel() {
 
   return (
     <section
-      className={`relative overflow-hidden bg-[#f9c8d8] transition-[min-height] duration-500 ${activeSlide === "retail"
-        ? "min-h-[930px] min-[430px]:min-h-[950px] sm:min-h-[980px] md:min-h-[990px] lg:min-h-[740px] xl:min-h-[760px]"
-        : "min-h-[760px] min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)]"
-        }`}
+      className="relative min-h-[760px] overflow-hidden bg-[#f9c8d8] min-[430px]:min-h-[800px] sm:min-h-[max(430px,41.92vw)]"
       ref={viewportRef}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}

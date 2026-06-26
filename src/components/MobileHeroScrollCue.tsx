@@ -29,11 +29,10 @@ export function MobileHeroScrollCue({ targetId }: MobileHeroScrollCueProps) {
 
   return (
     <div
-      className={`mt-3 flex h-9 justify-center transition duration-300 sm:hidden ${
-        isVisible
+      className={`mt-3 flex h-9 justify-center transition duration-300 sm:hidden ${isVisible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-1 opacity-0"
-      }`}
+        }`}
     >
       <button
         type="button"

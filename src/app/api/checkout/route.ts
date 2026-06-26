@@ -1,4 +1,8 @@
 import { products } from "@/lib/products";
+import {
+  getEffectiveShippingCents,
+  qualifiesForFreeShipping,
+} from "@/lib/shipping";
 
 type CheckoutItemInput = {
   productId: string;
@@ -104,20 +108,50 @@ function createOrderReference() {
   return `VYE-${timestamp}-${randomSegment}`;
 }
 
-function appendShippingOption(formData: URLSearchParams) {
+function getCartSubtotalCents(items: CheckoutItemInput[]) {
+  return items.reduce((subtotal, item) => {
+    const product = products.find(
+      (productItem) => productItem.id === item.productId,
+    );
+
+    if (!product) return subtotal;
+
+    return subtotal + product.priceCents * item.quantity;
+  }, 0);
+}
+
+function appendShippingOption(formData: URLSearchParams, subtotalCents: number) {
+  const isFreeShipping = qualifiesForFreeShipping(subtotalCents);
+  const freeShippingRateId = compactValue(
+    process.env.STRIPE_FREE_SHIPPING_RATE_ID,
+  );
+
+  if (isFreeShipping && freeShippingRateId) {
+    formData.append("shipping_options[0][shipping_rate]", freeShippingRateId);
+    return;
+  }
+
   const shippingRateId = compactValue(
     process.env.STRIPE_STANDARD_SHIPPING_RATE_ID,
   );
 
-  if (shippingRateId) {
+  if (!isFreeShipping && shippingRateId) {
     formData.append("shipping_options[0][shipping_rate]", shippingRateId);
     return;
   }
 
-  formData.append("shipping_options[0][shipping_rate_data][type]", "fixed_amount");
+  const shippingCents = getEffectiveShippingCents(
+    subtotalCents,
+    getShippingCents(),
+  );
+
+  formData.append(
+    "shipping_options[0][shipping_rate_data][type]",
+    "fixed_amount",
+  );
   formData.append(
     "shipping_options[0][shipping_rate_data][fixed_amount][amount]",
-    `${getShippingCents()}`,
+    `${shippingCents}`,
   );
   formData.append(
     "shipping_options[0][shipping_rate_data][fixed_amount][currency]",
@@ -125,7 +159,7 @@ function appendShippingOption(formData: URLSearchParams) {
   );
   formData.append(
     "shipping_options[0][shipping_rate_data][display_name]",
-    "Standard shipping",
+    isFreeShipping ? "Free shipping" : "Standard shipping",
   );
   formData.append(
     "shipping_options[0][shipping_rate_data][delivery_estimate][minimum][unit]",
@@ -298,6 +332,8 @@ export async function POST(request: Request) {
     return Response.json({ error: "Cart is empty." }, { status: 400 });
   }
 
+  const subtotalCents = getCartSubtotalCents(items);
+
   const missingPriceProduct = items
     .map((item) => products.find((product) => product.id === item.productId))
     .find(
@@ -385,7 +421,7 @@ export async function POST(request: Request) {
     );
   }
 
-  appendShippingOption(formData);
+  appendShippingOption(formData, subtotalCents);
 
   const stripeResponse = await fetch(stripeCheckoutUrl, {
     method: "POST",

@@ -8,6 +8,11 @@ import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { formatPrice } from "@/lib/formatPrice";
+import {
+  FREE_SHIPPING_THRESHOLD_CENTS,
+  getEffectiveShippingCents,
+  qualifiesForFreeShipping,
+} from "@/lib/shipping";
 import { useCart } from "@/lib/useCart";
 
 const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
@@ -53,7 +58,16 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
     (total, item) => total + item.product.priceCents * item.quantity,
     0,
   );
-  const totalCents = subtotalCents + shippingCents;
+  const effectiveShippingCents = getEffectiveShippingCents(
+    subtotalCents,
+    shippingCents,
+  );
+  const hasFreeShipping = qualifiesForFreeShipping(subtotalCents);
+  const amountUntilFreeShipping = Math.max(
+    0,
+    FREE_SHIPPING_THRESHOLD_CENTS - subtotalCents,
+  );
+  const totalCents = subtotalCents + effectiveShippingCents;
   const embeddedCheckoutOptions = useMemo(
     () => ({
       clientSecret,
@@ -387,9 +401,18 @@ export function CheckoutForm({ shippingCents = 0 }: CheckoutFormProps) {
           <div className="flex items-center justify-between gap-4">
             <span>Shipping</span>
             <span className="font-black text-near-black">
-              {formatPrice(shippingCents)}
+              {hasFreeShipping ? "Free" : formatPrice(effectiveShippingCents)}
             </span>
           </div>
+          {!hasFreeShipping && amountUntilFreeShipping > 0 ? (
+            <p className="rounded-xl bg-vye-pink/8 px-3 py-2 text-xs font-bold leading-5 text-vye-pink">
+              Add {formatPrice(amountUntilFreeShipping)} more for free shipping.
+            </p>
+          ) : (
+            <p className="rounded-xl bg-palm-green/8 px-3 py-2 text-xs font-bold leading-5 text-palm-green">
+              Free shipping unlocked.
+            </p>
+          )}
           <div className="flex items-center justify-between gap-4 border-t border-palm-green/10 pt-4 text-base text-near-black">
             <span className="font-black">Total</span>
             <span className="font-black">{formatPrice(totalCents)}</span>

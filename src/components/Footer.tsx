@@ -120,11 +120,11 @@ export function Footer({
     >
       <div className="relative px-6 py-16 sm:px-10 sm:py-20 lg:px-16">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_2.35fr] lg:items-start lg:gap-16">
-          <div>
+          <div className="w-[185px] sm:w-[240px]">
             <Link
               href="/"
               aria-label="Vye home"
-              className="inline-flex transition hover:-translate-y-1"
+              className="mx-auto inline-flex transition hover:-translate-y-1"
             >
               <span
                 aria-hidden="true"
@@ -142,22 +142,22 @@ export function Footer({
               />
             </Link>
 
-            <p className="mt-7 text-base font-black uppercase tracking-[0.18em] sm:text-lg">
+            <p className="mt-1 whitespace-nowrap text-center text-xs font-black uppercase tracking-[0.18em] sm:text-sm sm:tracking-[0.2em]">
               Organic Coconut Water
             </p>
           </div>
 
           <div className="grid gap-10 sm:grid-cols-3 lg:max-w-3xl lg:gap-8">
             <div>
-              <h3 className="text-base font-black uppercase tracking-[0.2em]">
+              <h3 className="text-xl font-black uppercase tracking-[0.18em] sm:text-2xl">
                 Explore
               </h3>
-              <nav className="mt-9 flex flex-col items-start gap-6">
+              <nav className="mt-7 flex flex-col items-start gap-5">
                 {exploreLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-lg font-bold uppercase tracking-[0.16em] transition hover:text-palm-green"
+                    className="text-sm font-bold uppercase tracking-[0.14em] transition hover:text-palm-green sm:text-base"
                   >
                     {link.label}
                   </Link>
@@ -166,22 +166,22 @@ export function Footer({
             </div>
 
             <div>
-              <h3 className="text-base font-black uppercase tracking-[0.2em]">
+              <h3 className="text-xl font-black uppercase tracking-[0.18em] sm:text-2xl">
                 Support
               </h3>
-              <nav className="mt-9 flex flex-col items-start gap-6">
+              <nav className="mt-7 flex flex-col items-start gap-5">
                 {supportLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="text-lg font-bold uppercase tracking-[0.16em] transition hover:text-palm-green"
+                    className="text-sm font-bold uppercase tracking-[0.14em] transition hover:text-palm-green sm:text-base"
                   >
                     {link.label}
                   </Link>
                 ))}
                 <Link
                   href="/refund-policy"
-                  className="text-lg font-bold uppercase tracking-[0.16em] transition hover:text-palm-green"
+                  className="text-sm font-bold uppercase tracking-[0.14em] transition hover:text-palm-green sm:text-base"
                 >
                   Refund Policy
                 </Link>
@@ -189,10 +189,10 @@ export function Footer({
             </div>
 
             <div>
-              <h3 className="text-base font-black uppercase tracking-[0.2em]">
+              <h3 className="text-xl font-black uppercase tracking-[0.18em] sm:text-2xl">
                 Follow Us
               </h3>
-              <nav className="mt-9 flex flex-wrap items-center gap-4">
+              <nav className="mt-7 flex flex-wrap items-center gap-4">
                 {socialLinks.map((link) => (
                   <a
                     key={link.label}
@@ -212,7 +212,7 @@ export function Footer({
         </div>
 
         <div className="mt-20 grid gap-10 lg:grid-cols-[1fr_1.2fr_1fr] lg:items-end">
-          <div className="text-center text-sm font-bold leading-7 sm:text-base lg:text-left">
+          <div className="text-center text-xs font-bold leading-6 sm:text-sm lg:text-left">
             <p className="whitespace-nowrap">
               © {new Date().getFullYear()} Vye Brands Inc. All Rights Reserved.
             </p>
@@ -230,27 +230,27 @@ export function Footer({
           </div>
 
           <div className="text-center">
-            <p className="text-base font-black uppercase tracking-[0.28em] sm:text-xl">
+            <p className="font-vye-display text-3xl leading-none tracking-normal sm:text-4xl">
               Nature&apos;s Hydration Perfected.
             </p>
           </div>
 
-          <nav className="flex flex-col items-center justify-center gap-3 text-sm font-bold uppercase tracking-[0.1em] md:flex-row md:flex-wrap lg:flex-col lg:items-end lg:flex-nowrap xl:flex-row xl:justify-end xl:gap-x-5">
+          <nav className="flex flex-col items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.08em] md:flex-row md:flex-wrap lg:flex-col lg:items-end lg:flex-nowrap xl:flex-row xl:justify-end xl:gap-x-5">
             <Link
               href="/privacy"
-              className="transition hover:text-palm-green"
+              className="whitespace-nowrap transition hover:text-palm-green"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="transition hover:text-palm-green"
+              className="whitespace-nowrap transition hover:text-palm-green"
             >
               Terms & Conditions
             </Link>
             <Link
               href="/refund-policy"
-              className="transition hover:text-palm-green"
+              className="whitespace-nowrap transition hover:text-palm-green"
             >
               Refund Policy
             </Link>

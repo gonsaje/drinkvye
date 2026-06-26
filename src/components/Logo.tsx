@@ -13,7 +13,7 @@ export function Logo() {
         alt="vye"
         width={284}
         height={193}
-        className="block h-14 w-auto brightness-0 invert drop-shadow-[0_8px_18px_rgba(146,45,83,0.18)] transition duration-300 hover:-translate-y-0.5 hover:drop-shadow-[0_10px_22px_rgba(146,45,83,0.22)] sm:h-16 lg:h-20"
+        className="block h-14 w-auto brightness-0 invert drop-shadow-[0_8px_18px_rgba(146,45,83,0.18)] transition duration-300 hover:-translate-y-0.5 hover:drop-shadow-[0_10px_22px_rgba(146,45,83,0.22)] sm:h-16 lg:h-[4.35rem]"
         priority
       />
     </Link>

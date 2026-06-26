@@ -6,10 +6,20 @@ import { Logo } from "./Logo";
 import { useCart } from "@/lib/useCart";
 
 const navItems = [
-  { href: "/our-source", label: "Our Source" },
-  { href: "/find-us", label: "Find Us" },
-  { href: "/contact", label: "Contact" },
-  { href: "/shop", label: "Shop" },
+  { href: "/our-source", label: "OUR SOURCE" },
+  { href: "/shop", label: "SHOP" },
+  { href: "/find-us", label: "FIND US" },
+  { href: "/contact", label: "CONTACT" },
+];
+
+const desktopLeftNavItems = [
+  { href: "/our-source", label: "OUR SOURCE" },
+  { href: "/shop", label: "SHOP" },
+];
+
+const desktopRightNavItems = [
+  { href: "/find-us", label: "FIND US" },
+  { href: "/contact", label: "CONTACT" },
 ];
 
 function CartIcon() {
@@ -137,11 +147,10 @@ export function Header() {
       className="sticky top-0 z-50 border-b border-white/18 bg-[linear-gradient(180deg,rgba(246,83,138,0.98)_0%,rgba(238,73,128,0.94)_100%)] shadow-[0_14px_40px_rgba(146,45,83,0.16)] backdrop-blur-xl"
     >
       <div
-        className={`overflow-hidden bg-white text-center text-xs font-black uppercase tracking-[0.12em] text-vye-pink transition-[max-height,opacity,transform,padding] duration-300 ease-out sm:text-base sm:tracking-[0.16em] ${
-          showAnnouncement
-            ? "max-h-12 px-4 py-2 opacity-100"
-            : "max-h-0 px-4 py-0 opacity-0 -translate-y-1"
-        }`}
+        className={`overflow-hidden bg-white text-center text-xs font-black uppercase tracking-[0.12em] text-vye-pink transition-[max-height,opacity,transform,padding] duration-300 ease-out sm:text-base sm:tracking-[0.16em] ${showAnnouncement
+          ? "max-h-12 px-4 py-2 opacity-100"
+          : "max-h-0 px-4 py-0 opacity-0 -translate-y-1"
+          }`}
       >
         <span className="inline-flex items-center justify-center gap-2 sm:gap-3">
           <PalmIcon />
@@ -152,10 +161,19 @@ export function Header() {
 
       <nav
         aria-label="Primary navigation"
-        className="relative mx-auto flex h-20 max-w-[88rem] items-center justify-between px-5 sm:px-8 lg:h-24 lg:px-10"
+        className="relative mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr]"
       >
-        <div className="hidden items-center lg:flex">
-          <Logo />
+        <div className="hidden items-center justify-start gap-12 text-[20px] font-medium tracking-[0.02em] text-white lg:flex xl:gap-14">
+          {desktopLeftNavItems.map((item) => (
+            <Link
+              key={item.href}
+              className="group relative py-2 transition hover:text-white"
+              href={item.href}
+            >
+              {item.label}
+              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-center scale-x-0 bg-white/75 transition-transform duration-300 group-hover:scale-x-100" />
+            </Link>
+          ))}
         </div>
 
         <button
@@ -173,38 +191,21 @@ export function Header() {
           <Logo />
         </div>
 
-        <div className="hidden items-center gap-6 lg:flex">
-          <div className="flex items-center gap-10 pr-3 text-[20px] font-medium tracking-[0.01em] text-white">
-            <Link
-              className="group relative py-2 transition hover:text-white"
-              href="/our-source"
-            >
-              Our Source
-              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-center scale-x-0 bg-white/75 transition-transform duration-300 group-hover:scale-x-100" />
-            </Link>
-            <Link
-              className="group relative py-2 transition hover:text-white"
-              href="/contact"
-            >
-              Contact
-              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-center scale-x-0 bg-white/75 transition-transform duration-300 group-hover:scale-x-100" />
-            </Link>
-            <Link
-              className="group relative py-2 transition hover:text-white"
-              href="/find-us"
-            >
-              Find Us
-              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-center scale-x-0 bg-white/75 transition-transform duration-300 group-hover:scale-x-100" />
-            </Link>
-            <Link
-              className="group relative py-2 transition hover:text-white"
-              href="/shop"
-            >
-              Shop
-              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-center scale-x-0 bg-white/75 transition-transform duration-300 group-hover:scale-x-100" />
-            </Link>
-          </div>
+        <div className="hidden justify-self-center lg:flex">
+          <Logo />
+        </div>
 
+        <div className="hidden items-center justify-end gap-12 text-[20px] font-medium tracking-[0.02em] text-white lg:flex xl:gap-14">
+          {desktopRightNavItems.map((item) => (
+            <Link
+              key={item.href}
+              className="group relative py-2 transition hover:text-white"
+              href={item.href}
+            >
+              {item.label}
+              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-center scale-x-0 bg-white/75 transition-transform duration-300 group-hover:scale-x-100" />
+            </Link>
+          ))}
           <Link
             href="/cart"
             aria-label={cartLabel}

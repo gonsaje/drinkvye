@@ -336,7 +336,7 @@ export default function OurStoryPage() {
                 {comparisonRows.map((row) => (
                   <div key={row.label} className="relative border-t border-vye-pink/12">
                     <div className="pointer-events-none sticky left-5 z-20 h-0">
-                      <span className="relative top-1 ml-1 inline-flex text-[0.7rem] font-black uppercase tracking-[0.08em] text-near-black/70">
+                      <span className="relative top-1 ml-3 inline-flex text-[0.7rem] font-black uppercase tracking-[0.08em] text-near-black/70">
                         {row.label}
                       </span>
                     </div>

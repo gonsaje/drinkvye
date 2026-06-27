@@ -37,8 +37,8 @@ export default function FindUsPage() {
               Reach out for wholesale, sampling, and launch market details.
             </p>
           </div>
-          <Button href="/contact" variant="secondary" className="bg-white text-palm-green hover:bg-coconut-cream">
-            Contact
+          <Button href="/wholesale" variant="secondary" className="bg-white text-palm-green hover:bg-coconut-cream">
+            Wholesale Contact
           </Button>
         </div>
       </section>

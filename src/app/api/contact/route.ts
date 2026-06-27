@@ -64,10 +64,7 @@ async function sendEmail({
 }
 
 export async function POST(request: Request) {
-  const apiKey =
-    process.env.RESEND_CONTACT_API_KEY ??
-    process.env.RESEND_WHOLESALE_API_KEY ??
-    process.env.RESEND_ORDERS_API_KEY;
+  const apiKey = process.env.RESEND_WHOLESALE_API_KEY;
   const from = process.env.VYE_INFO_FROM_EMAIL ?? process.env.VYE_ORDER_FROM_EMAIL;
   const contactEmail = process.env.VYE_CONTACT_EMAIL ?? "info@drinkvye.com";
 

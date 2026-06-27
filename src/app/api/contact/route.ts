@@ -1,3 +1,5 @@
+import { cleanEmailEnv } from "@/lib/emailEnv";
+
 type ContactField = "name" | "email" | "message";
 
 const orderedFields = ["name", "email", "message"] as const satisfies ContactField[];
@@ -65,8 +67,11 @@ async function sendEmail({
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_WHOLESALE_API_KEY;
-  const from = process.env.VYE_INFO_FROM_EMAIL ?? process.env.VYE_ORDER_FROM_EMAIL;
-  const contactEmail = process.env.VYE_CONTACT_EMAIL ?? "info@drinkvye.com";
+  const from = cleanEmailEnv(
+    process.env.VYE_INFO_FROM_EMAIL ?? process.env.VYE_ORDER_FROM_EMAIL,
+  );
+  const contactEmail =
+    cleanEmailEnv(process.env.VYE_CONTACT_EMAIL) ?? "info@drinkvye.com";
 
   if (!apiKey || !from) {
     return Response.json(

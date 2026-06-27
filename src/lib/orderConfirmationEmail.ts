@@ -1,3 +1,5 @@
+import { cleanEmailEnv } from "@/lib/emailEnv";
+
 type OrderLineItem = {
   amountTotal: number;
   description: string;
@@ -310,8 +312,8 @@ function buildTeamHtml(order: OrderConfirmation) {
 
 export async function sendOrderConfirmation(order: OrderConfirmation) {
   const apiKey = process.env.RESEND_ORDERS_API_KEY;
-  const from = process.env.VYE_ORDER_FROM_EMAIL;
-  const businessEmail = process.env.VYE_BUSINESS_EMAIL;
+  const from = cleanEmailEnv(process.env.VYE_ORDER_FROM_EMAIL);
+  const businessEmail = cleanEmailEnv(process.env.VYE_BUSINESS_EMAIL);
 
   if (!apiKey || !from) {
     throw new Error(

@@ -49,6 +49,16 @@ async function sendEmail({
       html,
     }),
   });
+  const responseBody = await response.text();
+
+  if (!response.ok) {
+    console.error("Resend contact email failed", {
+      status: response.status,
+      body: responseBody,
+      from,
+      to,
+    });
+  }
 
   return response.ok;
 }

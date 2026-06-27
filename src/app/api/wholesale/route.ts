@@ -134,6 +134,16 @@ async function sendEmail({
       attachments,
     }),
   });
+  const responseBody = await response.text();
+
+  if (!response.ok) {
+    console.error("Resend wholesale email failed", {
+      status: response.status,
+      body: responseBody,
+      from,
+      to,
+    });
+  }
 
   return response.ok;
 }

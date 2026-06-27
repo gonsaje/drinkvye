@@ -9,6 +9,190 @@ const simpleStandards = [
   "Vegan",
 ];
 
+const comparisonRows = [
+  {
+    label: "Serving Size",
+    vye: "8 fl oz (240 mL)",
+    vitaCoco: "8 fl oz (240 mL)",
+    harmlessHarvest: "8 fl oz (240 mL)",
+    leadingBrands: "8 fl oz (240 mL)",
+  },
+  {
+    label: "Calories",
+    vye: "25",
+    vitaCoco: "45",
+    harmlessHarvest: "60",
+    leadingBrands: "45 - 70",
+  },
+  {
+    label: "Total Sugars",
+    vye: "5g",
+    vitaCoco: "10g",
+    harmlessHarvest: "14g",
+    leadingBrands: "9 - 14g",
+  },
+  {
+    label: "Added Sugars",
+    vye: "0g",
+    vitaCoco: "1g",
+    harmlessHarvest: "0g",
+    leadingBrands: "0 - 2g",
+  },
+  {
+    label: "Potassium",
+    vye: "570 mg",
+    vitaCoco: "~470 mg",
+    harmlessHarvest: "541 mg",
+    leadingBrands: "400 - 550 mg",
+  },
+  {
+    label: "Sodium",
+    vye: "70 mg",
+    vitaCoco: "60 mg",
+    harmlessHarvest: "40 mg",
+    leadingBrands: "60 - 100 mg",
+  },
+  {
+    label: "Organic",
+    vye: "Yes",
+    vitaCoco: "Select SKUs only",
+    harmlessHarvest: "Yes",
+    leadingBrands: "Varies",
+  },
+  {
+    label: "From Concentrate",
+    vye: "No",
+    vitaCoco: "No",
+    harmlessHarvest: "No",
+    leadingBrands: "Varies",
+  },
+];
+
+const comparisonHighlights = [
+  {
+    icon: "sugar",
+    title: "1/2 the sugar",
+    text: "vs leading brands",
+  },
+  {
+    icon: "calorie",
+    title: "Low calorie",
+    text: "only 25 calories per serving",
+  },
+  {
+    icon: "potassium",
+    title: "More potassium",
+    text: "570mg to help replenish naturally",
+  },
+  {
+    icon: "clean",
+    title: "Clean & pure",
+    text: "100% organic, never from concentrate",
+  },
+  {
+    icon: "refreshing",
+    title: "Naturally refreshing",
+    text: "light, crisp, and delicious",
+  },
+] as const;
+
+const comparisonColumns = [
+  {
+    key: "vye",
+    title: "Vye",
+    image: "/vyeBottle.png",
+    imageAlt: "Vye organic coconut water carton",
+    imageClassName: "h-60 w-28 object-cover object-center sm:h-72 sm:w-32",
+    featured: true,
+  },
+  {
+    key: "vitaCoco",
+    title: "Vita Coco",
+    image: "/vc-bottle.png",
+    imageAlt: "Vita Coco original coconut water carton",
+    imageClassName: "h-40 w-28 object-contain sm:h-48 sm:w-32",
+    featured: false,
+  },
+  {
+    key: "harmlessHarvest",
+    title: "Harmless Harvest",
+    image: "/hh-bottle.png",
+    imageAlt: "Harmless Harvest organic coconut water bottle",
+    imageClassName: "h-40 w-24 object-contain sm:h-48 sm:w-28",
+    featured: false,
+  },
+  {
+    key: "leadingBrands",
+    title: "Other Leading Brands",
+    subtitle: "Example Average",
+    image: "",
+    imageAlt: "",
+    imageClassName: "",
+    featured: false,
+  },
+] as const;
+
+function ComparisonHighlightIcon({
+  icon,
+}: {
+  icon: (typeof comparisonHighlights)[number]["icon"];
+}) {
+  const commonProps = {
+    "aria-hidden": true,
+    className: "size-5",
+    fill: "none",
+    stroke: "currentColor",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    strokeWidth: 2.4,
+    viewBox: "0 0 24 24",
+  };
+
+  if (icon === "sugar") {
+    return (
+      <svg {...commonProps}>
+        <path d="M12 4v14" />
+        <path d="m7 13 5 5 5-5" />
+        <path d="M5 5h14" />
+      </svg>
+    );
+  }
+
+  if (icon === "calorie") {
+    return (
+      <svg {...commonProps}>
+        <path d="M5 15a7 7 0 1 1 14 0" />
+        <path d="m12 15 4-5" />
+        <path d="M8 19h8" />
+      </svg>
+    );
+  }
+
+  if (icon === "potassium") {
+    return (
+      <svg {...commonProps}>
+        <path d="M13 2 5 13h6l-1 9 9-13h-6l0-7Z" />
+      </svg>
+    );
+  }
+
+  if (icon === "clean") {
+    return (
+      <svg {...commonProps}>
+        <path d="m5 12 4 4L19 6" />
+        <path d="M7 20h10" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...commonProps}>
+      <path d="M12 3C8 8 6 11.3 6 15a6 6 0 0 0 12 0c0-3.7-2-7-6-12Z" />
+      <path d="M9.5 16.5c1.4 1.2 3.6 1.2 5 0" />
+    </svg>
+  );
+}
+
 export default function OurStoryPage() {
   return (
     <div className="bg-[linear-gradient(180deg,var(--color-coconut-cream)_0%,#ffffff_36%,#ffffff_68%,#fff4f8_84%,#fde8ef_100%)]">
@@ -74,6 +258,149 @@ export default function OurStoryPage() {
               to help keep you refreshed.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-white px-5 py-14 sm:px-8 sm:py-24">
+        <div className="pointer-events-none absolute -left-20 top-16 h-72 w-72 rounded-full bg-vye-pink/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-8 h-80 w-80 rounded-full bg-palm-green/8 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="font-vye-display text-4xl font-semibold italic leading-tight tracking-normal text-near-black sm:text-6xl">
+              Cleaner. <span className="text-vye-pink">Lighter.</span> Better.
+            </h2>
+            <p className="mt-3 text-sm font-medium uppercase tracking-[0.16em] text-near-black/72 sm:text-lg">
+              Lower calories. Less sugar. More of what matters.
+            </p>
+          </div>
+
+          <div className="mt-10 overflow-hidden rounded-[1.5rem] border border-vye-pink/16 bg-white/92 shadow-[0_28px_80px_rgba(36,90,53,0.1)] backdrop-blur sm:rounded-[2rem]">
+            <div className="overflow-x-auto">
+              <div className="min-w-[980px]">
+                <div className="grid grid-cols-4">
+                  {comparisonColumns.map((column) => (
+                    <div
+                      key={column.key}
+                      className={`border-r border-vye-pink/12 px-5 py-6 text-center last:border-r-0 ${column.featured
+                        ? "bg-[linear-gradient(180deg,#ffe7f0_0%,#fff5f9_58%,#ffffff_100%)]"
+                        : "bg-white"
+                        }`}
+                    >
+                      {column.featured ? (
+                        <Image
+                          src="/vye_logo_pink_f36f98.png"
+                          alt="Vye"
+                          width={116}
+                          height={62}
+                          className="mx-auto h-auto w-24"
+                        />
+                      ) : (
+                        <h3 className="font-neue-display text-lg font-black uppercase tracking-normal text-near-black">
+                          {column.title}
+                        </h3>
+                      )}
+                      {column.subtitle ? (
+                        <p className="mt-1 min-h-10 text-sm leading-5 text-near-black/70">
+                          {column.subtitle}
+                        </p>
+                      ) : (
+                        <div className="mt-1 min-h-10" />
+                      )}
+                      <div className="mt-4 flex h-56 items-center justify-center">
+                        {column.image ? (
+                          <Image
+                            src={column.image}
+                            alt={column.imageAlt}
+                            width={220}
+                            height={260}
+                            className={column.imageClassName}
+                          />
+                        ) : (
+                          <div
+                            aria-hidden="true"
+                            className="relative h-48 w-24 opacity-45"
+                          >
+                            <div className="mx-auto h-9 w-10 rounded-t-md bg-neutral-400" />
+                            <div className="mx-auto h-40 w-24 rounded-[1.25rem] bg-neutral-400" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {comparisonRows.map((row) => (
+                  <div key={row.label} className="relative border-t border-vye-pink/12">
+                    <div className="pointer-events-none sticky left-5 z-20 h-0">
+                      <span className="relative top-1 ml-1 inline-flex text-[0.7rem] font-black uppercase tracking-[0.08em] text-near-black/70">
+                        {row.label}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-4">
+                      {comparisonColumns.map((column) => {
+                        const value = row[column.key];
+                        const isIcon =
+                          (row.label === "Organic" ||
+                            row.label === "From Concentrate") &&
+                          (value === "Yes" || value === "No");
+
+                        return (
+                          <div
+                            key={`${row.label}-${column.key}`}
+                            className={`border-r border-vye-pink/12 px-5 pb-4 pt-8 text-center text-lg last:border-r-0 ${column.featured
+                              ? "bg-vye-pink/[0.055] font-black text-vye-pink"
+                              : "bg-white text-near-black"
+                              }`}
+                          >
+                            {isIcon ? (
+                              <span className="inline-flex size-8 items-center justify-center rounded-full border-2 border-vye-pink text-xl leading-none text-vye-pink">
+                                {value === "Yes" ? "✓" : "×"}
+                              </span>
+                            ) : (
+                              value
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 rounded-[1.5rem] border border-vye-pink/12 bg-white/88 p-3 shadow-[0_18px_55px_rgba(146,45,83,0.08)] sm:grid-cols-2 lg:grid-cols-[1.2fr_repeat(5,1fr)] lg:items-center">
+            <div className="rounded-[1.1rem] bg-vye-pink px-5 py-4 text-white">
+              <p className="text-sm font-medium uppercase tracking-[0.12em]">
+                Vye Coconut Water
+              </p>
+              <p className="mt-1 text-xl font-black leading-tight">
+                Better by nature. Better for you.
+              </p>
+            </div>
+            {comparisonHighlights.map(({ icon, title, text }) => (
+              <div
+                key={title}
+                className="flex items-center gap-3 rounded-[1.1rem] bg-coconut-cream/70 px-4 py-4 lg:bg-transparent lg:px-2"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-vye-pink text-white shadow-[0_10px_26px_rgba(243,111,152,0.22)]">
+                  <ComparisonHighlightIcon icon={icon} />
+                </span>
+                <p className="text-sm leading-5 text-near-black">
+                  <span className="block font-black uppercase text-vye-pink">
+                    {title}
+                  </span>
+                  {text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-5 text-center text-xs leading-5 text-near-black/48">
+            All nutrition facts per 8 fl oz (240 mL). Sources: brand websites
+            and product labels.
+          </p>
         </div>
       </section>
 

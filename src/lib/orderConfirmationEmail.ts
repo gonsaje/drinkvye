@@ -190,6 +190,124 @@ function buildHtml(order: OrderConfirmation, businessEmail?: string) {
     </html>`;
 }
 
+function buildTeamText(order: OrderConfirmation) {
+  const items = order.lineItems
+    .map(
+      (item) =>
+        `${item.quantity} × ${item.description} — ${formatMoney(
+          item.amountTotal,
+          order.currency,
+        )}`,
+    )
+    .join("\n");
+  const shippingAddress = formatAddress(order.shippingAddress);
+
+  return [
+    "Order placed.",
+    "",
+    `Order ID: ${order.orderId}`,
+    order.stripeSessionId ? `Stripe session: ${order.stripeSessionId}` : "",
+    "",
+    "Customer details",
+    `Name: ${order.customerName || "Not provided"}`,
+    `Email: ${order.customerEmail}`,
+    "",
+    "Order details",
+    items,
+    "",
+    `Shipping: ${formatMoney(order.amountShipping, order.currency)}`,
+    `Total: ${formatMoney(order.amountTotal, order.currency)}`,
+    shippingAddress ? `\nShipping address\n${shippingAddress}` : "",
+  ]
+    .filter((line) => line !== "")
+    .join("\n");
+}
+
+function buildTeamHtml(order: OrderConfirmation) {
+  const itemRows = order.lineItems
+    .map(
+      (item) => `
+        <tr>
+          <td style="padding:12px 0;border-bottom:1px solid #b6dd68;">
+            ${item.quantity} × ${escapeHtml(item.description)}
+          </td>
+          <td style="padding:12px 0;border-bottom:1px solid #b6dd68;text-align:right;">
+            ${formatMoney(item.amountTotal, order.currency)}
+          </td>
+        </tr>`,
+    )
+    .join("");
+  const shippingAddress = formatAddress(order.shippingAddress);
+
+  return `
+    <!doctype html>
+    <html>
+      <body style="margin:0;background:#f6f7f8;color:#1f2933;font-family:Arial,sans-serif;">
+        <div style="max-width:720px;margin:0 auto;padding:28px 18px;">
+          <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:28px;">
+            <h1 style="margin:0 0 8px;font-size:24px;line-height:1.25;color:#111827;">Order placed</h1>
+            <p style="margin:0 0 24px;color:#4b5563;line-height:1.5;">
+              A customer completed checkout for <strong style="color:#111827;">${formatMoney(order.amountTotal, order.currency)}</strong>.
+            </p>
+
+            <h2 style="margin:0 0 10px;font-size:16px;color:#111827;">Order details</h2>
+            <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px;">
+              <tr>
+                <td style="width:150px;padding:8px 0;border-bottom:1px solid #e5e7eb;color:#6b7280;">Order ID</td>
+                <td style="padding:8px 0;border-bottom:1px solid #e5e7eb;">${escapeHtml(order.orderId)}</td>
+              </tr>
+              ${
+                order.stripeSessionId
+                  ? `<tr>
+                      <td style="width:150px;padding:8px 0;border-bottom:1px solid #e5e7eb;color:#6b7280;">Stripe session</td>
+                      <td style="padding:8px 0;border-bottom:1px solid #e5e7eb;">${escapeHtml(order.stripeSessionId)}</td>
+                    </tr>`
+                  : ""
+              }
+            </table>
+
+            <h2 style="margin:0 0 10px;font-size:16px;color:#111827;">Customer details</h2>
+            <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px;">
+              <tr>
+                <td style="width:150px;padding:8px 0;border-bottom:1px solid #e5e7eb;color:#6b7280;">Name</td>
+                <td style="padding:8px 0;border-bottom:1px solid #e5e7eb;">${escapeHtml(order.customerName || "Not provided")}</td>
+              </tr>
+              <tr>
+                <td style="width:150px;padding:8px 0;border-bottom:1px solid #e5e7eb;color:#6b7280;">Email</td>
+                <td style="padding:8px 0;border-bottom:1px solid #e5e7eb;">
+                  <a href="mailto:${escapeHtml(order.customerEmail)}" style="color:#111827;text-decoration:none;">${escapeHtml(order.customerEmail)}</a>
+                </td>
+              </tr>
+            </table>
+
+            <h2 style="margin:0 0 10px;font-size:16px;color:#111827;">Items</h2>
+            <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px;">
+              ${itemRows}
+              <tr>
+                <td style="padding:12px 0 4px;color:#6b7280;">Shipping</td>
+                <td style="padding:12px 0 4px;text-align:right;">${formatMoney(order.amountShipping, order.currency)}</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 0 0;font-size:16px;font-weight:700;color:#111827;">Total</td>
+                <td style="padding:12px 0 0;text-align:right;font-size:16px;font-weight:700;color:#111827;">
+                  ${formatMoney(order.amountTotal, order.currency)}
+                </td>
+              </tr>
+            </table>
+            ${
+              shippingAddress
+                ? `<div style="margin-top:4px;padding:16px;background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;">
+                    <h2 style="margin:0 0 8px;font-size:16px;color:#111827;">Shipping address</h2>
+                    <p style="margin:0;white-space:pre-line;line-height:1.5;color:#374151;">${escapeHtml(shippingAddress)}</p>
+                  </div>`
+                : ""
+            }
+          </div>
+        </div>
+      </body>
+    </html>`;
+}
+
 export async function sendOrderConfirmation(order: OrderConfirmation) {
   const apiKey = process.env.RESEND_ORDERS_API_KEY;
   const from = process.env.VYE_ORDER_FROM_EMAIL;
@@ -213,7 +331,6 @@ export async function sendOrderConfirmation(order: OrderConfirmation) {
     body: JSON.stringify({
       from,
       to: [order.customerEmail],
-      bcc: businessEmail ? [businessEmail] : undefined,
       reply_to: businessEmail || undefined,
       subject: `Vye order confirmation — ${order.orderId}`,
       html: buildHtml(order, businessEmail),
@@ -230,5 +347,37 @@ export async function sendOrderConfirmation(order: OrderConfirmation) {
   if (!response.ok) {
     const errorBody = await response.text();
     throw new Error(`Resend could not send confirmation: ${errorBody}`);
+  }
+
+  if (!businessEmail) return;
+
+  const teamResponse = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": `order-team-notification/${
+        order.stripeSessionId ?? order.orderId
+      }`,
+    },
+    body: JSON.stringify({
+      from,
+      to: [businessEmail],
+      reply_to: order.customerEmail,
+      subject: `New Vye order — ${order.orderId}`,
+      html: buildTeamHtml(order),
+      text: buildTeamText(order),
+      tags: [
+        {
+          name: "stripe_session",
+          value: order.stripeSessionId ?? order.orderId,
+        },
+      ],
+    }),
+  });
+
+  if (!teamResponse.ok) {
+    const errorBody = await teamResponse.text();
+    throw new Error(`Resend could not send team order email: ${errorBody}`);
   }
 }

@@ -100,6 +100,7 @@ const comparisonColumns = [
   {
     key: "vye",
     title: "Vye",
+    subtitle: "",
     image: "/vyeBottle.png",
     imageAlt: "Vye organic coconut water carton",
     imageClassName: "h-60 w-28 object-cover object-center sm:h-72 sm:w-32",
@@ -108,6 +109,7 @@ const comparisonColumns = [
   {
     key: "vitaCoco",
     title: "Vita Coco",
+    subtitle: "",
     image: "/vc-bottle.png",
     imageAlt: "Vita Coco original coconut water carton",
     imageClassName: "h-40 w-28 object-contain sm:h-48 sm:w-32",
@@ -116,6 +118,7 @@ const comparisonColumns = [
   {
     key: "harmlessHarvest",
     title: "Harmless Harvest",
+    subtitle: "",
     image: "/hh-bottle.png",
     imageAlt: "Harmless Harvest organic coconut water bottle",
     imageClassName: "h-40 w-24 object-contain sm:h-48 sm:w-28",

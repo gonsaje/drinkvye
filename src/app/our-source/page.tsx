@@ -112,7 +112,7 @@ const comparisonColumns = [
     subtitle: "",
     image: "/vc-bottle.png",
     imageAlt: "Vita Coco original coconut water carton",
-    imageClassName: "h-40 w-28 object-contain sm:h-48 sm:w-32",
+    imageClassName: "h-40 w-28 object-contain blur-[2.2px] sm:h-48 sm:w-32",
     featured: false,
   },
   {
@@ -121,7 +121,7 @@ const comparisonColumns = [
     subtitle: "",
     image: "/hh-bottle.png",
     imageAlt: "Harmless Harvest organic coconut water bottle",
-    imageClassName: "h-40 w-24 object-contain sm:h-48 sm:w-28",
+    imageClassName: "h-40 w-24 object-contain blur-[2.2px] sm:h-48 sm:w-28",
     featured: false,
   },
   {

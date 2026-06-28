@@ -14,9 +14,7 @@ export default function FindUsPage() {
             Vye is heading for chilled shelves near you.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-near-black/68">
-            Store locator data will live here as retail partners come online.
-            For now, this page is ready for zip search, market filters, and
-            partner listings.
+            Search by state, city, or ZIP code to discover nearby stores carrying Vye.
           </p>
         </div>
       </section>

@@ -63,7 +63,7 @@ const sections = [
   },
   {
     title: "14. Contact Us",
-    copy: "If you have any questions regarding these Terms, please contact VYE Organic Coconut Water at info@drinkvye.com.",
+    copy: "If you have any questions regarding these Terms, please contact Vye Organic Coconut Water at info@drinkvye.com.",
   },
 ];
 
@@ -81,7 +81,7 @@ export default function TermsPage() {
           Effective June 22, 2026
         </p>
         <p className="mt-8 max-w-3xl text-base leading-8 text-near-black/68">
-          Welcome to the VYE Organic Coconut Water website
+          Welcome to the Vye Organic Coconut Water website
           (“drinkvye.com”). By accessing or using this Website, you agree to
           these Terms of Service. If you do not agree, please discontinue use
           of the Website.
@@ -112,7 +112,7 @@ export default function TermsPage() {
         </div>
 
         <div className="mt-8 text-base leading-8 text-near-black/68">
-          <p>VYE Organic Coconut Water</p>
+          <p>Vye Organic Coconut Water</p>
           <p>
             Email:{" "}
             <a
@@ -120,15 +120,6 @@ export default function TermsPage() {
               className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
             >
               info@drinkvye.com
-            </a>
-          </p>
-          <p>
-            Website:{" "}
-            <a
-              href="https://www.drinkvye.com"
-              className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
-            >
-              www.drinkvye.com
             </a>
           </p>
         </div>

@@ -53,6 +53,10 @@ export default function WholesalePage() {
               <p className="text-sm font-black uppercase tracking-[0.16em] text-coconut-green">
                 Questions first?
               </p>
+              <p className="mt-2 text-sm leading-6 text-white/80">
+                Reach out before applying and our team will help with wholesale
+                questions.
+              </p>
               <a
                 href="mailto:info@drinkvye.com"
                 className="mt-3 inline-block text-lg font-bold transition hover:text-vye-pink"

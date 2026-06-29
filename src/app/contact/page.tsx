@@ -18,6 +18,21 @@ export default function ContactPage() {
               For retail, wholesale, press, or launch questions, send a note and
               the Vye team will follow up.
             </p>
+            <div className="mt-8 rounded-3xl border border-vye-pink/20 bg-white/75 px-6 py-5 shadow-[0_16px_45px_rgba(31,41,51,0.06)] backdrop-blur">
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-vye-pink">
+                Prefer email?
+              </p>
+              <p className="mt-2 text-base leading-7 text-near-black/68">
+                Reach the Vye team directly at{" "}
+                <a
+                  href="mailto:info@drinkvye.com"
+                  className="font-bold text-palm-green transition hover:text-vye-pink"
+                >
+                  info@drinkvye.com
+                </a>
+                .
+              </p>
+            </div>
           </div>
 
           <ContactForm />

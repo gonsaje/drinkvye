@@ -60,7 +60,7 @@ const sections = [
   },
   {
     title: "Contact Us",
-    copy: "If you have any questions regarding this Privacy Policy, please contact VYE Organic Coconut Water at info@drinkvye.com.",
+    copy: "If you have any questions regarding this Privacy Policy, please contact Vye Organic Coconut Water at info@drinkvye.com.",
   },
 ];
 
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
           Effective June 22, 2026
         </p>
         <p className="mt-8 max-w-3xl text-base leading-8 text-near-black/68">
-          At VYE Organic Coconut Water, we respect your privacy and are
+          At Vye Organic Coconut Water, we respect your privacy and are
           committed to protecting your personal information.
         </p>
 
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="mt-8 text-base leading-8 text-near-black/68">
-          <p>VYE Organic Coconut Water</p>
+          <p>Vye Organic Coconut Water</p>
           <p>
             Email:{" "}
             <a
@@ -121,15 +121,6 @@ export default function PrivacyPage() {
               className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
             >
               info@drinkvye.com
-            </a>
-          </p>
-          <p>
-            Website:{" "}
-            <a
-              href="https://www.drinkvye.com"
-              className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
-            >
-              www.drinkvye.com
             </a>
           </p>
         </div>

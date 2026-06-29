@@ -52,7 +52,7 @@ export default function RefundPolicyPage() {
           Effective June 22, 2026
         </p>
         <p className="mt-8 max-w-3xl text-base leading-8 text-near-black/68">
-          At VYE Organic Coconut Water, we want you to be completely satisfied
+          At Vye Organic Coconut Water, we want you to be completely satisfied
           with your purchase.
         </p>
 
@@ -102,15 +102,6 @@ export default function RefundPolicyPage() {
               className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
             >
               info@drinkvye.com
-            </a>
-          </p>
-          <p>
-            Website:{" "}
-            <a
-              href="https://www.drinkvye.com"
-              className="font-bold text-palm-green underline decoration-vye-pink underline-offset-4"
-            >
-              www.drinkvye.com
             </a>
           </p>
         </div>

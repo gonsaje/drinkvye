@@ -1,4 +1,8 @@
-import { cleanEmailEnv } from "@/lib/emailEnv";
+import {
+  getInfoFromEmail,
+  INFO_INBOX,
+  sendResendEmail,
+} from "@/lib/resendEmail";
 
 type ContactField = "name" | "email" | "message";
 
@@ -22,63 +26,8 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#039;");
 }
 
-async function sendEmail({
-  apiKey,
-  from,
-  to,
-  replyTo,
-  subject,
-  html,
-}: {
-  apiKey: string;
-  from: string;
-  to: string[];
-  replyTo?: string;
-  subject: string;
-  html: string;
-}) {
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to,
-      reply_to: replyTo,
-      subject,
-      html,
-    }),
-  });
-  const responseBody = await response.text();
-
-  if (!response.ok) {
-    console.error("Resend contact email failed", {
-      status: response.status,
-      body: responseBody,
-      from,
-      to,
-    });
-  }
-
-  return response.ok;
-}
-
 export async function POST(request: Request) {
-  const apiKey = process.env.RESEND_WHOLESALE_API_KEY;
-  const from = cleanEmailEnv(
-    process.env.VYE_INFO_FROM_EMAIL ?? process.env.VYE_ORDER_FROM_EMAIL,
-  );
-  const contactEmail =
-    cleanEmailEnv(process.env.VYE_CONTACT_EMAIL) ?? "info@drinkvye.com";
-
-  if (!apiKey || !from) {
-    return Response.json(
-      { error: "Contact email delivery is not configured." },
-      { status: 500 },
-    );
-  }
+  const from = getInfoFromEmail();
 
   let formData: FormData;
 
@@ -121,29 +70,56 @@ export async function POST(request: Request) {
     })
     .join("");
 
-  const sent = await sendEmail({
-    apiKey,
-    from,
-    to: [contactEmail],
-    replyTo: email,
-    subject: `New Contact Message from ${name}`,
-    html: `
-      <!doctype html>
-      <html>
-        <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
-          <div style="max-width:720px;margin:0 auto;padding:32px 20px;">
-            <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
-              <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye contact form</p>
-              <h1 style="margin:0 0 8px;font-size:28px;">New message from ${escapeHtml(name)}</h1>
-              <p style="margin:0 0 24px;color:#5d666d;">Reply to ${escapeHtml(email)}</p>
-              <table style="width:100%;border-collapse:collapse;font-size:15px;">${rows}</table>
+  try {
+    await sendResendEmail({
+      from,
+      to: [INFO_INBOX],
+      replyTo: email,
+      subject: `New Contact Message from ${name}`,
+      text: `New contact message\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      html: `
+        <!doctype html>
+        <html>
+          <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
+            <div style="max-width:720px;margin:0 auto;padding:32px 20px;">
+              <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
+                <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye contact form</p>
+                <h1 style="margin:0 0 8px;font-size:28px;">New message from ${escapeHtml(name)}</h1>
+                <p style="margin:0 0 24px;color:#5d666d;">Customer email: ${escapeHtml(email)}</p>
+                <table style="width:100%;border-collapse:collapse;font-size:15px;">${rows}</table>
+              </div>
             </div>
-          </div>
-        </body>
-      </html>`,
-  });
+          </body>
+        </html>`,
+    });
 
-  if (!sent) {
+    await sendResendEmail({
+      from,
+      to: [email],
+      replyTo: INFO_INBOX,
+      subject: "We received your Vye message",
+      text: `Hi ${name},\n\nWe received your message and will get back to you soon.\n\nVye\n${INFO_INBOX}`,
+      html: `
+        <!doctype html>
+        <html>
+          <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
+            <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
+              <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
+                <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye</p>
+                <h1 style="margin:0 0 16px;font-size:28px;">Thanks for reaching out, ${escapeHtml(name)}.</h1>
+                <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">We received your message and will get back to you soon.</p>
+                <p style="margin:16px 0 0;color:#5d666d;font-size:16px;line-height:1.7;">
+                  For any questions, contact
+                  <a href="mailto:${INFO_INBOX}" style="color:#245a35;font-weight:700;text-decoration:none;">${INFO_INBOX}</a>.
+                </p>
+              </div>
+            </div>
+          </body>
+        </html>`,
+    });
+  } catch (error) {
+    console.error("Resend contact email failed", error);
+
     return Response.json(
       { error: "Unable to deliver the contact message." },
       { status: 502 },

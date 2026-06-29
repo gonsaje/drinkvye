@@ -1,4 +1,8 @@
-import { cleanEmailEnv } from "@/lib/emailEnv";
+import {
+  getOrdersFromEmail,
+  ORDERS_INBOX,
+  sendResendEmail,
+} from "@/lib/resendEmail";
 
 type OrderLineItem = {
   amountTotal: number;
@@ -311,75 +315,41 @@ function buildTeamHtml(order: OrderConfirmation) {
 }
 
 export async function sendOrderConfirmation(order: OrderConfirmation) {
-  const apiKey = process.env.RESEND_ORDERS_API_KEY;
-  const from = cleanEmailEnv(process.env.VYE_ORDER_FROM_EMAIL);
-  const businessEmail = cleanEmailEnv(process.env.VYE_BUSINESS_EMAIL);
+  const from = getOrdersFromEmail();
 
-  if (!apiKey || !from) {
-    throw new Error(
-      "Order email is missing RESEND_ORDERS_API_KEY or VYE_ORDER_FROM_EMAIL.",
-    );
-  }
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": `order-confirmation/${
-        order.stripeSessionId ?? order.orderId
-      }`,
-    },
-    body: JSON.stringify({
-      from,
-      to: [order.customerEmail],
-      reply_to: businessEmail || undefined,
-      subject: `Vye order confirmation — ${order.orderId}`,
-      html: buildHtml(order, businessEmail),
-      text: buildText(order, businessEmail),
-      tags: [
-        {
-          name: "stripe_session",
-          value: order.stripeSessionId ?? order.orderId,
-        },
-      ],
-    }),
+  await sendResendEmail({
+    from,
+    to: [order.customerEmail],
+    idempotencyKey: `order-confirmation/${
+      order.stripeSessionId ?? order.orderId
+    }`,
+    replyTo: ORDERS_INBOX,
+    subject: `Vye order confirmation — ${order.orderId}`,
+    html: buildHtml(order, ORDERS_INBOX),
+    text: buildText(order, ORDERS_INBOX),
+    tags: [
+      {
+        name: "stripe_session",
+        value: order.stripeSessionId ?? order.orderId,
+      },
+    ],
   });
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`Resend could not send confirmation: ${errorBody}`);
-  }
-
-  if (!businessEmail) return;
-
-  const teamResponse = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": `order-team-notification/${
-        order.stripeSessionId ?? order.orderId
-      }`,
-    },
-    body: JSON.stringify({
-      from,
-      to: [businessEmail],
-      reply_to: order.customerEmail,
-      subject: `New Vye order — ${order.orderId}`,
-      html: buildTeamHtml(order),
-      text: buildTeamText(order),
-      tags: [
-        {
-          name: "stripe_session",
-          value: order.stripeSessionId ?? order.orderId,
-        },
-      ],
-    }),
+  await sendResendEmail({
+    from,
+    to: [ORDERS_INBOX],
+    idempotencyKey: `order-team-notification/${
+      order.stripeSessionId ?? order.orderId
+    }`,
+    replyTo: ORDERS_INBOX,
+    subject: `New Vye order — ${order.orderId}`,
+    html: buildTeamHtml(order),
+    text: buildTeamText(order),
+    tags: [
+      {
+        name: "stripe_session",
+        value: order.stripeSessionId ?? order.orderId,
+      },
+    ],
   });
-
-  if (!teamResponse.ok) {
-    const errorBody = await teamResponse.text();
-    throw new Error(`Resend could not send team order email: ${errorBody}`);
-  }
 }

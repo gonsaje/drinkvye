@@ -1,4 +1,11 @@
-import { cleanEmailEnv } from "@/lib/emailEnv";
+import {
+  getInfoFromEmail,
+  INFO_INBOX,
+  sendResendEmail,
+  type ResendAttachment,
+} from "@/lib/resendEmail";
+
+export const runtime = "nodejs";
 
 type WholesaleField =
   | "businessName"
@@ -10,11 +17,6 @@ type WholesaleField =
   | "locations"
   | "estimatedVolume"
   | "message";
-
-type ResendAttachment = {
-  filename: string;
-  content: string;
-};
 
 const requiredFields = [
   "businessName",
@@ -104,66 +106,8 @@ async function createAttachment(file: File | null) {
   } satisfies ResendAttachment;
 }
 
-async function sendEmail({
-  apiKey,
-  from,
-  to,
-  replyTo,
-  subject,
-  html,
-  attachments,
-}: {
-  apiKey: string;
-  from: string;
-  to: string[];
-  replyTo?: string;
-  subject: string;
-  html: string;
-  attachments?: ResendAttachment[];
-}) {
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to,
-      reply_to: replyTo,
-      subject,
-      html,
-      attachments,
-    }),
-  });
-  const responseBody = await response.text();
-
-  if (!response.ok) {
-    console.error("Resend wholesale email failed", {
-      status: response.status,
-      body: responseBody,
-      from,
-      to,
-    });
-  }
-
-  return response.ok;
-}
-
 export async function POST(request: Request) {
-  const apiKey = process.env.RESEND_WHOLESALE_API_KEY;
-  const from = cleanEmailEnv(
-    process.env.VYE_INFO_FROM_EMAIL ?? process.env.VYE_ORDER_FROM_EMAIL,
-  );
-  const wholesaleEmail =
-    cleanEmailEnv(process.env.VYE_WHOLESALE_EMAIL) ?? "wholesale@drinkvye.com";
-
-  if (!apiKey || !from) {
-    return Response.json(
-      { error: "Wholesale email delivery is not configured." },
-      { status: 500 },
-    );
-  }
+  const from = getInfoFromEmail();
 
   let formData: FormData;
 
@@ -269,56 +213,62 @@ export async function POST(request: Request) {
     Boolean(attachment),
   );
 
-  const applicationSent = await sendEmail({
-    apiKey,
-    from,
-    to: [wholesaleEmail],
-    replyTo: email,
-    subject: `New Wholesale Application: ${businessName}`,
-    attachments,
-    html: `
-      <!doctype html>
-      <html>
-        <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
-          <div style="max-width:720px;margin:0 auto;padding:32px 20px;">
-            <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
-              <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Wholesale application</p>
-              <h1 style="margin:0 0 8px;font-size:28px;">${escapeHtml(businessName)}</h1>
-              <p style="margin:0 0 24px;color:#5d666d;">Submitted by ${escapeHtml(contactName)}</p>
-              <table style="width:100%;border-collapse:collapse;font-size:15px;">${rows}</table>
-              <div style="margin-top:24px;padding:16px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;color:#5d666d;font-size:14px;">
-                <strong style="color:#245a35;">Attached files:</strong> ${uploadedFiles}
+  try {
+    await sendResendEmail({
+      from,
+      to: [INFO_INBOX],
+      replyTo: email,
+      subject: `New Wholesale Application: ${businessName}`,
+      attachments,
+      text: `New wholesale application\n\nBusiness: ${businessName}\nContact: ${contactName}\nEmail: ${email}\n\nAttached files: ${uploadedFiles || "None"}`,
+      html: `
+        <!doctype html>
+        <html>
+          <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
+            <div style="max-width:720px;margin:0 auto;padding:32px 20px;">
+              <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
+                <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Wholesale application</p>
+                <h1 style="margin:0 0 8px;font-size:28px;">${escapeHtml(businessName)}</h1>
+                <p style="margin:0 0 24px;color:#5d666d;">Submitted by ${escapeHtml(contactName)} at ${escapeHtml(email)}</p>
+                <table style="width:100%;border-collapse:collapse;font-size:15px;">${rows}</table>
+                <div style="margin-top:24px;padding:16px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;color:#5d666d;font-size:14px;">
+                  <strong style="color:#245a35;">Attached files:</strong> ${uploadedFiles || "None"}
+                </div>
               </div>
             </div>
-          </div>
-        </body>
-      </html>`,
-  });
+          </body>
+        </html>`,
+    });
 
-  const confirmationSent = await sendEmail({
-    apiKey,
-    from,
-    to: [email],
-    subject: "Thank you for applying to become a Vye wholesale partner",
-    html: `
-      <!doctype html>
-      <html>
-        <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
-          <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
-            <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
-              <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye wholesale</p>
-              <h1 style="margin:0 0 16px;font-size:28px;">Thanks for applying, ${escapeHtml(contactName)}.</h1>
-              <div style="margin:0 0 18px;padding:18px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;">
-                <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">We received your wholesale application for <strong style="color:#245a35;">${escapeHtml(businessName)}</strong>. Our team will review your information and follow up by email.</p>
+    await sendResendEmail({
+      from,
+      to: [email],
+      replyTo: INFO_INBOX,
+      subject: "Thank you for applying to become a Vye wholesale partner",
+      text: `Hi ${contactName},\n\nWe received your wholesale application for ${businessName}. Our team will review your information and follow up by email.\n\nVye\n${INFO_INBOX}`,
+      html: `
+        <!doctype html>
+        <html>
+          <body style="margin:0;background:#f36f98;color:#1f2933;font-family:Arial,sans-serif;">
+            <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
+              <div style="background:#ffffff;border:1px solid #d7e4dc;border-radius:24px;padding:32px;">
+                <p style="margin:0 0 8px;color:#245a35;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">Vye wholesale</p>
+                <h1 style="margin:0 0 16px;font-size:28px;">Thanks for applying, ${escapeHtml(contactName)}.</h1>
+                <div style="margin:0 0 18px;padding:18px;background:#fff8ed;border:1px solid #b6dd68;border-radius:16px;">
+                  <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">We received your wholesale application for <strong style="color:#245a35;">${escapeHtml(businessName)}</strong>. Our team will review your information and follow up by email.</p>
+                </div>
+                <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">
+                  If you need to add anything, reply to this email or contact
+                  <a href="mailto:${INFO_INBOX}" style="color:#245a35;font-weight:700;text-decoration:none;">${INFO_INBOX}</a>.
+                </p>
               </div>
-              <p style="margin:0;color:#5d666d;font-size:16px;line-height:1.7;">If you need to add anything, reply to this email and we will connect it with your application.</p>
             </div>
-          </div>
-        </body>
-      </html>`,
-  });
+          </body>
+        </html>`,
+    });
+  } catch (error) {
+    console.error("Resend wholesale email failed", error);
 
-  if (!applicationSent || !confirmationSent) {
     return Response.json(
       { error: "Unable to deliver the wholesale application." },
       { status: 502 },
